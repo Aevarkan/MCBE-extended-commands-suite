@@ -17,7 +17,7 @@ Continue scrolling down for more information on how to use the commands in the E
 > Make use of the `/execute as` command to do these commands on other players. The commands here do not have selectors themselves.
 
 > [!NOTE]
-> All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `esc`.
+> All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` **or** `cmd`.
 
 
 ## `playmusic`
