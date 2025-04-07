@@ -114,10 +114,14 @@ The one you've been waiting for: This command lets you put a command on a **non-
 See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) why it only works for non-stackable items.
 
 > [!NOTE]
-> There is a workaround to get commands on stackable items. Install an NBT editor such as [NBT Workbench](https://github.com/RealRTTV/nbtworkbench), and make a structure that contains the stackable item and the dynamic property manually. Export one of the items that has a command from this pack as a structure for reference on what you need to change. You should see a dynamic property section which contains `280232d4-f31d-4849-a42c-ce77e6870e30`. If you're up to this point, I trust that you will be able to do the rest. If not, then I may have to update these instructions.
+> There is a workaround to get commands on stackable items. Install an NBT editor such as [NBT Workbench](https://github.com/RealRTTV/nbtworkbench), and make a structure that contains the stackable item and the dynamic property manually.
+>
+> Export one of the items that has a command from this pack as a structure for reference on what you need to change. You should see a dynamic property section which contains `280232d4-f31d-4849-a42c-ce77e6870e30`.
+>
+> If you're up to this point, I trust that you will be able to do the rest. If not, then I may have to update these instructions.
 
 > [!CAUTION]
-> Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it. See [below](https://github.com/Aevarkan/MCBE-extended-commands-suite?tab=readme-ov-file#removeusecommand) for why.
+> Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it. See [`removeusecommand`](https://github.com/Aevarkan/MCBE-extended-commands-suite?tab=readme-ov-file#removeusecommand) for why.
 
 
 > [!TIP]
