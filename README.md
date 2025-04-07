@@ -19,10 +19,12 @@ To show you what is possible with this pack, I have some premade examples.
 With the pack installed, do any of the following commands:
 
 ```minecraft
-function extendedcommands/examples/countdown
-function extendedcommands/examples/wind_push
-function extendedcommands/examples/horror
+/function extendedcommands/examples/countdown
+/function extendedcommands/examples/wind_push
+/function extendedcommands/examples/horror
 ```
+
+The example commands are inside of [this](functions/extendedcommands/examples/) folder.
 
 # List of all Commands
 
