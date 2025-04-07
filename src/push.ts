@@ -9,7 +9,6 @@ import { Vector2D } from "utility/vector";
 export function push(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity
     const parameters = event.message
-    const viewDirection = entity.getViewDirection()
 
     // Split the message into parts by space
     const parts = parameters.split(' ')

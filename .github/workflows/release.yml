@@ -30,6 +30,7 @@ jobs:
             zip -r build-artifacts.zip . \
             -x "documentation/*" \
             -x ".git/*" \
+            -x "README.md" \
             -x "node_modules/*" \
             -x "src/*" \
             -x ".gitignore" \

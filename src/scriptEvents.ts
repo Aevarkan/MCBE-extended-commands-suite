@@ -30,9 +30,6 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const pushId = new RegExp(`^(${prefixes.join('|')}):push$`)
     const motionId = new RegExp(`^(${prefixes.join('|')}):motion$`)
     const pushGlidingId = new RegExp(`^(${prefixes.join('|')}):pushgliding$`)
-    // const pushBackId = new RegExp(`^(${prefixes.join('|')}):pushback$`)
-    // const pushForwardId = new RegExp(`^(${prefixes.join('|')}):pushforward$`)
-    // const pushRandomId = new RegExp(`^(${prefixes.join('|')}):pushrandom$`)
     const scheduleId = new RegExp(`^(${prefixes.join('|')}):schedule$`)
     const tpSpawnId = new RegExp(`^(${prefixes.join('|')}):tpspawn$`)
     const freezeId = new RegExp(`^(${prefixes.join('|')}):freeze$`)
@@ -40,19 +37,13 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeUseCommandId = new RegExp(`^(${prefixes.join('|')}):removeusecommand$`)
     const setLoreId = new RegExp(`^(${prefixes.join('|')}):setlore$`)
 
-    // This is called using /scriptevent cmdlib:playmusic trackid
-    // Example /scriptevent cmdlib:playmusic music.game.credits 2 1 true
-    // This plays the credits track, fading from the currently playing track in 2 seconds, has a volume of 1, and will loop
-    // This is basically a better /playsound command, or /music that works for individual players
-    // Just like /music, the options after the track are optional
-    // /playsound doesn't have fade, and the game music will still play
-    // The /music command doesn't work either, it affects the music of *every* player
+    // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
         playMusic(event)
     } 
 
     // Unfortunately, there is no fade out for stopping music
-    // If you want to fade out the current track, you can use the playmusic scriptevent above instead
+    // If you want to fade out the current track, you can use the playmusic command above instead
     else if (stopMusicId.test(event.id)) {
         stopMusic(event)
     }
@@ -93,20 +84,13 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     // Dynamic properties can't be added to them
     // https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty
     // Adds a right click detector onto the player's selected item
-    // Usage: /scriptevent cmdlib:addrightclickcommand command
-    // Example /scriptevent cmdlib:addrightclickcommand say hi
-    // This makes the player say hi everytime they use that nonstackable item
-    // DO NOT put a slash in front of the command
-    // This is bad: /scriptevent cmdlib:addrightclickcommand /say hi
-    // This is good: /scriptevent cmdlib:addrightclickcommand say hi
     else if (addUseCommandId.test(event.id) && event.sourceEntity instanceof Player) {
         createRightClickDetector(event)
     }
-    // // Removes the right click detector on the player's selected item
+    // Removes the right click detector on the player's selected item
     else if (removeUseCommandId.test(event.id) && event.sourceEntity instanceof Player) {
         removeRightClickDetector(event)
     }
-
 
     // Sets the item lore, the explainer text shows up when you hover over an item
     // Example /scriptevent cmd:setlore I am an apple!

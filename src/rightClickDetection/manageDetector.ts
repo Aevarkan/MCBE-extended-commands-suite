@@ -36,10 +36,11 @@ function createRightClickDetectorAction(player: Player, command: string, slot: n
     const inventory = player.getComponent("minecraft:inventory").container
     const selectedItem = inventory.getItem(slot)
     
-    // Using QIDB
     if (selectedItem.isStackable){
         
         player.sendMessage("Stackable items are not supported with this command.")
+        // QIDB has problems when reloading script / reloading the world
+        // Cannot use it for now
         // // Increase counter by 1. This is very primitive, but I don't expect any problems unless 
         // // Someone makes a huge number of stackable items, which shouldn't really happen
         // let count = world.getDynamicProperty('cmdlib:stackable_item_command_counter') as number || 0
@@ -76,7 +77,6 @@ function removeRightClickDetectorAction(player: Player, slot: number) {
     const inventory = player.getComponent("minecraft:inventory").container
     const selectedItem = inventory.getItem(slot)
     
-    // Using QIDB for stackable items
     if (selectedItem.isStackable){
         player.sendMessage("Stackable items are not supported with this command.")
         // const commandPairs = getAllItemCommandPairs()

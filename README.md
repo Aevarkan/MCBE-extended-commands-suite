@@ -1,6 +1,8 @@
 # Introduction
 Github repository for the Extended Commands Suite pack.
 
+This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions.
+
 If you've arrived here from MCPEDL or Curseforge looking for a newer release, then you're in the right place. Github will **always** have the most up to date version of this pack.
 
 If this is your first time on Github, the download button is called **Releases** and should be on the right-hand side of your screen on both mobile and desktop. Click on the **assets** sections of a release and the `.mcpack` should be there for you to download.
@@ -8,22 +10,34 @@ If this is your first time on Github, the download button is called **Releases**
 > [!NOTE]
 > You will not find the JavaScript files inside of this repository, they must be transcompiled from TypeScript. Github does this automatically when I make a release. Please do not put TypeScript files into your Minecraft installation, they will not work.
 
-Continue scrolling down for more information on how to use the commands in the Extended Commands Suite.
+Continue scrolling down for more information on how to use the commands in the pack.
 
+# Examples
+
+To show you what is possible with this pack, I have some premade examples.
+
+With the pack installed, do any of the following commands:
+
+```minecraft
+function extendedcommands/examples/countdown
+function extendedcommands/examples/wind_push
+function extendedcommands/examples/horror
+```
 
 # List of all Commands
 
+<sup>The scriptevents are defined in [this](src/scriptEvents.ts) file.</sup>
+
 > [!TIP]
-> Make use of the `/execute as` command to do these commands on other players. The commands here do not have selectors themselves.
+> Make use of the `/execute as` command to do these commands on other players/entities. The commands here do not have selectors themselves.
 
 > [!NOTE]
-> All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` **or** `cmd`.
-
+> All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` / `cmd`. Any scriptevent called with `/scriptevent ecs:` can also be called with `/scriptevent cmd:`.
 
 ## `playmusic`
 This command has the exact same syntax as `/music`, but the difference being it only affects the music of one player.
 
-**Syntax**: `/scriptevent ecs:playmusic <trackName: string> [volume: number] [fadeSeconds: number] [repeat: true/false]`
+**Syntax**: `/scriptevent ecs:playmusic <trackName: string> [volume: number] [fadeSeconds: number] [repeat: boolean]`
 
 **Example:** `/scriptevent ecs:playmusic music.game.credits 1 2 true`
 
@@ -31,28 +45,32 @@ This plays the credits track for the player that executed the command after fadi
 
 ## `stopmusic`
 
-Stops the music track that is currently playing. It stops it abruptly, so it's recommended to use that above command and fade to another track.
+Stops the music track that is currently playing. It stops the track abruptly, so I recommended to use `playmusic` and fade to another track such as `music.game`.
 
 **Syntax**: `/scriptevent ecs:stopmusic`
 
-## `push`
+## `push` / `motion`
 
-This command pushes a player (and some entities, not including items). There is no Java equivalent to this.
+This command pushes a player (and most entities, not including items).
 
-**Syntax 1:** `/scriptevent ecs:push relative|rel|r [horizontalRotation: number/range] [horizontalStrength: number/range] [verticalStrength: number/range]`
+### Relative Motion
+
+**Syntax 1:** `/scriptevent ecs:push relative|rel|r [horizontalRotation: number|range] [horizontalStrength: number|range] [verticalStrength: number|range]`
 
 **Example:** `/scriptevent ecs:push relative 90 3 5`
 
-This pushes the entity 90 degrees to the right with a strength of 3 on the horizontal plane, and a strength of 5 upwards.
+This pushes the entity 90 degrees to the right of where it's looking with a strength of 3 on the horizontal plane, and an upwards strength of 5.
+
+> [!TIP]
+> You can input ranges into this command! See the example below.
 
 **Example:** `/scriptevent ecs:push relative -45:45 1:3 -5:5`
 
-This pushes an entity between 45 degrees to the left and 45 degrees to the right with a horizontal strength between 1 and 3, and a vertical strength between -5 and 5.
+This pushes an entity between 45 degrees to the left and 45 degrees to the right with a horizontal strength between 1 and 3, and a vertical strength between -5 and 5. A negative strength will push the entity down.
 
-If you put this in a repeating command block, it will sometimes push an entity left 45 degrees downwards, and sometimes right 45 degrees upwards. 
+### Absolute Motion
 
-> [!NOTE]
-> It takes a random number between the two you put around the colon.
+You can also use absolute coordinates to push an entity. Absolute coordinates don't factor in where the entity is looking.
 
 **Syntax 2:** `/scriptevent ecs:push absolute|abs|a [xVector: float] [yVector: float] [zVector: float]`
 
@@ -62,10 +80,6 @@ This pushes an entity upwards and along the positive x direction.
 
 > [!IMPORTANT]
 > You must use the `:` colon character to separate a number range. Any other character will not work.
-
-## `motion`
-
-This is just an alias for `push`. Called using `/scriptevent ecs:motion`.
 
 ## `pushgliding`
 
@@ -85,8 +99,8 @@ This freezes a Player by stopping their camera movements, it doesn't change thei
 
 If used on an entity, it will mostly freeze them (they move very slowly, and they will fall slowly as well). 
 
-> [!WARNING]
-> Be careful when using this on entities, it is very performance intensive. Using this on players doesn't affect performance. 
+> [!CAUTION]
+> Be careful when using this on entities, it is very performance intensive. Using this on players doesn't affect performance as it only freezes their camera. 
 
 **Syntax**: `/scriptevent ecs:freeze <timeTicks: int>`
 
@@ -109,6 +123,9 @@ This will launch the entity which executed this command into the air when 30 sec
 
 ## `addusecommand`
 
+> [!IMPORTANT]
+> You can only add one command per item.
+
 The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
 
 See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) for why it only works for non-stackable items.
@@ -121,23 +138,29 @@ See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecra
 > If you're up to this point, I trust that you will be able to do the rest. If not, then I may have to update these instructions.
 
 > [!CAUTION]
-> Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it. See [`removeusecommand`](https://github.com/Aevarkan/MCBE-extended-commands-suite?tab=readme-ov-file#removeusecommand) for why.
-
+> Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it if you haven't set up a safeguard beforehands. See [`removeusecommand`](#removeusecommand) for why.
 
 > [!TIP]
-For best practice, make use of a `function` that clears the item from the player upon using it.
+> For best practice, make use of a `function` that clears the item from the player upon using it.
 
 **Syntax**: `/scriptevent ecs:addusecommand <command: string>`
 
-**Example:** `/scriptevent ecs:addusecommand effect @s levitation 30 0 true`
+Let's say we put use this command on a totem of undying.
 
-This will make the item give the player that uses it levitation for 30 seconds without showing particles.
+**Example:** `/scriptevent ecs:addusecommand function extendedcommands/examples/levitate`
+
+This will call the [levitation](functions/extendedcommands/examples/levitation.mcfunction) function, which deletes the item and give the player that uses it levitation for 30 seconds without showing particles.
+
+Note that you will have to add functions manually. Having it `setblock` a redstone block next to a command block may be easier, although this will mean you cannot track who used the item.
 
 You can chain this with the scriptevent commands here for even more creativity.
 
 ## `removeusecommand`
 
-This removes the use command **from the item you're holding**. It doesn't remove it from all identical items. 
+This removes the use command **only** from the item you're holding. It doesn't remove it from other items. 
+
+> [!IMPORTANT]
+> The commands are stored in the item itself, you can just remove this item normally. This means you cannot remove command functionality from other players remotely however.
 
 **Syntax**: `/scriptevent ecs:removeusecommand`
 
