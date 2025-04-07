@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:             
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Zip Files
+        run: |
+            zip -r build-artifacts.zip . \
+            -x ".git/*" \
+            -x "node_modules/*" \
+            -x "src/*" \
+            -x ".gitignore" \
+            -x "package-lock.json" \
+            -x "package.json" \
+            -x "tsconfig.json" \
+            -x ".github/*"
+            mv build-artifacts.zip ./extended-commands-suite-$GITHUB_REF_NAME.mcpack
+
+      - name: Create Release
+        run: |
+          gh auth login --with-token <<< ${{ secrets.GITHUB_TOKEN }}
+          gh release upload $GITHUB_REF_NAME ./extended-commands-suite-$GITHUB_REF_NAME.mcpack --clobber

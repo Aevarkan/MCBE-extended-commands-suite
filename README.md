@@ -1,1 +1,1 @@
-# MCBE-extended-commands-suite
+# Extended Commands Suite

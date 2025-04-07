@@ -1,0 +1,32 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "Extended Commands Suite",
+        "name": "Extended Commands Suite",
+        "uuid": "e0a2eeaf-059f-4eba-bf8e-ce7fbb86aaef",
+        "version": [ 0, 9, 0 ],
+        "min_engine_version": [ 1, 21, 60 ]
+    },
+    "modules": [
+        {
+            "description": "Extended Commands Suite",
+            "type": "data",
+            "uuid": "6819db33-c2d7-45e2-b097-b22c4d377198",
+            "version": [1, 0, 0]
+        },
+        {
+            "uuid": "280232d4-f31d-4849-a42c-ce77e6870e30",
+            "version": [1, 0, 0],
+            "type": "script",
+            "language": "javascript",
+            "entry": "scripts/main.js"
+        }
+    ],
+    "dependencies": [
+        {
+            "module_name": "@minecraft/server",
+            "version": "1.18.0"
+        }
+    ]
+}
+
