@@ -105,11 +105,11 @@ This will launch the entity which executed this command into the air when 30 sec
 
 The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
 
-See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) why it only works for non-stackable items.
+See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) for why it only works for non-stackable items.
 
 There is a workaround to get commands on stackable items: Make a structure that contains the stackable item and the dynamic property manually.
 
-Export one of the items that has a command from this pack as a structure for reference on what you need to change.
+Export one of the items that has a command from this pack as a structure for a reference on what you need to change.
 
 You should see a dynamic property section which contains `280232d4-f31d-4849-a42c-ce77e6870e30`. If you're up to this point, I trust that you will be able to do the rest.
 

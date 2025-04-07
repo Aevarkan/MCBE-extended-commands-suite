@@ -28,6 +28,7 @@ jobs:
       - name: Zip Files
         run: |
             zip -r build-artifacts.zip . \
+            -x "documentation/*" \
             -x ".git/*" \
             -x "node_modules/*" \
             -x "src/*" \
