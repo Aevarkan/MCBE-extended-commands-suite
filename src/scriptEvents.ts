@@ -21,7 +21,7 @@ import { setLore } from "setLore";
 system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     // The command prefixes
-    const prefixes = ["cmd", "cmdlib", "clib"]
+    const prefixes = ["ecs"]
 
     // Create regex patterns using the prefixes
     // These are what the scriptevent commands are
