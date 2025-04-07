@@ -5,6 +5,9 @@ If you've arrived here from MCPEDL or Curseforge looking for a newer release, th
 
 If this is your first time on Github, the download button is called **Releases** and should be on the right-hand side of your screen on both mobile and desktop. Click on the **assets** sections of a release and the `.mcpack` should be there for you to download.
 
+> [!NOTE]
+> You will not find the JavaScript files inside of this repository, they must be transcompiled from TypeScript. Github does this automatically when I make a release. Please do not put TypeScript files into your Minecraft installation, they will not work.
+
 Continue scrolling down for more information on how to use the commands in the Extended Commands Suite.
 
 
