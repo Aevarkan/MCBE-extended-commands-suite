@@ -1,5 +1,11 @@
 {
     "format_version": 2,
+    "metadata": {
+		"authors": [
+			"Aevarkan"
+		],
+		"product_type": "addon"
+	},
     "header": {
         "description": "Extended Commands Suite",
         "name": "Extended Commands Suite",
