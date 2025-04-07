@@ -109,7 +109,7 @@ This will launch the entity which executed this command into the air when 30 sec
 The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
 
 > [!CAUTION]
-> Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it. See [below](README.md#removeusecommand) for why.
+> Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it. See [below](https://github.com/Aevarkan/MCBE-extended-commands-suite?tab=readme-ov-file#removeusecommand) for why.
 
 See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) why it only works for non-stackable items.
 
