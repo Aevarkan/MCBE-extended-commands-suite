@@ -165,6 +165,16 @@ You are limited to having 20 lines of lore with a maximum length of 50 each. See
 
 **Example:** `/scriptevent ecs:setlore §9I have a pen\n§cI have an apple\n§9I have a pen\n§eI have pineapple`
 
+# Licence
+
+This project is licenced under GPL-3.0, in short:
+
+This means you can share, modify, and include it in your projects, as long as you give credit.
+
+You, however, **cannot** distribute a proprietary (closed-source) version.
+
+You must licence your project under GPL-3.0 and make the source code availabe if it includes a part of this pack.
+
 # Other Stuff
 
 You can find the source code and latest releases on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite).
