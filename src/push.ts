@@ -6,7 +6,7 @@
  */
 
 import { Entity, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { Vector2D } from "utility/vector";
+import { VectorXZ } from "utility/vectors";
 
 export function push(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity
@@ -90,7 +90,7 @@ function pushActionRelative(entity: Entity, horizontalRotation: number, horizont
 
     // Rotation
     const viewDirection = entity.getViewDirection()
-    const currentDirection = new Vector2D(viewDirection.x, viewDirection.z)
+    const currentDirection = new VectorXZ(viewDirection.x, viewDirection.z)
     const newDirection = currentDirection.applyRotation(horizontalRotation)
 
     // entity.applyImpulse(randomDirection) doesn't work on players ! !

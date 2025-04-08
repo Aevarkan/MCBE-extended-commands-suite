@@ -8,7 +8,7 @@
 	},
     "header": {
         "description": "Extended Commands Suite",
-        "name": "Extended Commands Suite",
+        "name": "Adds more commands to your Minecraft experience!",
         "uuid": "e0a2eeaf-059f-4eba-bf8e-ce7fbb86aaef",
         "version": [ 0, 9, 5 ],
         "min_engine_version": [ 1, 21, 70 ]

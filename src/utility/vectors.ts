@@ -5,7 +5,10 @@
  * Author: Aevarkan
  */
 
-export class Vector2D {
+/**
+ * An XZ Vector.
+ */
+export class VectorXZ {
     
     x: number
     z: number
