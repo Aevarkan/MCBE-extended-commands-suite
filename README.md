@@ -174,6 +174,22 @@ This removes the use command **only** from the item you're holding. It doesn't r
 
 **Syntax**: `/scriptevent ecs:removeusecommand`
 
+## `adddeathcommand`
+
+This makes the entity run a command when it dies. Only one death command can be put on an entity.
+
+**Syntax**: `/scriptevent ecs:adddeathcommand <command: string>`
+
+**Example**: `/scriptevent ecs:adddeathcommand say AAAAAA`
+
+This command will make the entity say "AAAAAA" in chat when it dies.
+
+## `removedeathcommand`
+
+This removes the death command.
+
+**Syntax**: `/scriptevent ecs:removedeathcommand`
+
 ## `setlore`
 
 Sets the lore on the item you're currently holding. Use `\n` to indicate a new line, note that you will need to apply formatting codes again on each new line.
