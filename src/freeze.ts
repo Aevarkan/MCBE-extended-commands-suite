@@ -5,7 +5,6 @@
  * Author: Aevarkan
  */
 
-
 import { Entity, InputPermissionCategory, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
 
 export function freeze(event: ScriptEventCommandMessageAfterEvent) {
