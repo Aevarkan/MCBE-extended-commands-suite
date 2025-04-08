@@ -28,6 +28,8 @@ The example commands are inside of [this](functions/extendedcommands/examples/) 
 
 # List of all Commands
 
+Not everything is possible with this addon. See [here](#LIMITATIONS-README.md) for a list of things it cannot do.
+
 <sup>The scriptevents are defined in [this](src/scriptEvents.ts) file.</sup>
 
 > [!TIP]
