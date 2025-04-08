@@ -28,7 +28,7 @@ Do not use any of these example commands on your world/server as a substitute fo
 
 Make use of the `/execute as` command to do these commands on other players. The commands here do not have selectors themselves.
 
-All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` **or** `cmd`.
+All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` / `cmd`.
 
 
 ## playmusic
@@ -143,16 +143,11 @@ You should see a dynamic property section which contains `280232d4-f31d-4849-a42
 
 **Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it. See `removeusecommand` for why.**
 
-
-For best practice, make use of a `function` that clears the item from the player upon using it.
-
 **Syntax**: `/scriptevent ecs:addusecommand <command: string>`
 
-**Example:** `/scriptevent ecs:addusecommand effect @s levitation 30 0 true`
+**Example:** `/scriptevent ecs:addusecommand scriptevent ecs:multicommand effect @s levitation 30 0 true | clear @s totem_of_undying 0 1`
 
-This will make the item give the player that uses it levitation for 30 seconds without showing particles.
-
-You can chain this with the scriptevent commands here for even more creativity.
+This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
 ## removeusecommand / ruc
 

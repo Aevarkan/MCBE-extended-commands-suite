@@ -157,9 +157,6 @@ See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecra
 > [!CAUTION]
 > Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it if you haven't set up a safeguard beforehands. See [`removeusecommand`](#removeusecommand) for why.
 
-> [!TIP]
-> For best practice, make use of a `function` that clears the item from the player upon using it.
-
 **Syntax**: `/scriptevent ecs:addusecommand <command: string>`
 
 Let's say we put use this command on a totem of undying.
@@ -167,10 +164,6 @@ Let's say we put use this command on a totem of undying.
 **Example:** `/scriptevent ecs:addusecommand scriptevent ecs:multicommand effect @s levitation 30 0 true | clear @s totem_of_undying 0 1`
 
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
-
-Note that you will have to add functions manually. Having it `setblock` a redstone block next to a command block may be easier, although this will mean you cannot track who used the item.
-
-You can chain this with the scriptevent commands here for even more creativity.
 
 ## `removeusecommand` / `ruc`
 
