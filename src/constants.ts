@@ -1,7 +1,9 @@
-// This file is part of Extended Commands Suite which is released under GPL-3.0.
-// See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full license details.
-// File: constants.ts
-// Author: Aevarkan
+/**
+ * This file is part of Extended Commands Suite which is released under GPL-3.0.
+ * See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full license details.
+ * File: constants.ts
+ * Author: Aevarkan
+ */
 
 // These are where the default values are stored
 // You shouldn't really need to change these, as you should be able define them in the command

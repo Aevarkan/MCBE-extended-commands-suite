@@ -2,7 +2,7 @@
 
 If you're looking for right click detection, scroll down to `addusecommand`. Note that there are limitations regarding stackable items.
 
-This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions.
+This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions. This means it also doesn't require any experimental toggles.
 
 Do you find yourself wishing Bedrock could do more with commands?
 
@@ -28,7 +28,7 @@ Do not use any of these example commands on your world/server as a substitute fo
 
 Make use of the `/execute as` command to do these commands on other players. The commands here do not have selectors themselves.
 
-All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` **or** `cmd`.
+All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` / `cmd`.
 
 
 ## playmusic
@@ -46,7 +46,7 @@ Stops the music track that is currently playing. It stops it abruptly, so it's r
 
 **Syntax**: `/scriptevent ecs:stopmusic`
 
-## push
+## push / motion
 
 **Java doesn't have this one, at least not for players!**
 
@@ -73,10 +73,6 @@ If you put this in a repeating command block, it will sometimes push an entity l
 This pushes an entity upwards and along the positive x direction.
 
 **You must use the `:` colon character to separate a number range. Any other character will not work.**
-
-## motion
-
-This is just an alias for `push`. Called using `/scriptevent ecs:motion`.
 
 ## pushgliding
 
@@ -145,24 +141,35 @@ Export one of the items that has a command from this pack as a structure for a r
 
 You should see a dynamic property section which contains `280232d4-f31d-4849-a42c-ce77e6870e30`. If you're up to this point, I trust that you will be able to do the rest.
 
-**Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it. See `removeusecommand` for why.**
-
-
-For best practice, make use of a `function` that clears the item from the player upon using it.
+**Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it if you haven't set up a safeguard beforehands. See `removeusecommand` for why.**
 
 **Syntax**: `/scriptevent ecs:addusecommand <command: string>`
 
-**Example:** `/scriptevent ecs:addusecommand effect @s levitation 30 0 true`
+**Example:** `/scriptevent ecs:addusecommand scriptevent ecs:multicommand effect @s levitation 30 0 true | clear @s totem_of_undying 0 1`
 
-This will make the item give the player that uses it levitation for 30 seconds without showing particles.
-
-You can chain this with the scriptevent commands here for even more creativity.
+This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
 ## removeusecommand / ruc
 
 This removes the use command **from the item you're holding**. It doesn't remove it from all identical items. 
 
 **Syntax**: `/scriptevent ecs:removeusecommand`
+
+## adddeathcommand
+
+This makes the entity run a command when it dies. Only one death command can be put on an entity.
+
+**Syntax**: `/scriptevent ecs:adddeathcommand <command: string>`
+
+**Example**: `/scriptevent ecs:adddeathcommand say AAAAAA`
+
+This command will make the entity say "AAAAAA" in chat when it dies.
+
+## removedeathcommand
+
+This removes the death command.
+
+**Syntax**: `/scriptevent ecs:removedeathcommand`
 
 ## setlore
 
@@ -174,6 +181,22 @@ You are limited to having 20 lines of lore with a maximum length of 50 each. See
 
 **Example:** `/scriptevent ecs:setlore §9I have a pen\n§cI have an apple\n§9I have a pen\n§eI have pineapple`
 
+# Licence
+
+This project is licenced under GPL-3.0, in short:
+
+This means you can share, modify, and include it in your projects, as long as you give credit.
+
+You, however, **cannot** distribute a proprietary (closed-source) version.
+
+You must licence your project under GPL-3.0 and make the source code availabe if it includes a part of this pack.
+
+## For Server Owners
+
+You don't need to ask for my permission to put it on your server, this is already given as part of the licence.
+
+If your players ask where the commands are from though, provide a link to either [MCPEDL](https://mcpedl.com/extended-commands-suite/), [CurseForge](https://www.curseforge.com/minecraft-bedrock/scripts/extended-commands-suite), or the [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite) repository. 
+
 # Other Stuff
 
-You can find the source code and latest releases on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite).
+You can find the source code and latest releases on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite) as well as older ones.

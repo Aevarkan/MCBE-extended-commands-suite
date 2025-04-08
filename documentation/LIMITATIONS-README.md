@@ -1,0 +1,7 @@
+Here is a list of things that aren't possible to my knowledge.
+
+If you think a recent Minecraft update has made one of these possible, please notify me by creating an issue.
+
+Feature | Reason | References
+:---: | --- | ---
+size control | EntityScaleComponent is read-only, and there is no method to change it | https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entityscalecomponent?view=minecraft-bedrock-stable

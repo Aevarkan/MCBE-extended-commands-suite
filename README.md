@@ -3,7 +3,7 @@ Github repository for the Extended Commands Suite pack.
 
 This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions.
 
-If you've arrived here from MCPEDL or CurseForge looking for a newer release, then you're in the right place! Github will **always** have the most up to date version of this pack (it's where I build the pack), although I will try my best to keep MCPEDL and CurseForge updated.
+If you've arrived here from [MCPEDL](https://mcpedl.com/extended-commands-suite/) or [CurseForge](https://www.curseforge.com/minecraft-bedrock/scripts/extended-commands-suite) looking for a newer release, then you're in the right place! Github will **always** have the most up to date version of this pack (it's where I build the pack), although I will try my best to keep MCPEDL and CurseForge updated.
 
 If this is your first time on Github, the download button is called **Releases** and should be on the right-hand side of your screen on both mobile and desktop. Click on the **assets** sections of a release and the `.mcpack` should be there for you to download.
 
@@ -148,7 +148,7 @@ The one you've been waiting for: This command lets you put a command on a **non-
 See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) for why it only works for non-stackable items.
 
 > [!NOTE]
-> There is a workaround to get commands on stackable items. Install an NBT editor such as [NBT Workbench](https://github.com/RealRTTV/nbtworkbench), and make a structure that contains the stackable item and the dynamic property manually.
+> There is a workaround to get commands on stackable items. Install an NBT editor such as [NBT Workbench](https://github.com/RealRTTV/nbtworkbench), and make a structure that contains the stackable item and edit the dynamic property manually.
 >
 > Export one of the items that has a command from this pack as a structure for a reference on what you need to change. You should see a dynamic property section which contains `280232d4-f31d-4849-a42c-ce77e6870e30`.
 >
@@ -156,9 +156,6 @@ See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecra
 
 > [!CAUTION]
 > Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it if you haven't set up a safeguard beforehands. See [`removeusecommand`](#removeusecommand) for why.
-
-> [!TIP]
-> For best practice, make use of a `function` that clears the item from the player upon using it.
 
 **Syntax**: `/scriptevent ecs:addusecommand <command: string>`
 
@@ -168,10 +165,6 @@ Let's say we put use this command on a totem of undying.
 
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
-Note that you will have to add functions manually. Having it `setblock` a redstone block next to a command block may be easier, although this will mean you cannot track who used the item.
-
-You can chain this with the scriptevent commands here for even more creativity.
-
 ## `removeusecommand` / `ruc`
 
 This removes the use command **only** from the item you're holding. It doesn't remove it from other items. 
@@ -180,6 +173,22 @@ This removes the use command **only** from the item you're holding. It doesn't r
 > The commands are stored in the item itself, you can just remove this item normally. This means you cannot remove command functionality from other players remotely however.
 
 **Syntax**: `/scriptevent ecs:removeusecommand`
+
+## `adddeathcommand`
+
+This makes the entity run a command when it dies. Only one death command can be put on an entity.
+
+**Syntax**: `/scriptevent ecs:adddeathcommand <command: string>`
+
+**Example**: `/scriptevent ecs:adddeathcommand say AAAAAA`
+
+This command will make the entity say "AAAAAA" in chat when it dies.
+
+## `removedeathcommand`
+
+This removes the death command.
+
+**Syntax**: `/scriptevent ecs:removedeathcommand`
 
 ## `setlore`
 

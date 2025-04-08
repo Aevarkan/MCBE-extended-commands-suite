@@ -1,7 +1,9 @@
-// This file is part of Extended Commands Suite which is released under GPL-3.0.
-// See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full license details.
-// File: scriptEvents.ts
-// Author: Aevarkan
+/**
+ * This file is part of Extended Commands Suite which is released under GPL-3.0.
+ * See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full license details.
+ * File: scriptEvents.ts
+ * Author: Aevarkan
+ */
 
 import { Player, system } from "@minecraft/server";
 import { push } from "push";
@@ -9,9 +11,10 @@ import { playMusic, stopMusic } from "manageMusic";
 import { scheduleCommand } from "schedule";
 import { tpToSpawn } from "tpSpawn";
 import { freeze } from "freeze";
-import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageDetector";
+import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageRightClickDetector";
 import { setLore } from "setLore";
 import { multiCommand } from "multiCommand";
+import { createDeathDetector, removeDeathDetector } from "deathDetection/manageDeathDetector";
 
 // This file contains ALL the script events
 // event.id is what you put in as the first part of the command
@@ -40,6 +43,8 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeUseCommandShortId = new RegExp(`^(${prefixes.join('|')}):ruc$`)
     const setLoreId = new RegExp(`^(${prefixes.join('|')}):setlore$`)
     const multiCommandId = new RegExp(`^(${prefixes.join('|')}):multicommand$`)
+    const addDeathCommandId = new RegExp(`^(${prefixes.join('|')}):adddeathcommand$`)
+    const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -111,6 +116,14 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     // Does multiple commands, separated by the pipe character `|`
     else if (multiCommandId.test(event.id)) {
         multiCommand(event)
+    }
+
+    else if (addDeathCommandId.test(event.id)) {
+        createDeathDetector(event)
+    }
+
+    else if (removeDeathCommandId.test(event.id)) {
+        removeDeathDetector(event)
     }
 
     // Switch statements exist, but I don't like how they look
