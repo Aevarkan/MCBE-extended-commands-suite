@@ -197,4 +197,6 @@ This project is licenced under GPL-3.0, in short:
 
 This means you can share, modify, and include it in your projects, as long as you give credit.
 
-You, however, **cannot** distribute a proprietary (closed-source) version. You must licence your project under GPL-3.0 and make the source code availabe if it includes a part of this pack.
+You, however, **cannot** distribute a proprietary (closed-source) version.
+
+You must licence your project under GPL-3.0 and make the source code availabe if it includes a part of this pack.
