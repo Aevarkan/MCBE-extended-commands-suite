@@ -3,7 +3,7 @@
 // File: rightClickDetection.ts
 // Author: Aevarkan
 
-import { ItemStack, ItemUseBeforeEvent, Player, world } from "@minecraft/server";
+import { ItemStack, ItemUseBeforeEvent, Player, system, world } from "@minecraft/server";
 
 // This is the detector itself.
 // Checks everytime a player uses an item if there is a command set on it.
@@ -18,7 +18,10 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
 
     if (commandsEnabled) {
         const itemCommand = item.getDynamicProperty('command') as string
-        player.runCommandAsync(itemCommand)
+        // Must incase it in system.run to have permimssions
+        system.run(() => {
+            player.runCommand(itemCommand)
+        })
     }
 
     // Stackable item uses QIDB

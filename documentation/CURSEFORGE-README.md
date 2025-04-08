@@ -4,7 +4,7 @@ If you're looking for right click detection, scroll down to `addusecommand`. Not
 
 This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions.
 
-Do you find yourself wishing Bedrock could do more with commands, such as editing NBT data?
+Do you find yourself wishing Bedrock could do more with commands?
 
 Well then you've come to the right place!
 

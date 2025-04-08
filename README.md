@@ -3,7 +3,7 @@ Github repository for the Extended Commands Suite pack.
 
 This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions.
 
-If you've arrived here from MCPEDL or Curseforge looking for a newer release, then you're in the right place. Github will **always** have the most up to date version of this pack.
+If you've arrived here from MCPEDL or CurseForge looking for a newer release, then you're in the right place! Github will **always** have the most up to date version of this pack (it's where I build the pack), although I will try my best to keep MCPEDL and CurseForge updated.
 
 If this is your first time on Github, the download button is called **Releases** and should be on the right-hand side of your screen on both mobile and desktop. Click on the **assets** sections of a release and the `.mcpack` should be there for you to download.
 
