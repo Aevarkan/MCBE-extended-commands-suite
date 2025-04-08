@@ -2,7 +2,7 @@
 
 If you're looking for right click detection, scroll down to `addusecommand`. Note that there are limitations regarding stackable items.
 
-This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions.
+This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions. This means it also doesn't require any experimental toggles.
 
 Do you find yourself wishing Bedrock could do more with commands?
 
@@ -46,7 +46,7 @@ Stops the music track that is currently playing. It stops it abruptly, so it's r
 
 **Syntax**: `/scriptevent ecs:stopmusic`
 
-## push
+## push / motion
 
 **Java doesn't have this one, at least not for players!**
 
@@ -73,10 +73,6 @@ If you put this in a repeating command block, it will sometimes push an entity l
 This pushes an entity upwards and along the positive x direction.
 
 **You must use the `:` colon character to separate a number range. Any other character will not work.**
-
-## motion
-
-This is just an alias for `push`. Called using `/scriptevent ecs:motion`.
 
 ## pushgliding
 
