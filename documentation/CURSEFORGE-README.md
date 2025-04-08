@@ -8,7 +8,21 @@ Do you find yourself wishing Bedrock could do more with commands?
 
 Well then you've come to the right place!
 
-This command pack adds functions you can find in Java, but not Bedrock, such as `/schedule` (The Java version), and even commands that don't exist even in vanilla Java! Continue scrolling down to find out.
+This command pack adds functionality you can find in Java, but not Bedrock, such as `/schedule` being able to actually schedule commands for later. It even adds commands that don't exist even in vanilla Java! Continue scrolling down to find out.
+
+# Examples
+
+To show you what is possible with this pack, I have some premade examples.
+
+With the pack installed, do any of the following commands:
+
+```minecraft
+/function extendedcommands/examples/countdown
+/function extendedcommands/examples/wind_push
+/function extendedcommands/examples/horror
+```
+
+Do not use any of these example commands on your world/server as a substitute for your own. They can be changed/deleted without notice.
 
 # List of all Commands
 
@@ -17,7 +31,7 @@ Make use of the `/execute as` command to do these commands on other players. The
 All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` **or** `cmd`.
 
 
-## `playmusic`
+## playmusic
 This command has the exact same syntax as `/music`, but the difference being it only affects the music of one player.
 
 **Syntax**: `/scriptevent ecs:playmusic <trackName: string> [volume: number] [fadeSeconds: number] [repeat: true/false]`
@@ -26,13 +40,13 @@ This command has the exact same syntax as `/music`, but the difference being it 
 
 This plays the credits track for the player that executed the command after fading for 2 seconds. It will play at volume 1 and repeat after it's done.
 
-## `stopmusic`
+## stopmusic
 
 Stops the music track that is currently playing. It stops it abruptly, so it's recommended to use that above command and fade to another track.
 
 **Syntax**: `/scriptevent ecs:stopmusic`
 
-## `push`
+## push
 
 **Java doesn't have this one, at least not for players!**
 
@@ -60,23 +74,23 @@ This pushes an entity upwards and along the positive x direction.
 
 **You must use the `:` colon character to separate a number range. Any other character will not work.**
 
-## `motion`
+## motion
 
 This is just an alias for `push`. Called using `/scriptevent ecs:motion`.
 
-## `pushgliding`
+## pushgliding
 
 This is a special version of `push` that **only** affects `Players` that are gliding with an elytra.
 
 It has the same syntax, but called using `/scriptevent ecs:pushgliding`.
 
-## `tpspawn`
+## tpspawn
 
 **Syntax**: `/scriptevent ecs:tpspawn`
 
 Teleports a `Player` to their spawn point. If you've played Terraria, this is what the magic mirror does.
 
-## `freeze`
+## freeze
 
 This freezes a Player by stopping their camera movements, it doesn't change their velocity (it won't stop anyone from falling).
 
@@ -90,7 +104,7 @@ If used on an entity, it will mostly freeze them (they move very slowly, and the
 
 This freezes the entity for 30 seconds. A second is 20 `ticks`.
 
-## `schedule`
+## schedule
 
 This brings the functionality of Java edition's `/schedule` to Bedrock.
 
@@ -103,7 +117,21 @@ This brings the functionality of Java edition's `/schedule` to Bedrock.
 
 This will launch the entity which executed this command into the air when 30 seconds passes.
 
-## `addusecommand`
+## multicommand
+
+Does multiple commands at once, separated by a pipe `|`.
+
+**Syntax**: `/scriptevent ecs:multicommand <command: string> | <another command: string>`
+
+There is no theoretical limit to how many commands you can include, but I've only tested up to 3 commands simultaneously.
+
+**I am not responsible if your game crashes from using hundreds of simultaneous commands.**
+
+**Example**: `/scriptevent ecs:multicommand scriptevent cmd:push rel 0 5 5 | say I'm flying!`
+
+This will push the entity that executed it forwards and up, whilst also saying "I'm flying". 
+
+## addusecommand / auc
 
 The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
 
@@ -128,13 +156,13 @@ This will make the item give the player that uses it levitation for 30 seconds w
 
 You can chain this with the scriptevent commands here for even more creativity.
 
-## `removeusecommand`
+## removeusecommand / ruc
 
 This removes the use command **from the item you're holding**. It doesn't remove it from all identical items. 
 
 **Syntax**: `/scriptevent ecs:removeusecommand`
 
-## `setlore`
+## setlore
 
 Sets the lore on the item you're currently holding. Use `\n` to indicate a new line, note that you will need to apply formatting codes again on each new line.
 
@@ -143,3 +171,7 @@ You are limited to having 20 lines of lore with a maximum length of 50 each. See
 **Syntax**: `/scriptevent ecs:setlore <lore: string>`
 
 **Example:** `/scriptevent ecs:setlore §9I have a pen\n§cI have an apple\n§9I have a pen\n§eI have pineapple`
+
+# Other Stuff
+
+You can find the source code and latest releases on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite).
