@@ -36,7 +36,8 @@ function scheduleCommandAction(entity: Entity, command: string, delay: number) {
 
     // Schedule the command to run
     system.runTimeout(() => {
-        // Using runCommandAsync bypasses permission check
-        entity.runCommandAsync(command)
+        system.run(() => {
+            entity.runCommand(command)
+        })
     }, delay)
 }

@@ -50,7 +50,7 @@ function clearVelocityForTicks(entity: Entity, ticks: number) {
 
     let remainingTicks = ticks;
     const intervalId = system.runInterval(() => {
-        if (entity.isValid()) {
+        if (entity.isValid) {
             entity.clearVelocity()
         } else { // If the entity isn't valid anymore
             system.clearRun(intervalId)
