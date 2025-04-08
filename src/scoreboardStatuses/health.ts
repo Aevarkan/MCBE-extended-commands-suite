@@ -8,13 +8,15 @@
 import { world } from "@minecraft/server";
 
 // Initialisation of scoreboards if not done already
-const scoreboard = world.scoreboard.getObjective("ecs:health")
-if (!scoreboard) { world.scoreboard.addObjective("ecs:health") }
+let healthScoreboard = world.scoreboard.getObjective("ecs:health")
+if (!healthScoreboard) {
+    healthScoreboard = world.scoreboard.addObjective("ecs:health")
+}
 
 // Updates the scoreboard value everytime an entity changes health
 world.afterEvents.entityHealthChanged.subscribe((event) => {
     const entity = event.entity
     const newHealthValue = event.newValue
 
-    scoreboard.setScore(entity, newHealthValue)
+    healthScoreboard.setScore(entity, newHealthValue)
 })
