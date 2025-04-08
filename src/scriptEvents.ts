@@ -1,7 +1,9 @@
-// This file is part of Extended Commands Suite which is released under GPL-3.0.
-// See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full license details.
-// File: scriptEvents.ts
-// Author: Aevarkan
+/**
+ * This file is part of Extended Commands Suite which is released under GPL-3.0.
+ * See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full license details.
+ * File: scriptEvents.ts
+ * Author: Aevarkan
+ */
 
 import { Player, system } from "@minecraft/server";
 import { push } from "push";
@@ -9,7 +11,7 @@ import { playMusic, stopMusic } from "manageMusic";
 import { scheduleCommand } from "schedule";
 import { tpToSpawn } from "tpSpawn";
 import { freeze } from "freeze";
-import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageDetector";
+import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageRightClickDetector";
 import { setLore } from "setLore";
 import { multiCommand } from "multiCommand";
 

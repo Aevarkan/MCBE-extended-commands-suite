@@ -10,7 +10,7 @@
         "description": "Extended Commands Suite",
         "name": "Extended Commands Suite",
         "uuid": "e0a2eeaf-059f-4eba-bf8e-ce7fbb86aaef",
-        "version": [ 0, 9, 3 ],
+        "version": [ 0, 9, 4 ],
         "min_engine_version": [ 1, 21, 70 ]
     },
     "modules": [
