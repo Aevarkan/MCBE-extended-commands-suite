@@ -175,6 +175,12 @@ You, however, **cannot** distribute a proprietary (closed-source) version.
 
 You must licence your project under GPL-3.0 and make the source code availabe if it includes a part of this pack.
 
+## For Server Owners
+
+You don't need to ask for my permission to put it on your server, this is already given as part of the licence.
+
+If your players ask where the commands are from though, provide a link to either MCPEDL, CurseForge, or the Github repository. 
+
 # Other Stuff
 
-You can find the source code and latest releases on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite).
+You can find the source code and latest releases on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite) as well as older ones.
