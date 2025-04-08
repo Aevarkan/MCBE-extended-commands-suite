@@ -141,7 +141,7 @@ Export one of the items that has a command from this pack as a structure for a r
 
 You should see a dynamic property section which contains `280232d4-f31d-4849-a42c-ce77e6870e30`. If you're up to this point, I trust that you will be able to do the rest.
 
-**Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it. See `removeusecommand` for why.**
+**Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it if you haven't set up a safeguard beforehands. See `removeusecommand` for why.**
 
 **Syntax**: `/scriptevent ecs:addusecommand <command: string>`
 
