@@ -141,7 +141,7 @@ This will push the entity that executed it forwards and up, whilst also saying "
 ## `addusecommand` / `auc`
 
 > [!IMPORTANT]
-> You can only add one command per item.
+> You can only add one command per item, use `multicommand` to add more.
 
 The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
 

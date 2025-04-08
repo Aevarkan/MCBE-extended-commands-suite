@@ -135,6 +135,8 @@ This will push the entity that executed it forwards and up, whilst also saying "
 
 The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
 
+**You can only add one command per item, use `multicommand` to add more.**
+
 See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) for why it only works for non-stackable items.
 
 There is a workaround to get commands on stackable items: Make a structure that contains the stackable item and the dynamic property manually.
