@@ -179,7 +179,7 @@ You must licence your project under GPL-3.0 and make the source code availabe if
 
 You don't need to ask for my permission to put it on your server, this is already given as part of the licence.
 
-If your players ask where the commands are from though, provide a link to either MCPEDL, CurseForge, or the Github repository. 
+If your players ask where the commands are from though, provide a link to either [MCPEDL](https://mcpedl.com/extended-commands-suite/), [CurseForge](https://www.curseforge.com/minecraft-bedrock/scripts/extended-commands-suite), or the [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite) repository. 
 
 # Other Stuff
 
