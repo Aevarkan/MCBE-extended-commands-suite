@@ -3,7 +3,7 @@ Github repository for the Extended Commands Suite pack.
 
 This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions.
 
-If you've arrived here from MCPEDL or Curseforge looking for a newer release, then you're in the right place. Github will **always** have the most up to date version of this pack.
+If you've arrived here from MCPEDL or CurseForge looking for a newer release, then you're in the right place! Github will **always** have the most up to date version of this pack (it's where I build the pack), although I will try my best to keep MCPEDL and CurseForge updated.
 
 If this is your first time on Github, the download button is called **Releases** and should be on the right-hand side of your screen on both mobile and desktop. Click on the **assets** sections of a release and the `.mcpack` should be there for you to download.
 
@@ -123,10 +123,25 @@ This brings the functionality of Java edition's `/schedule` to Bedrock.
 
 This will launch the entity which executed this command into the air when 30 seconds passes.
 
-## `addusecommand`
+## `multicommand`
+
+Does multiple commands at once, separated by a pipe `|`.
+
+**Syntax**: `/scriptevent ecs:multicommand <command: string> | <another command: string>`
+
+> [!NOTE]
+> There is no theoretical limit to how many commands you can include, but I've only tested up to 3 commands simultaneously.
+>
+> I am not responsible if your game crashes from using 100 simultaneous commands.
+
+**Example**: `/scriptevent ecs:multicommand scriptevent cmd:push rel 0 5 5 | say I'm flying!`
+
+This will push the entity that executed it forwards and up, whilst also saying "I'm flying". 
+
+## `addusecommand` / `auc`
 
 > [!IMPORTANT]
-> You can only add one command per item.
+> You can only add one command per item, use `multicommand` to add more.
 
 The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
 
@@ -149,15 +164,15 @@ See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecra
 
 Let's say we put use this command on a totem of undying.
 
-**Example:** `/scriptevent ecs:addusecommand function extendedcommands/examples/levitate`
+**Example:** `/scriptevent ecs:addusecommand scriptevent ecs:multicommand effect @s levitation 30 0 true | clear @s totem_of_undying 0 1`
 
-This will call the [levitation](functions/extendedcommands/examples/levitation.mcfunction) function, which deletes the item and give the player that uses it levitation for 30 seconds without showing particles.
+This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
 Note that you will have to add functions manually. Having it `setblock` a redstone block next to a command block may be easier, although this will mean you cannot track who used the item.
 
 You can chain this with the scriptevent commands here for even more creativity.
 
-## `removeusecommand`
+## `removeusecommand` / `ruc`
 
 This removes the use command **only** from the item you're holding. It doesn't remove it from other items. 
 
@@ -175,3 +190,13 @@ You are limited to having 20 lines of lore with a maximum length of 50 each. See
 **Syntax**: `/scriptevent ecs:setlore <lore: string>`
 
 **Example:** `/scriptevent ecs:setlore §9I have a pen\n§cI have an apple\n§9I have a pen\n§eI have pineapple`
+
+# Licence
+
+This project is licenced under GPL-3.0, in short:
+
+This means you can share, modify, and include it in your projects, as long as you give credit.
+
+You, however, **cannot** distribute a proprietary (closed-source) version.
+
+You must licence your project under GPL-3.0 and make the source code availabe if it includes a part of this pack.

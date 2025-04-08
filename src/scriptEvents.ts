@@ -11,6 +11,7 @@ import { tpToSpawn } from "tpSpawn";
 import { freeze } from "freeze";
 import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageDetector";
 import { setLore } from "setLore";
+import { multiCommand } from "multiCommand";
 
 // This file contains ALL the script events
 // event.id is what you put in as the first part of the command
@@ -34,8 +35,11 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const tpSpawnId = new RegExp(`^(${prefixes.join('|')}):tpspawn$`)
     const freezeId = new RegExp(`^(${prefixes.join('|')}):freeze$`)
     const addUseCommandId = new RegExp(`^(${prefixes.join('|')}):addusecommand$`)
+    const addUseCommandShortId = new RegExp(`^(${prefixes.join('|')}):auc$`)
     const removeUseCommandId = new RegExp(`^(${prefixes.join('|')}):removeusecommand$`)
+    const removeUseCommandShortId = new RegExp(`^(${prefixes.join('|')}):ruc$`)
     const setLoreId = new RegExp(`^(${prefixes.join('|')}):setlore$`)
+    const multiCommandId = new RegExp(`^(${prefixes.join('|')}):multicommand$`)
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -84,11 +88,17 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     // Dynamic properties can't be added to them
     // https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty
     // Adds a right click detector onto the player's selected item
-    else if (addUseCommandId.test(event.id) && event.sourceEntity instanceof Player) {
+    else if (
+        (addUseCommandId.test(event.id) || addUseCommandShortId.test(event.id)) &&
+        event.sourceEntity instanceof Player
+    ) {
         createRightClickDetector(event)
     }
     // Removes the right click detector on the player's selected item
-    else if (removeUseCommandId.test(event.id) && event.sourceEntity instanceof Player) {
+    else if (
+        (removeUseCommandId.test(event.id) || removeUseCommandShortId.test(event.id)) &&
+        event.sourceEntity instanceof Player
+    ) {
         removeRightClickDetector(event)
     }
 
@@ -96,6 +106,11 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     // Example /scriptevent cmd:setlore I am an apple!
     else if (setLoreId.test(event.id) && event.sourceEntity instanceof Player) {
         setLore(event)
+    }
+
+    // Does multiple commands, separated by the pipe character `|`
+    else if (multiCommandId.test(event.id)) {
+        multiCommand(event)
     }
 
     // Switch statements exist, but I don't like how they look

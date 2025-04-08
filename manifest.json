@@ -10,8 +10,8 @@
         "description": "Extended Commands Suite",
         "name": "Extended Commands Suite",
         "uuid": "e0a2eeaf-059f-4eba-bf8e-ce7fbb86aaef",
-        "version": [ 0, 9, 0 ],
-        "min_engine_version": [ 1, 21, 60 ]
+        "version": [ 0, 9, 3 ],
+        "min_engine_version": [ 1, 21, 70 ]
     },
     "modules": [
         {
@@ -32,6 +32,10 @@
         {
             "module_name": "@minecraft/server",
             "version": "1.18.0"
+        },
+        {
+            "module_name": "@minecraft/server-ui",
+            "version": "1.3.0"
         }
     ]
 }
