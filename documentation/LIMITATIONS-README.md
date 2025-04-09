@@ -4,4 +4,5 @@ If you think a recent Minecraft update has made one of these possible, please no
 
 Feature | Reason | References
 :---: | --- | ---
-size control | EntityScaleComponent is read-only, and there is no method to change it | https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entityscalecomponent?view=minecraft-bedrock-stable
+size control | EntityScaleComponent is read-only, and there is no method to change it. | https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entityscalecomponent?view=minecraft-bedrock-stable
+over-leveled enchants | The script API is limited in what enchants it can apply to an item just like normal enchanting. | https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemenchantablecomponent?view=minecraft-bedrock-stable#addenchantment
