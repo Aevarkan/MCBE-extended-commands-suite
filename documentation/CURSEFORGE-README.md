@@ -26,6 +26,8 @@ Do not use any of these example commands on your world/server as a substitute fo
 
 # List of all Commands
 
+Not everything is possible with this addon. See [here](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/LIMITATIONS-README.md) for a list of things it cannot do.
+
 Make use of the `/execute as` command to do these commands on other players. The commands here do not have selectors themselves.
 
 All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` / `cmd`.

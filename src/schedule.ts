@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { Entity, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
+import { Block, Entity, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
 
 /**
  * 
@@ -28,15 +28,26 @@ export function scheduleCommand(event: ScriptEventCommandMessageAfterEvent) {
 
 /**
  * 
- * @param entity The entity which you want to queue the command for.
- * @param command The command the entity should run.
+ * @param source The source of the command.
+ * @param command The command to be run.
  * @param delay How long in ticks before the command runs.
  */
-function scheduleCommandAction(entity: Entity, command: string, delay: number) {
+function scheduleCommandAction(source: Entity | Block, command: string, delay: number) {
 
-    // Schedule the command to run
-    system.runTimeout(() => {
-        // Using runCommandAsync bypasses permission check
-        entity.runCommandAsync(command)
-    }, delay)
+    // Blocks cannot run commands
+    if (source instanceof Entity) {
+        const entity = source as Entity
+        system.runTimeout(() => {
+            system.run(() => {
+                entity.runCommand(command)
+            })
+        }, delay)
+    } else {
+        const dimension = source.dimension
+        system.run(() => {
+            dimension.runCommand(command)
+        })
+    }
+    
+
 }
