@@ -6,3 +6,4 @@
  */
 
 import "./health"
+import "./death"
