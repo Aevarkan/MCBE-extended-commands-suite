@@ -73,7 +73,10 @@ function pushActionAbsolute(entity: Entity, xVector: number, yVector: number, zV
     const directionX = (horizontalMagnitude == 0) ? 0 : scaledX / horizontalMagnitude
     const directionZ = (horizontalMagnitude == 0) ? 0 : scaledZ / horizontalMagnitude
     
-    entity.applyKnockback(directionX, directionZ, horizontalMagnitude, scaledY)
+    let pushVector = new VectorXZ(directionX, directionZ)
+    pushVector.applyScale(horizontalMagnitude)
+
+    entity.applyKnockback(pushVector, scaledY)
 }
 
 /**
@@ -91,12 +94,13 @@ function pushActionRelative(entity: Entity, horizontalRotation: number, horizont
     // Rotation
     const viewDirection = entity.getViewDirection()
     const currentDirection = new VectorXZ(viewDirection.x, viewDirection.z)
-    const newDirection = currentDirection.applyRotation(horizontalRotation)
+    const newDirection = currentDirection.applyRotation(horizontalRotation).applyScale(scaledhorizontalStrength)
+
 
     // entity.applyImpulse(randomDirection) doesn't work on players ! !
     // Therefore, we use .applyKnockback instead. It works on both players and regular entities
 
-    entity.applyKnockback(newDirection.x, newDirection.z, scaledhorizontalStrength, scaledVerticalStrength)
+    entity.applyKnockback(newDirection, scaledVerticalStrength)
 }
 
 /**

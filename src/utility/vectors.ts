@@ -27,10 +27,25 @@ export class VectorXZ {
         const angleRadians = angle * (Math.PI / 180)
         
         const newX = this.x * Math.cos(angleRadians) - this.z * Math.sin(angleRadians)
-        const newY = this.x * Math.sin(angleRadians) + this.z * Math.cos(angleRadians)
+        const newZ = this.x * Math.sin(angleRadians) + this.z * Math.cos(angleRadians)
         
         this.x = newX
-        this.z = newY
+        this.z = newZ
+
+        return this
+    }
+
+    /**
+     * Scales the vector by a muliplier.
+     * @param scaleMultiplier How much the vector should be scaled.
+     * @returns The scaled vector.
+     */
+    applyScale(scaleMultiplier: number): this {
+        const newX = this.x * scaleMultiplier
+        const newZ = this.z * scaleMultiplier
+
+        this.x = newX
+        this.z = newZ
 
         return this
     }
