@@ -24,6 +24,12 @@ With the pack installed, do any of the following commands:
 
 Do not use any of these example commands on your world/server as a substitute for your own. They can be changed/deleted without notice.
 
+# Auxillary Features
+
+ECS also tracks entity health and player deaths via scoreboard.
+
+The scoreboard entries are called `ecs:health` and `ecs:deaths` respectively.
+
 # List of all Commands
 
 Not everything is possible with this addon. See [here](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/LIMITATIONS-README.md) for an incomplete list of things it cannot do.
