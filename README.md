@@ -26,6 +26,12 @@ With the pack installed, do any of the following commands:
 
 The example commands are inside of [this](functions/extendedcommands/examples/) folder.
 
+# Auxillary Features
+
+ECS also tracks entity health and player deaths via scoreboard.
+
+The scoreboard entries are called `ecs:health` and `ecs:deaths` respectively.
+
 # List of all Commands
 
 Not everything is possible with this addon. See [here](#LIMITATIONS-README.md) for a list of things it cannot do.
@@ -111,6 +117,19 @@ If used on an entity, it will mostly freeze them (they move very slowly, and the
 **Example:** `/scriptevent ecs:freeze 600`
 
 This freezes the entity for 30 seconds. A second is 20 `ticks`.
+
+## `chance`
+
+This executes a command sometimes.
+
+**Syntax**: `/scriptevent ecs:chance <percentageChance: int> <command: string>`
+
+**Example**: `/scriptevent ecs:chance 10 say LUCKY!!!`
+
+This will make the source of the command say "LUCK!!!" 10% of the time the command is run.
+
+> [!NOTE]
+> If this is put into a command block, the source will be the dimension it's in.
 
 ## `schedule`
 
@@ -201,6 +220,14 @@ You are limited to having 20 lines of lore with a maximum length of 50 each. See
 **Syntax**: `/scriptevent ecs:setlore <lore: string>`
 
 **Example:** `/scriptevent ecs:setlore §9I have a pen\n§cI have an apple\n§9I have a pen\n§eI have pineapple`
+
+## `editlore`
+
+This is an interactive version of `setlore`.
+
+**Syntax**: `/scriptevent ecs:editlore`
+
+![Interactive Lore Command Screenshot](documentation/interactive-lore-command.png)
 
 # Licence
 
