@@ -12,7 +12,7 @@ import { scheduleCommand } from "schedule";
 import { tpToSpawn } from "tpSpawn";
 import { freeze } from "freeze";
 import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageRightClickDetector";
-import { setLore } from "setLore";
+import { editLore, setLore } from "setLore";
 import { multiCommand } from "multiCommand";
 import { createDeathDetector, removeDeathDetector } from "deathDetection/manageDeathDetector";
 import { chance } from "chance";
@@ -47,6 +47,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const addDeathCommandId = new RegExp(`^(${prefixes.join('|')}):adddeathcommand$`)
     const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
     const chanceId = new RegExp(`^(${prefixes.join('|')}):chance$`)
+    const loreInteractiveId = new RegExp(`^(${prefixes.join('|')}):setloreinteractive$`)
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -130,6 +131,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (chanceId.test(event.id)) {
         chance(event)
+    }
+
+    else if (loreInteractiveId.test(event.id)) {
+        editLore(event)
     }
 
     // Switch statements exist, but I don't like how they look
