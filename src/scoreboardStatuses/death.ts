@@ -5,13 +5,23 @@
  * Author: Aevarkan
  */
 
-import { Player, world } from "@minecraft/server";
+import { Player, system, world } from "@minecraft/server";
 
 // Initialisation of scoreboards if not done already
 let deathScoreboard = world.scoreboard.getObjective("ecs:deaths")
 if (!deathScoreboard) {
     deathScoreboard = world.scoreboard.addObjective("ecs:deaths")
 }
+
+// Any player that hasn't died yet has 0 deaths
+
+system.run(() => {
+    initialiseScoreboard()
+})
+
+world.afterEvents.playerJoin.subscribe(() => {
+    initialiseScoreboard()
+})
 
 // Updates the scoreboard value everytime an entity changes health
 world.afterEvents.entityDie.subscribe((event) => {
@@ -23,3 +33,11 @@ world.afterEvents.entityDie.subscribe((event) => {
 
     deathScoreboard.addScore(player, 1)
 })
+
+function initialiseScoreboard() {
+    const players = world.getAllPlayers()
+    players.forEach(player => {
+        const hasDied = deathScoreboard.hasParticipant(player)
+        if (!hasDied) deathScoreboard.setScore(player, 0)
+    })
+}
