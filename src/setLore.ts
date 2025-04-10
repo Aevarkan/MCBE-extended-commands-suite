@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { ItemStack, Player, ScriptEventCommandMessageAfterEvent, world } from "@minecraft/server";
+import { EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 
 export function setLore(event: ScriptEventCommandMessageAfterEvent) {
@@ -28,7 +28,7 @@ export function setLore(event: ScriptEventCommandMessageAfterEvent) {
  * @param slotIndex The slot which the item is in.
  */
 function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
-    const inventory = player.getComponent("minecraft:inventory").container
+    const inventory = player.getComponent(EntityInventoryComponent.componentId).container
     const item = inventory.getItem(slotIndex)
 
     // Must replace the item, as we can't modify existing ones
@@ -124,7 +124,7 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
  */
 function setItemInSelectedSlot(player: Player, item: ItemStack) {
     const selectedSlot = player.selectedSlotIndex
-    const inventory = player.getComponent("minecraft:inventory").container
+    const inventory = player.getComponent(EntityInventoryComponent.componentId).container
 
     inventory.setItem(selectedSlot, item)
 }
@@ -132,7 +132,7 @@ function setItemInSelectedSlot(player: Player, item: ItemStack) {
 export function editLore(event: ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
     const selectedSlot = player.selectedSlotIndex
-    const inventory = player.getComponent("minecraft:inventory").container
+    const inventory = player.getComponent(EntityInventoryComponent.componentId).container
     const item = inventory.getItem(selectedSlot)
 
     showLoreEditingForm(player, item)

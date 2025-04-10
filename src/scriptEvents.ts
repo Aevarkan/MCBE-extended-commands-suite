@@ -16,6 +16,7 @@ import { editLore, setLore } from "setLore";
 import { multiCommand } from "multiCommand";
 import { createDeathDetector, removeDeathDetector } from "deathDetection/manageDeathDetector";
 import { chance } from "chance";
+import { setScale } from "size";
 
 // This file contains ALL the script events
 // event.id is what you put in as the first part of the command
@@ -48,6 +49,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
     const chanceId = new RegExp(`^(${prefixes.join('|')}):chance$`)
     const editLoreId = new RegExp(`^(${prefixes.join('|')}):editlore$`)
+    const scaleId = new RegExp(`^(${prefixes.join('|')}):scale$`)
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -135,6 +137,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (editLoreId.test(event.id)) {
         editLore(event)
+    }
+
+    else if (scaleId.test(event.id)) {
+        setScale(event)
     }
 
     // Switch statements exist, but I don't like how they look
