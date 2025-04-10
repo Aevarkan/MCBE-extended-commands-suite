@@ -38,6 +38,12 @@ Make use of the `/execute as` command to do these commands on other players. The
 
 All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` / `cmd`.
 
+# Auxillary Features
+
+ECS also tracks entity health and player deaths via scoreboard.
+
+The scoreboard entries are called `ecs:health` and `ecs:deaths` respectively.
+
 ## playmusic
 
 This command has the exact same syntax as `/music`, but the difference being it only affects the music of one player.
@@ -107,6 +113,18 @@ If used on an entity, it will mostly freeze them (they move very slowly, and the
 **Example:** `/scriptevent ecs:freeze 600`
 
 This freezes the entity for 30 seconds. A second is 20 `ticks`.
+
+## chance
+
+This executes a command sometimes.
+
+**Syntax**: `/scriptevent ecs:chance <percentageChance: int> <command: string>`
+
+**Example**: `/scriptevent ecs:chance 10 say LUCKY!!!`
+
+This will make the source of the command say "LUCK!!!" 10% of the time the command is run.
+
+Note that if this is put into a command block, the source will be the dimension it's in.
 
 ## schedule
 
@@ -187,6 +205,12 @@ You are limited to having 20 lines of lore with a maximum length of 50 each. See
 **Syntax**: `/scriptevent ecs:setlore <lore: string>`
 
 **Example:** `/scriptevent ecs:setlore §9I have a pen\n§cI have an apple\n§9I have a pen\n§eI have pineapple`
+
+## editlore
+
+This is an interactive version of `setlore`.
+
+**Syntax**: `/scriptevent ecs:editlore`
 
 # Licence
 
