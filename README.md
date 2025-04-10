@@ -53,6 +53,19 @@ Stops the music track that is currently playing. It stops the track abruptly, so
 
 **Syntax**: `/scriptevent ecs:stopmusic`
 
+## `scale`
+
+This command changes the size of **some** entities, most don't work. I've tested it with cats and rabbits.
+
+> [!IMPORTANT]
+> Not all entities support this. You can edit the entity `.json` yourself, but I won't edit vanilla files.
+>
+> You can get the entity `.json` files [here](https://github.com/Mojang/bedrock-samples/tree/main/behavior_pack/entities).
+
+**Syntax**: `/scriptevent ecs:scale <scaleMultiplier: float>`
+
+**Example**: `/scriptevent ecs:scale 1.5`
+
 ## `push` / `motion`
 
 This command pushes a player (and most entities, not including items).

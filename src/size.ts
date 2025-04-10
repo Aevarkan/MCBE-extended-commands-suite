@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { Entity, EntityScaleComponent, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
+import { Entity, EntityScaleComponent, ScriptEventCommandMessageAfterEvent, world } from "@minecraft/server";
 
 export function setScale(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity
@@ -25,10 +25,24 @@ export function setScale(event: ScriptEventCommandMessageAfterEvent) {
 function setSize(entity: Entity, sizeMultiplier: number) {
     const scaleComponent = entity.getComponent(EntityScaleComponent.componentId)
 
+    // Not every entity has a scale component
     if (!scaleComponent) {
         console.info("[ECS]: ", entity.typeId, " doesn't have a scale component.")
         return
     }
 
+    // Dynamic property is because the scale resets
+    entity.setDynamicProperty("scale", sizeMultiplier)
     scaleComponent.value = sizeMultiplier
 }
+
+// This makes sure the entities keep their scale
+world.afterEvents.entityLoad.subscribe((event) => {
+    const entity = event.entity
+    const entityScale = entity.getDynamicProperty("scale") as number
+    
+    if (!entityScale) return
+
+    const scaleComponent = entity.getComponent(EntityScaleComponent.componentId)
+    scaleComponent.value = entityScale
+})
