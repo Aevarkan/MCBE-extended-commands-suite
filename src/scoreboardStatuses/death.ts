@@ -5,25 +5,24 @@
  * Author: Aevarkan
  */
 
-import { Player, system, world } from "@minecraft/server";
+import { Player, world } from "@minecraft/server";
+import { DEATH_SCOREBOARD_NAME } from "constants";
+import { getScoreboard } from "./utility";
 
-// Initialisation of scoreboards if not done already
-let deathScoreboard = world.scoreboard.getObjective("ecs:deaths")
-if (!deathScoreboard) {
-    deathScoreboard = world.scoreboard.addObjective("ecs:deaths")
-}
-
-// Any player that hasn't died yet has 0 deaths
-
-system.run(() => {
-    initialiseScoreboard()
+// Gives all players an initial scoreboard value
+world.afterEvents.worldInitialize.subscribe(() => {
+    const players = world.getAllPlayers()
+    players.forEach(player => {
+        initialiseScoreboard(player)
+    })
 })
 
-world.afterEvents.playerJoin.subscribe(() => {
-    initialiseScoreboard()
+world.afterEvents.playerSpawn.subscribe((event) => {
+    const isFirstSpawn = event.initialSpawn
+    if (isFirstSpawn) initialiseScoreboard(event.player)
 })
 
-// Updates the scoreboard value everytime an entity changes health
+// Updates the scoreboard value everytime a player dies
 world.afterEvents.entityDie.subscribe((event) => {
     const player = event.deadEntity
     const isPlayer = player instanceof Player
@@ -31,13 +30,17 @@ world.afterEvents.entityDie.subscribe((event) => {
     // Doesn't apply if it's not a player
     if (!isPlayer) { return }
 
+    const deathScoreboard = getScoreboard(DEATH_SCOREBOARD_NAME)
+
     deathScoreboard.addScore(player, 1)
 })
 
-function initialiseScoreboard() {
-    const players = world.getAllPlayers()
-    players.forEach(player => {
-        const hasDied = deathScoreboard.hasParticipant(player)
-        if (!hasDied) deathScoreboard.setScore(player, 0)
-    })
+/**
+ * Initialise the death scoreboard for a player.
+ * @param player The player.
+ */
+function initialiseScoreboard(player: Player) {
+    const deathScoreboard = getScoreboard(DEATH_SCOREBOARD_NAME)
+    const hasDied = deathScoreboard.hasParticipant(player)
+    if (!hasDied) deathScoreboard.setScore(player, 0)
 }

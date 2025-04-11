@@ -5,36 +5,39 @@
  * Author: Aevarkan
  */
 
-import { EntityComponentTypes, EntityHealthComponent, system, world } from "@minecraft/server";
+import { Entity, EntityComponentTypes, world } from "@minecraft/server";
+import { getScoreboard } from "./utility";
+import { HEALTH_SCOREBOARD_NAME } from "constants";
 
-// Initialisation of scoreboards if not done already
-let healthScoreboard = world.scoreboard.getObjective("ecs:health")
-if (!healthScoreboard) {
-    healthScoreboard = world.scoreboard.addObjective("ecs:health")
-}
-
-// Gives every player a scoreboard value on script load
-
-system.run(() => {
-    initialiseScoreboard()
+// Gives entity an initial scoreboard value
+world.afterEvents.worldInitialize.subscribe(() => {
+    const players = world.getAllPlayers()
+    players.forEach(player => {
+        initialiseScoreboard(player)
+    })
 })
 
-world.afterEvents.playerJoin.subscribe(() => {
-    initialiseScoreboard()
+world.afterEvents.entitySpawn.subscribe((event) => {
+    initialiseScoreboard(event.entity)
 })
 
 // Updates the scoreboard value everytime an entity changes health
 world.afterEvents.entityHealthChanged.subscribe((event) => {
     const entity = event.entity
     const newHealthValue = event.newValue
+    const healthScoreboard = getScoreboard(HEALTH_SCOREBOARD_NAME)
+
+    if (!entity.isValid()) return
 
     healthScoreboard.setScore(entity, newHealthValue)
 })
 
-function initialiseScoreboard() {
-    const players = world.getAllPlayers()
-    players.forEach(player => {
-        const health = player.getComponent(EntityComponentTypes.Health).currentValue
-        healthScoreboard.setScore(player, health)
-    })
+/**
+ * Initialise the health scoreboard for an entity.
+ * @param entity The entity.
+ */
+function initialiseScoreboard(entity: Entity) {
+    const healthScoreboard = getScoreboard(HEALTH_SCOREBOARD_NAME)
+    const health = entity.getComponent(EntityComponentTypes.Health).currentValue
+    healthScoreboard.setScore(entity, health)
 }

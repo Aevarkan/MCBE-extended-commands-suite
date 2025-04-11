@@ -7,3 +7,4 @@
 
 import "./health"
 import "./death"
+import "./kills"
