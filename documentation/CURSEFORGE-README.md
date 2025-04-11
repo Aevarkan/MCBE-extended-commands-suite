@@ -38,12 +38,6 @@ Make use of the `/execute as` command to do these commands on other players. The
 
 All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` / `cmd`.
 
-# Auxillary Features
-
-ECS also tracks entity health and player deaths via scoreboard.
-
-The scoreboard entries are called `ecs:health` and `ecs:deaths` respectively.
-
 ## playmusic
 
 This command has the exact same syntax as `/music`, but the difference being it only affects the music of one player.
