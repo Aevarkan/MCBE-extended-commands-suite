@@ -64,9 +64,9 @@ Stops the music track that is currently playing. It stops the track abruptly, so
 This command changes the size of **some** entities, most don't work. I've tested it with cats and rabbits.
 
 > [!IMPORTANT]
-> Not all entities support this. You can edit the entity `.json` yourself, but I won't edit vanilla files.
+> Not all entities support this. You can edit the entity `.json` yourself, but I won't edit vanilla files in this pack as it will break compatibility.
 >
-> You can get the entity `.json` files [here](https://github.com/Mojang/bedrock-samples/tree/main/behavior_pack/entities).
+> I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-components) that adds scale components to all entities, **be warned it will very likely not be compatible with other addons**.
 
 **Syntax**: `/scriptevent ecs:scale <scaleMultiplier: float>`
 
