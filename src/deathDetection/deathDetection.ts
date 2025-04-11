@@ -9,8 +9,11 @@ import { system, world } from "@minecraft/server";
 
 // Runs every time an entity dies and checks if it has a detector.
 world.afterEvents.entityDie.subscribe((event) => {
-
     const entity = event.deadEntity
+    
+    // Stops errors from popping up further down
+    if (!entity.isValid()) return
+
     const isDetector = entity.getDynamicProperty("enabledDeathDetector") as boolean
 
     if (isDetector) {
