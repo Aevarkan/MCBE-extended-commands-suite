@@ -9,3 +9,5 @@ import "./scriptEvents"
 import "./rightClickDetection/rightClickDetection"
 import "./deathDetection/deathDetection"
 import "./scoreboardStatuses/index"
+
+console.info("Extended Commands Suite v0.9.7 loaded.")

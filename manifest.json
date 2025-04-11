@@ -10,7 +10,7 @@
         "description": "Adds more commands to your Minecraft experience!",
         "name": "Extended Commands Suite",
         "uuid": "e0a2eeaf-059f-4eba-bf8e-ce7fbb86aaef",
-        "version": [ 0, 9, 5 ],
+        "version": [ 0, 9, 7 ],
         "min_engine_version": [ 1, 21, 70 ]
     },
     "modules": [
