@@ -38,6 +38,11 @@ world.afterEvents.entityHealthChanged.subscribe((event) => {
  */
 function initialiseScoreboard(entity: Entity) {
     const healthScoreboard = getScoreboard(HEALTH_SCOREBOARD_NAME)
+    const hasHealth = entity.hasComponent(EntityComponentTypes.Health)
+
+    // Only does it for entities with health
+    if (!hasHealth) return
+
     const health = entity.getComponent(EntityComponentTypes.Health).currentValue
     healthScoreboard.setScore(entity, health)
 }
