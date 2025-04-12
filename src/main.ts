@@ -7,6 +7,7 @@
 
 import "./scriptEvents"
 import "./rightClickDetection/rightClickDetection"
+import "./rightClickDetection/rightClickDetectionv2"
 import "./deathDetection/deathDetection"
 import "./scoreboardStatuses/index"
 

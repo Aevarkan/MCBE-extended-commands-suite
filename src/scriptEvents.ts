@@ -17,6 +17,7 @@ import { multiCommand } from "multiCommand";
 import { createDeathDetector, removeDeathDetector } from "deathDetection/manageDeathDetector";
 import { chance } from "chance";
 import { setScale } from "size";
+import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "rightClickDetection/manageRightClickDetectorv2";
 
 // This file contains ALL the script events
 // event.id is what you put in as the first part of the command
@@ -50,6 +51,9 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const chanceId = new RegExp(`^(${prefixes.join('|')}):chance$`)
     const editLoreId = new RegExp(`^(${prefixes.join('|')}):editlore$`)
     const scaleId = new RegExp(`^(${prefixes.join('|')}):scale$`)
+
+    const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
+    const removeUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):ruc2$`)
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -142,6 +146,15 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     else if (scaleId.test(event.id)) {
         setScale(event)
     }
+
+    else if (addUseCommandv2ShortId.test(event.id)) {
+        createRightClickDetectorv2(event)
+    }
+
+    else if (removeUseCommandv2ShortId.test(event.id)) {
+        removeRightClickDetectorv2(event)
+    }
+
 
     // Switch statements exist, but I don't like how they look
 })
