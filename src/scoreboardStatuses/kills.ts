@@ -9,6 +9,14 @@ import { Player, world } from "@minecraft/server";
 import { getScoreboard } from "./utility";
 import { KILL_SCOREBOARD_NAMES, MAGIC_KILL_CAUSES, MELEE_KILL_CAUSES, PVE_MAGIC_KILLS_SCOREBOARD_NAME, PVE_MELEE_KILLS_SCOREBOARD_NAME, PVE_RANGED_KILLS_SCOREBOARD_NAME, PVE_TOTAL_KILLS_SCOREBOARD_NAME, PVP_DEATHS_SCOREBOARD_NAME, PVP_MAGIC_KILLS_SCOREBOARD_NAME, PVP_MELEE_KILLS_SCOREBOARD_NAME, PVP_RANGED_KILLS_SCOREBOARD_NAME, PVP_TOTAL_KILLS_SCOREBOARD_NAME, RANGED_KILL_CAUSES } from "constants";
 
+// Gives all players an initial scoreboard value
+world.afterEvents.worldInitialize.subscribe(() => {
+    const players = world.getAllPlayers()
+    players.forEach(player => {
+        initialiseScoreboard(player)
+    })
+})
+
 world.afterEvents.playerSpawn.subscribe((event) => {
     initialiseScoreboard(event.player)
 })
