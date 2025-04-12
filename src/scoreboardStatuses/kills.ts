@@ -7,7 +7,7 @@
 
 import { Player, world } from "@minecraft/server";
 import { getScoreboard } from "./utility";
-import { KILL_SCOREBOARD_NAMES, MAGIC_KILL_CAUSES, MELEE_KILL_CAUSES, PVE_MAGIC_KILLS_SCOREBOARD_NAME, PVE_MELEE_KILLS_SCOREBOARD_NAME, PVE_RANGED_KILLS_SCOREBOARD_NAME, PVE_TOTAL_KILLS_SCOREBOARD_NAME, PVP_DEATHS_SCOREBOARD_NAME, PVP_MAGIC_KILLS_SCOREBOARD_NAME, PVP_MELEE_KILLS_SCOREBOARD_NAME, PVP_RANGED_KILLS_SCOREBOARD_NAME, PVP_TOTAL_KILLS_SCOREBOARD_NAME, RANGED_KILL_CAUSES } from "constants";
+import { COMBINED_MAGIC_KILLS_SCOREBOARD_NAME, COMBINED_MELEE_KILLS_SCOREBOARD_NAME, COMBINED_RANGED_KILLS_SCOREBOARD_NAME, COMBINED_TOTAL_KILLS_SCOREBOARD_NAME, KILL_SCOREBOARD_NAMES, MAGIC_KILL_CAUSES, MELEE_KILL_CAUSES, PVE_MAGIC_KILLS_SCOREBOARD_NAME, PVE_MELEE_KILLS_SCOREBOARD_NAME, PVE_RANGED_KILLS_SCOREBOARD_NAME, PVE_TOTAL_KILLS_SCOREBOARD_NAME, PVP_DEATHS_SCOREBOARD_NAME, PVP_MAGIC_KILLS_SCOREBOARD_NAME, PVP_MELEE_KILLS_SCOREBOARD_NAME, PVP_RANGED_KILLS_SCOREBOARD_NAME, PVP_TOTAL_KILLS_SCOREBOARD_NAME, RANGED_KILL_CAUSES } from "constants";
 
 // Gives all players an initial scoreboard value
 world.afterEvents.worldInitialize.subscribe(() => {
@@ -30,6 +30,20 @@ world.afterEvents.entityDie.subscribe((event) => {
     // Only players have kill counters
     if (!killerIsPlayer) return
 
+    const combinedTotalKillsScoreboard = getScoreboard(COMBINED_TOTAL_KILLS_SCOREBOARD_NAME)
+    combinedTotalKillsScoreboard.addScore(source, 1)
+
+    const combinedMeleeKillsScorboard = getScoreboard(COMBINED_MELEE_KILLS_SCOREBOARD_NAME)
+    const combinedRangedKillsScorboard = getScoreboard(COMBINED_RANGED_KILLS_SCOREBOARD_NAME)
+    const combinedMagicKillsScorboard = getScoreboard(COMBINED_MAGIC_KILLS_SCOREBOARD_NAME)
+    if (MELEE_KILL_CAUSES.includes(killMethod)) {
+        combinedMeleeKillsScorboard.addScore(source, 1)
+    } else if (RANGED_KILL_CAUSES.includes(killMethod)) {
+        combinedRangedKillsScorboard.addScore(source, 1)
+    } else if (MAGIC_KILL_CAUSES.includes(killMethod)) {
+        combinedMagicKillsScorboard.addScore(source, 1)
+    }
+
     // PvP Kills
     if (victim instanceof Player) {
         const killScoreboardPVP = getScoreboard(PVP_TOTAL_KILLS_SCOREBOARD_NAME)
@@ -45,9 +59,9 @@ world.afterEvents.entityDie.subscribe((event) => {
         
         // Additional checks for ranged/melee/magic
         if (MELEE_KILL_CAUSES.includes(killMethod)) {
-            rangedKillScoreboardPVP.addScore(source, 1)
-        } else if (RANGED_KILL_CAUSES.includes(killMethod)) {
             meleeKillScoreboardPVP.addScore(source, 1)
+        } else if (RANGED_KILL_CAUSES.includes(killMethod)) {
+            rangedKillScoreboardPVP.addScore(source, 1)
         } else if (MAGIC_KILL_CAUSES.includes(killMethod)) {
             magicKillScoreboardPVP.addScore(source, 1)
         }
