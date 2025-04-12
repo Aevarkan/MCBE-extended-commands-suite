@@ -57,7 +57,7 @@ world.afterEvents.entityDie.subscribe((event) => {
         const killScoreboardPVE = getScoreboard(PVE_TOTAL_KILLS_SCOREBOARD_NAME)
         killScoreboardPVE.addScore(source, 1)
 
-        console.log(source, killMethod)
+        // console.log(source, killMethod)
 
         const meleeKillScoreboardPVE = getScoreboard(PVE_MELEE_KILLS_SCOREBOARD_NAME)
         const rangedKillScoreboardPVE = getScoreboard(PVE_RANGED_KILLS_SCOREBOARD_NAME)
