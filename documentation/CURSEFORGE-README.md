@@ -1,6 +1,6 @@
 # Introduction
 
-If you're looking for right click detection, scroll down to `addusecommand`. Note that there are limitations regarding stackable items.
+If you're looking for right click detection, scroll down to `addusecommand`.
 
 This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions. This means it also doesn't require any experimental toggles.
 
