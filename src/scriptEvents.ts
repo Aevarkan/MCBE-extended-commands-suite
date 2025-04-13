@@ -1,6 +1,6 @@
 /**
  * This file is part of Extended Commands Suite which is released under GPL-3.0.
- * See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full license details.
+ * See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full licence details.
  * File: scriptEvents.ts
  * Author: Aevarkan
  */
@@ -20,11 +20,7 @@ import { setScale } from "size";
 import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "rightClickDetection/manageRightClickDetectorv2";
 
 // This file contains ALL the script events
-// event.id is what you put in as the first part of the command
-// e.g. /scriptevent hello
-// This makes event.id = 'hello'
-// Anything you put afterwards will be part of event.message
-// See the playmusic command for an example
+
 system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     // The command prefixes
