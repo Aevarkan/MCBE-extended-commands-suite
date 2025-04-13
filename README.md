@@ -28,13 +28,34 @@ The example commands are inside of [this](functions/extendedcommands/examples/) 
 
 # Auxillary Features
 
-ECS also tracks entity health and player deaths via scoreboard.
+ECS also tracks a few things via scoreboard:
+- Entity Health
+- Player Deaths
+- Player Kills
 
-The scoreboard entries are called `ecs:health` and `ecs:deaths` respectively.
+The full list is as follows:
+
+```
+ecs:health
+ecs:deaths
+ecs:combined_total_kills
+ecs:pvp_total_kills
+ecs:pve_total_kills
+ecs:combined_melee_kills
+ecs:pvp_melee_kills
+ecs:pve_melee_kills
+ecs:combined_ranged_kills
+ecs:pvp_ranged_kills
+ecs:pve_ranged_kills
+ecs:combined_magic_kills
+ecs:pve_magic_kills
+ecs:pvp_magic_kills
+ecs:pvp_deaths
+```
 
 # List of all Commands
 
-Not everything is possible with this addon. See [here](#LIMITATIONS-README.md) for a list of things it cannot do.
+Not everything is possible with this addon. See [here](documentation/LIMITATIONS-README.md) for a list of things it cannot do.
 
 <sup>The scriptevents are defined in [this](src/scriptEvents.ts) file.</sup>
 
@@ -43,6 +64,9 @@ Not everything is possible with this addon. See [here](#LIMITATIONS-README.md) f
 
 > [!NOTE]
 > All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` / `cmd`. Any scriptevent called with `/scriptevent ecs:` can also be called with `/scriptevent cmd:`.
+
+> [!WARNING]
+> For commands that accept commands themselves, [do not put the slash in front of the command inside](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-stable#runcommand).
 
 ## `playmusic`
 This command has the exact same syntax as `/music`, but the difference being it only affects the music of one player.
@@ -139,23 +163,23 @@ This executes a command sometimes.
 
 **Example**: `/scriptevent ecs:chance 10 say LUCKY!!!`
 
-This will make the source of the command say "LUCK!!!" 10% of the time the command is run.
+This will make the entity that executed the command say "LUCKY!!!" 10% of the time the command is run.
 
 > [!NOTE]
-> If this is put into a command block, the source will be the dimension it's in.
+> If this is put into a command block, the source will be `Script Engine`, relative coordinates (~ or ^) will therefore not work.
 
 ## `schedule`
 
 This brings the functionality of Java edition's `/schedule` to Bedrock.
-
-> [!WARNING]
-> [Do not put the slash in front of the command inside](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-stable#runcommand).
 
 **Syntax**: `/scriptevent ecs:schedule <timeTicks: int> <command: string>`
 
 **Example:** `/scriptevent ecs:schedule 600 scriptevent cmd:push abs 0 10 0`
 
 This will launch the entity which executed this command into the air when 30 seconds passes.
+
+> [!NOTE]
+> This doesn't work with command blocks, use the built in tick delay instead.
 
 ## `multicommand`
 
@@ -172,41 +196,47 @@ Does multiple commands at once, separated by a pipe `|`.
 
 This will push the entity that executed it forwards and up, whilst also saying "I'm flying". 
 
-## `addusecommand` / `auc`
-
-> [!IMPORTANT]
-> You can only add one command per item, use `multicommand` to add more.
-
-The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
-
-See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) for why it only works for non-stackable items.
+## `auc2`
 
 > [!NOTE]
-> There is a workaround to get commands on stackable items. Install an NBT editor such as [NBT Workbench](https://github.com/RealRTTV/nbtworkbench), and make a structure that contains the stackable item and edit the dynamic property manually.
->
-> Export one of the items that has a command from this pack as a structure for a reference on what you need to change. You should see a dynamic property section which contains `280232d4-f31d-4849-a42c-ce77e6870e30`.
->
-> If you're up to this point, I trust that you will be able to do the rest. If not, then I may have to update these instructions.
+> The old command functionality still works, you can find the documentation [here](documentation/OLD-SCRIPTEVENTS-README.md).
 
-> [!CAUTION]
-> Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it if you haven't set up a safeguard beforehands. See [`removeusecommand`](#removeusecommand) for why.
+The one you've been waiting for: This command lets you put use-command on any item.
 
-**Syntax**: `/scriptevent ecs:addusecommand <command: string>`
+**Syntax**: `/scriptevent ecs:auc2 <commandName: string> false <command: string>`
 
-Let's say we put use this command on a totem of undying.
+Let's say we put two use commands on a totem of undying.
 
-**Example:** `/scriptevent ecs:addusecommand scriptevent ecs:multicommand effect @s levitation 30 0 true | clear @s totem_of_undying 0 1`
-
+**Example:**
+```
+/scriptevent ecs:auc2 give_effect false effect @s levitation 30 0 true
+/scriptevent ecs:auc2 discard_item false clear @s totem_of_undying 0 1
+```
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
-## `removeusecommand` / `ruc`
-
-This removes the use command **only** from the item you're holding. It doesn't remove it from other items. 
-
 > [!IMPORTANT]
-> The commands are stored in the item itself, you can just remove this item normally. This means you cannot remove command functionality from other players remotely however.
+> You must put lore on the item first. This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
 
-**Syntax**: `/scriptevent ecs:removeusecommand`
+> [!WARNING]
+> Don't make the command name similar to any items. The command is stored as <itemName><commandName>.
+>
+> If you were to put a command named `flower` on a torch, it would end up being `minecraft:torchflower`, which **will** have conflicting functionality.
+>
+> Fixing this will break existing commands, so it will be left for version 1.0.
+
+## `ruc2`
+
+This removes the use command from the item you're holding.
+
+**Syntax**: `/scriptevent ecs:ruc2 <commandName: optional string>`
+
+**Example 1**: `/scriptevent ecs:ruc2 give_effect`
+
+This will remove the `give_effect` command put on the totem earlier.
+
+**Example 2**: `/scriptevent ecs:ruc2`
+
+This removes all commands on the item.
 
 ## `adddeathcommand`
 
@@ -250,4 +280,4 @@ This means you can share, modify, and include it in your projects, as long as yo
 
 You, however, **cannot** distribute a proprietary (closed-source) version.
 
-You must licence your project under GPL-3.0 and make the source code availabe if it includes a part of this pack.
+You must licence your project under GPL-3.0 and make the source code available if it includes a part of this pack.

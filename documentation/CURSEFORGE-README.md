@@ -26,9 +26,30 @@ Do not use any of these example commands on your world/server as a substitute fo
 
 # Auxillary Features
 
-ECS also tracks entity health and player deaths via scoreboard.
+ECS also tracks a few things via scoreboard:
+- Entity Health
+- Player Deaths
+- Player Kills
 
-The scoreboard entries are called `ecs:health` and `ecs:deaths` respectively.
+The full list is as follows:
+
+```
+ecs:health
+ecs:deaths
+ecs:combined_total_kills
+ecs:pvp_total_kills
+ecs:pve_total_kills
+ecs:combined_melee_kills
+ecs:pvp_melee_kills
+ecs:pve_melee_kills
+ecs:combined_ranged_kills
+ecs:pvp_ranged_kills
+ecs:pve_ranged_kills
+ecs:combined_magic_kills
+ecs:pve_magic_kills
+ecs:pvp_magic_kills
+ecs:pvp_deaths
+```
 
 # List of all Commands
 
@@ -37,6 +58,8 @@ Not everything is possible with this addon. See [here](https://github.com/Aevark
 Make use of the `/execute as` command to do these commands on other players. The commands here do not have selectors themselves.
 
 All the commands here must be called via `/scriptevent`, each will have an unique identifier and a namespace, which is `ecs` / `cmd`.
+
+For commands that accept commands themselves, [**do not put the slash in front of the command inside**](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-stable#runcommand).
 
 ## playmusic
 
@@ -128,15 +151,15 @@ This executes a command sometimes.
 
 **Example**: `/scriptevent ecs:chance 10 say LUCKY!!!`
 
-This will make the source of the command say "LUCK!!!" 10% of the time the command is run.
+This will make the source of the command say "LUCKY!!!" 10% of the time the command is run.
 
-Note that if this is put into a command block, the source will be the dimension it's in.
+Note that if this is put into a command block, the source will be `Script Engine`, relative coordinates (~ or ^) will therefore not work.
 
 ## schedule
 
 This brings the functionality of Java edition's `/schedule` to Bedrock.
 
-[**Do not put the slash in front of the command inside**](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-stable#runcommand).
+
 
 **Syntax**: `/scriptevent ecs:schedule <timeTicks: int> <command: string>`
 
@@ -158,33 +181,44 @@ There is no theoretical limit to how many commands you can include, but I've onl
 
 This will push the entity that executed it forwards and up, whilst also saying "I'm flying".
 
-## addusecommand / auc
+## auc2
 
-The one you've been waiting for: This command lets you put a command on a **non-stackable** item.
+**NOTE**: The old command functionality still works, you can find the documentation [here](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/OLD-SCRIPTEVENTS-README.md).
 
-**You can only add one command per item, use `multicommand` to add more.**
+The one you've been waiting for: This command lets you put use-command on any item.
 
-See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setdynamicproperty) for why it only works for non-stackable items.
+**Syntax**: `/scriptevent ecs:auc2 <commandName: string> false <command: string>`
 
-There is a workaround to get commands on stackable items: Make a structure that contains the stackable item and the dynamic property manually.
+Let's say we put two use commands on a totem of undying.
 
-Export one of the items that has a command from this pack as a structure for a reference on what you need to change.
-
-You should see a dynamic property section which contains `280232d4-f31d-4849-a42c-ce77e6870e30`. If you're up to this point, I trust that you will be able to do the rest.
-
-**Be very careful with what command you decide to put on an item. You very likely will not be able to remove it if other players get their hands on it if you haven't set up a safeguard beforehands. See `removeusecommand` for why.**
-
-**Syntax**: `/scriptevent ecs:addusecommand <command: string>`
-
-**Example:** `/scriptevent ecs:addusecommand scriptevent ecs:multicommand effect @s levitation 30 0 true | clear @s totem_of_undying 0 1`
-
+**Example:**
+```
+/scriptevent ecs:auc2 give_effect false effect @s levitation 30 0 true
+/scriptevent ecs:auc2 discard_item false clear @s totem_of_undying 0 1
+```
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
-## removeusecommand / ruc
+You must put lore on the item first. This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
 
-This removes the use command **from the item you're holding**. It doesn't remove it from all identical items.
+Don't make the command name similar to any items. The command is stored as <itemName><commandName>.
 
-**Syntax**: `/scriptevent ecs:removeusecommand`
+If you were to put a command named `flower` on a torch, it would end up being `minecraft:torchflower`, which **will** have conflicting functionality.
+
+Fixing this will break existing commands, so it will be left for version 1.0.
+
+## ruc2
+
+This removes the use command from the item you're holding.
+
+**Syntax**: `/scriptevent ecs:ruc2 <commandName: optional string>`
+
+**Example 1**: `/scriptevent ecs:ruc2 give_effect`
+
+This will remove the `give_effect` command put on the totem earlier.
+
+**Example 2**: `/scriptevent ecs:ruc2`
+
+This removes all commands on the item.
 
 ## adddeathcommand
 
@@ -226,13 +260,22 @@ This means you can share, modify, and include it in your projects, as long as yo
 
 You, however, **cannot** distribute a proprietary (closed-source) version.
 
-You must licence your project under GPL-3.0 and make the source code availabe if it includes a part of this pack.
+You must licence your project under GPL-3.0 and make the source code available if it includes a part of this pack.
 
 ## For Server Owners
 
 You don't need to ask for my permission to put it on your server, this is already given as part of the licence.
 
-If your players ask where the commands are from though, provide a link to either [MCPEDL](https://mcpedl.com/extended-commands-suite/), [CurseForge](https://www.curseforge.com/minecraft-bedrock/scripts/extended-commands-suite), or the [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite) repository.
+If your players ask where the commands are from though, I'd appreciate you providing a link to either [MCPEDL](https://mcpedl.com/extended-commands-suite/), [CurseForge](https://www.curseforge.com/minecraft-bedrock/scripts/extended-commands-suite), or the [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite) repository (This isn't required though).
+
+## For Addon Creators
+
+This licence allows you to use part of this pack in your own, however you **must** also:
+- Make **your** source code available
+- Give a link to this pack (MCPEDL, CurseForge, or Github)
+- Licence your addon under [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+This means you **cannot** obfuscate your code if you include stuff from this pack in your addon.
 
 # Other Stuff
 
