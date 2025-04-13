@@ -2,13 +2,13 @@
 
 If you're looking for right click detection, scroll down to `auc2`.
 
-This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions. This means it also doesn't require any experimental toggles.
+**This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions. This means it also doesn't require any experimental toggles.**
 
-Do you find yourself wishing Bedrock could do more with commands?
+Do you find yourself wishing Bedrock could do with more commands?
 
 Well then you've come to the right place!
 
-This command pack adds functionality you can find in Java, but not Bedrock, such as `/schedule` being able to actually schedule commands for later. It even adds commands that don't exist even in vanilla Java! Continue scrolling down to find out.
+This pack adds a bunch of commands to Bedrock, ranging from playing music for only one player to completely seamless right-click detection (works with controllers and touch controls too!)
 
 # Examples
 
@@ -34,8 +34,7 @@ ECS also tracks a few things via scoreboard:
 
 The full list is as follows:
 
-<div class="spoiler"><pre><code>
-ecs:health
+<div class="spoiler"><pre><code>ecs:health
 ecs:deaths
 ecs:combined_total_kills
 ecs:pvp_total_kills
@@ -49,8 +48,7 @@ ecs:pve_ranged_kills
 ecs:combined_magic_kills
 ecs:pve_magic_kills
 ecs:pvp_magic_kills
-ecs:pvp_deaths
-</code></pre></div>
+ecs:pvp_deaths</code></pre></div>
 
 # List of all Commands
 
@@ -66,7 +64,7 @@ For commands that accept commands themselves, [**do not put the slash in front o
 
 This command has the exact same syntax as `/music`, but the difference being it only affects the music of one player.
 
-**Syntax**: `/scriptevent ecs:playmusic <trackName: string> [volume: number] [fadeSeconds: number] [repeat: true/false]`
+**Syntax**: `/scriptevent ecs:playmusic <trackName: string> [volume: number] [fadeSeconds: number] [repeat: true|false]`
 
 **Example:** `/scriptevent ecs:playmusic music.game.credits 1 2 true`
 
@@ -74,7 +72,9 @@ This plays the credits track for the player that executed the command after fadi
 
 ## stopmusic
 
-Stops the music track that is currently playing. It stops it abruptly, so it's recommended to use that above command and fade to another track.
+Stops the music track that is currently playing for the player that executes it.
+
+It stops abruptly, so I recommend you use `playmusic` and fade to another track instead.
 
 **Syntax**: `/scriptevent ecs:stopmusic`
 
@@ -82,9 +82,9 @@ Stops the music track that is currently playing. It stops it abruptly, so it's r
 
 This command changes the size of **some** entities, most don't work. I've tested it with cats and rabbits.
 
-Not all entities support this. You can edit the entity `.json` yourself, but I won't edit vanilla files in this pack as it will break compatibility.
+<span style="color:#E03E2D;">**Not all entities support this.**</span> You can edit the entity `.json` yourself, but I won't edit vanilla files in this pack as it will break compatibility.
 
-I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-components) that adds scale components to all entities, **be warned it will very likely not be compatible with other addons**.
+I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-components) that adds scale components to all entities, <span style="color:#E03E2D;">**be warned it will very likely not be compatible with other addons.**</span>
 
 **Syntax**: `/scriptevent ecs:scale <scaleMultiplier: float>`
 
@@ -96,7 +96,7 @@ I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-compon
 
 This command pushes a player (and some entities, not including items).
 
-**Syntax 1:** `/scriptevent ecs:push relative|rel|r [horizontalRotation: number/range] [horizontalStrength: number/range] [verticalStrength: number/range]`
+**Syntax 1:** `/scriptevent ecs:push relative|rel|r [horizontalRotation: number|range] [horizontalStrength: number|range] [verticalStrength: number|range]`
 
 **Example:** `/scriptevent ecs:push relative 90 3 5`
 
@@ -104,11 +104,7 @@ This pushes the entity 90 degrees to the right with a strength of 3 on the horiz
 
 **Example:** `/scriptevent ecs:push relative -45:45 1:3 -5:5`
 
-This pushes an entity between 45 degrees to the left and 45 degrees to the right with a horizontal strength between 1 and 3, and a vertical strength between -5 and 5.
-
-If you put this in a repeating command block, it will sometimes push an entity left 45 degrees downwards, and sometimes right 45 degrees upwards.
-
-**It takes a random number between the two you put around the colon.**
+This pushes an entity randomly between 45 degrees to the left and 45 degrees to the right with a horizontal strength between 1 and 3, and a vertical strength between -5 and 5. A negative vertical strength means it will push the entity down.
 
 **Syntax 2:** `/scriptevent ecs:push absolute|abs|a [xVector: float] [yVector: float] [zVector: float]`
 
@@ -116,8 +112,8 @@ If you put this in a repeating command block, it will sometimes push an entity l
 
 This pushes an entity upwards and along the positive x direction.
 
-**You must use the `:` colon character to separate a number range. Any other character will not work.**
-
+<span style="color:#E03E2D;">**You must use the</span> `:` <span style="color:#E03E2D;">colon character to separate a number range. Any other character will not work.**
+</span>
 ## pushgliding
 
 This is a special version of `push` that **only** affects `Players` that are gliding with an elytra.
@@ -136,7 +132,7 @@ This freezes a Player by stopping their camera movements, it doesn't change thei
 
 If used on an entity, it will mostly freeze them (they move very slowly, and they will fall slowly as well).
 
-**Be careful when using this on entities, it is very performance intensive.** Using this on players doesn't affect performance.
+<span style="color:#E03E2D;">**Be careful when using this on entities, it is very performance intensive.**</span> Using this on players doesn't affect performance.
 
 **Syntax**: `/scriptevent ecs:freeze <timeTicks: int>`
 
@@ -154,7 +150,7 @@ This executes a command sometimes.
 
 This will make the source of the command say "LUCKY!!!" 10% of the time the command is run.
 
-Note that if this is put into a command block, the source will be `Script Engine`, relative coordinates (~ or ^) will therefore not work.
+**<span style="color:#E03E2D;">Note that if this is put into a command block, the source will be</span> `Script Engine`<span style="color:#E03E2D;">, relative coordinates (~ or ^) will therefore not work.</span>**
 
 ## schedule
 
@@ -166,9 +162,11 @@ This brings the functionality of Java edition's `/schedule` to Bedrock.
 
 This will launch the entity which executed this command into the air when 30 seconds passes.
 
+<span style="color:#E03E2D;">**This doesn't work with command blocks, use the built-in tick delay instead.**</span>
+
 ## multicommand
 
-Does multiple commands at once, separated by a pipe `|`.
+Does multiple commands at once, separated by a pipe `|`. This is useful in conjunction with other commands here.
 
 **Syntax**: `/scriptevent ecs:multicommand <command: string> | <another command: string>`
 
@@ -184,7 +182,11 @@ This will push the entity that executed it forwards and up, whilst also saying "
 
 **NOTE**: The old command functionality still works, you can find the documentation [here](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/OLD-SCRIPTEVENTS-README.md).
 
-The one you've been waiting for: This command lets you put a use-command on any item.
+<span style="color:#E03E2D;">**ATTENTION:</span> Existing commands put on items will break when version 1.0 releases** (which should come when Mojang puts custom slash commands out of experimental).
+
+**Please make a backup of the items and the commands you've put on them** (putting them all in a chest will work fine).
+
+__The one you've been waiting for:__ This command lets you put a use-command on any item.
 
 **Syntax**: `/scriptevent ecs:auc2 <commandName: string> false <command: string>`
 
@@ -201,11 +203,13 @@ Let's say we put two use-commands on a totem of undying.
 
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
-You must put lore on the item first. This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
+<span style="color:#E03E2D;">**You must put lore on the item first.**</span> This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
 
-Don't make the command name similar to any items. The command is stored as <itemName><commandName>.
+<span style="color:#E03E2D;">**Don't make the command name similar to any items.**</span> The command is stored as <itemType><commandName>. ([It's a bit more complicated than that](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/src/rightClickDetection/utility.ts), but that's the gist of it)
 
 If you were to put a command named `flower` on a torch, it would end up being `minecraft:torchflower`, which **will** have conflicting functionality.
+
+This also means you can rename your item once you have put the command on it! It only checks the type id (e.g. minecraft:grass) and lore.
 
 Fixing this will break existing commands, so it will be left for version 1.0.
 
@@ -243,7 +247,7 @@ This removes the death command.
 
 Sets the lore on the item you're currently holding. Use `\n` to indicate a new line, note that you will need to apply formatting codes again on each new line.
 
-You are limited to having 20 lines of lore with a maximum length of 50 each. See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setlore) for why.
+<span style="color:#E03E2D;">**You are limited to having 20 lines of lore with a maximum length of 50 each.**</span> See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setlore) for why.
 
 **Syntax**: `/scriptevent ecs:setlore <lore: string>`
 
