@@ -1,6 +1,6 @@
 # Introduction
 
-If you're looking for right click detection, scroll down to `addusecommand`.
+If you're looking for right click detection, scroll down to `auc2`.
 
 This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions. This means it also doesn't require any experimental toggles.
 
@@ -16,7 +16,7 @@ To show you what is possible with this pack, I have some premade examples.
 
 With the pack installed, do any of the following commands:
 
-```minecraft
+```
 /function extendedcommands/examples/countdown
 /function extendedcommands/examples/wind_push
 /function extendedcommands/examples/horror
@@ -27,13 +27,14 @@ Do not use any of these example commands on your world/server as a substitute fo
 # Auxillary Features
 
 ECS also tracks a few things via scoreboard:
-- Entity Health
-- Player Deaths
-- Player Kills
+
+*   Entity Health
+*   Player Deaths
+*   Player Kills
 
 The full list is as follows:
 
-```
+<div class="spoiler"><pre><code>
 ecs:health
 ecs:deaths
 ecs:combined_total_kills
@@ -49,7 +50,7 @@ ecs:combined_magic_kills
 ecs:pve_magic_kills
 ecs:pvp_magic_kills
 ecs:pvp_deaths
-```
+</code></pre></div>
 
 # List of all Commands
 
@@ -159,8 +160,6 @@ Note that if this is put into a command block, the source will be `Script Engine
 
 This brings the functionality of Java edition's `/schedule` to Bedrock.
 
-
-
 **Syntax**: `/scriptevent ecs:schedule <timeTicks: int> <command: string>`
 
 **Example:** `/scriptevent ecs:schedule 600 scriptevent cmd:push abs 0 10 0`
@@ -185,17 +184,21 @@ This will push the entity that executed it forwards and up, whilst also saying "
 
 **NOTE**: The old command functionality still works, you can find the documentation [here](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/OLD-SCRIPTEVENTS-README.md).
 
-The one you've been waiting for: This command lets you put use-command on any item.
+The one you've been waiting for: This command lets you put a use-command on any item.
 
 **Syntax**: `/scriptevent ecs:auc2 <commandName: string> false <command: string>`
 
-Let's say we put two use commands on a totem of undying.
+Let's say we put two use-commands on a totem of undying.
 
 **Example:**
+
 ```
 /scriptevent ecs:auc2 give_effect false effect @s levitation 30 0 true
 /scriptevent ecs:auc2 discard_item false clear @s totem_of_undying 0 1
 ```
+
+**Make sure you put `false` there, it's a placeholder for future functionality.**
+
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
 You must put lore on the item first. This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
@@ -252,6 +255,10 @@ This is an interactive version of `setlore`.
 
 **Syntax**: `/scriptevent ecs:editlore`
 
+![Picture of interactive lore command.](https://media.forgecdn.net/attachments/1153/89/interactive-lore-command-png.png)
+
+The section character is simply there for you to copy-paste to make adding colours easier, any inputs in that field will not change anything.
+
 # Licence
 
 This project is licenced under GPL-3.0, in short:
@@ -271,12 +278,13 @@ If your players ask where the commands are from though, I'd appreciate you provi
 ## For Addon Creators
 
 This licence allows you to use part of this pack in your own, however you **must** also:
-- Make **your** source code available
-- Give a link to this pack (MCPEDL, CurseForge, or Github)
-- Licence your addon under [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+*   Make **your** source code available
+*   Give a link to this pack (MCPEDL, CurseForge, or Github)
+*   Licence your addon under [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 This means you **cannot** obfuscate your code if you include stuff from this pack in your addon.
 
 # Other Stuff
 
-You can find the source code and latest releases on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite) as well as older ones.
+You can find the source code on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite), it contains older releases (and the latest one if not already updated here).
