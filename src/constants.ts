@@ -70,3 +70,4 @@ export const MAGIC_KILL_CAUSES: EntityDamageCause[] = [
 export const RIGHT_CLICK_PREFIX_COMMAND = "_ecs_right_click_cmd_"
 export const RIGHT_CLICK_PREFIX_FARMODE = "_ecs_right_click_farmode_"
 export const RIGHT_CLICK_PREFIX_LORE = "_ecs_right_click_lore_"
+export const RIGHT_CLICK_SUFFIX_SEPARATOR = "_ecs_"

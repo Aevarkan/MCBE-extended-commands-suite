@@ -6,7 +6,7 @@
  */
 
 import { ItemStack, world } from "@minecraft/server"
-import { RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PREFIX_LORE } from "constants"
+import { RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PREFIX_LORE, RIGHT_CLICK_SUFFIX_SEPARATOR } from "constants"
 
 /**
  * Adds an entry into the command database.
@@ -20,9 +20,9 @@ export function addEntry(item: ItemStack, command: string, commandId: string, fa
     const selectedItemLore = item.getLore()
     const itemLoreString = selectedItemLore.join()
 
-    const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${commandId}`
-    const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${commandId}`
-    const fullLoreId = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${commandId}`
+    const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
+    const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
+    const fullLoreId = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
 
     world.setDynamicProperty(fullCommandId, command)
     world.setDynamicProperty(fullFarmodeId, farmode)
@@ -40,7 +40,7 @@ export function getMatches(item: ItemStack): string[] {
     const loreString = itemLore.join()
     const matchedCommandIds = [] as string[]
     
-    const partialLorePrefix = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}`
+    const partialLorePrefix = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}`
 
     // Filtering
     const allIds = world.getDynamicPropertyIds()
@@ -68,9 +68,9 @@ export function getMatches(item: ItemStack): string[] {
 export function getEntry(item: ItemStack, commandId: string): CommandInformation {
     const itemTypeId = item.typeId
 
-    const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${commandId}`
-    const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${commandId}`
-    const fullLoreId = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${commandId}`
+    const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
+    const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
+    const fullLoreId = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
 
     const command = world.getDynamicProperty(fullCommandId) as string
     const farMode = world.getDynamicProperty(fullFarmodeId) as boolean
@@ -99,9 +99,9 @@ export interface CommandInformation {
 export function removeEntry(item: ItemStack, commandId: string) {
     const itemTypeId = item.typeId
 
-    const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${commandId}`
-    const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${commandId}`
-    const fullLoreId = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${commandId}`
+    const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
+    const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
+    const fullLoreId = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
 
     world.setDynamicProperty(fullCommandId, undefined)
     world.setDynamicProperty(fullFarmodeId, undefined)
