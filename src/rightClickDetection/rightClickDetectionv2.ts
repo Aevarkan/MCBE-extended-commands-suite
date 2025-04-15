@@ -35,8 +35,14 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
         // Seems to be an error when removing commands, this stops it
         if (!packet.command) return
 
+        // For some reason, the selectors resolve immediately
+        // e.g. You put /sciptevent cmd:test @s
+        // @s will be the player's name, and it won't work
+        // We use capital letter instead 
+        const correctCommand = packet.command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`);
+        
         system.run(() => {
-            player.runCommand(packet.command)
+            player.runCommand(correctCommand)
         })
 
         // Implement this later
