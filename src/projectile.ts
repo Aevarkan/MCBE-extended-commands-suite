@@ -17,6 +17,12 @@ import { DimensionLocation, Entity, EntityComponentTypes, ScriptEventCommandMess
 // Testing notes
 // Only works with arrows, wind charges
 // Only things that appear in /summon work
+
+// TODO: See if custom entity can do it:
+// minecraft:behavior.ranged_attack
+// minecraft:shooter
+// OR, this is like the /scale command, we need to edit the vanilla files
+// change is_summonable to true, have to warn users about this however!
 export function shoot(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity
     const parameters = event.message
