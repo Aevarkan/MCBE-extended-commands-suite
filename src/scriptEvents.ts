@@ -18,6 +18,7 @@ import { createDeathDetector, removeDeathDetector } from "deathDetection/manageD
 import { chance } from "chance";
 import { setScale } from "size";
 import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "rightClickDetection/manageRightClickDetectorv2";
+import { shoot } from "projectile";
 
 // This file contains ALL the script events
 
@@ -47,6 +48,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const chanceId = new RegExp(`^(${prefixes.join('|')}):chance$`)
     const editLoreId = new RegExp(`^(${prefixes.join('|')}):editlore$`)
     const scaleId = new RegExp(`^(${prefixes.join('|')}):scale$`)
+    const shootId = new RegExp(`^(${prefixes.join('|')}):shoot$`)
 
     const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
     const removeUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):ruc2$`)
@@ -151,6 +153,9 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
         removeRightClickDetectorv2(event)
     }
 
+    else if (shootId.test(event.id)) {
+        shoot(event)
+    }
 
     // Switch statements exist, but I don't like how they look
 })
