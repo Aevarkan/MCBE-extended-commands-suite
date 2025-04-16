@@ -13,6 +13,13 @@ import { EntityDamageCause } from "@minecraft/server"
 // Just a version counter, may be used later to help compatibility
 export const CURRENT_VERSION = "v0.9.9"
 
+// Tags
+export const ENTITY_LOCK_TAG = "ecs:locked_entity"
+export const READ_ONLY_ADMIN_TAG = "admin" // Only a player can edit this in-game
+
+// Misc Options
+export const MAX_RAYCAST_BLOCK_DISTANCE = 64
+
 // Music Player
 export const DEFAULT_MUSIC_FADE = 1 // In seconds
 export const DEFAULT_MUSIC_VOLUME = 1

@@ -10,6 +10,9 @@ import "./rightClickDetection/rightClickDetection"
 import "./rightClickDetection/rightClickDetectionv2"
 import "./deathDetection/deathDetection"
 import "./scoreboardStatuses/index"
+import "./entityLock"
+
+
 import "./versionCounter"
 
 import { CURRENT_VERSION } from "constants"
