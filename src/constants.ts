@@ -10,6 +10,9 @@ import { EntityDamageCause } from "@minecraft/server"
 // These are where the default values are stored
 // You shouldn't really need to change these, as you should be able define them in the command
 
+// Just a version counter, may be used later to help compatibility
+export const CURRENT_VERSION = "v0.9.9"
+
 // Music Player
 export const DEFAULT_MUSIC_FADE = 1 // In seconds
 export const DEFAULT_MUSIC_VOLUME = 1
