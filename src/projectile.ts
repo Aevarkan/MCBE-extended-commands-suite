@@ -13,6 +13,10 @@ import { DimensionLocation, Entity, EntityComponentTypes, ScriptEventCommandMess
 // /projectile will let you spawn a projectile at any location
 // /shoot only from an entity
 
+
+// Testing notes
+// Only works with arrows, wind charges
+// Only things that appear in /summon work
 export function shoot(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity
     const parameters = event.message
