@@ -4,6 +4,7 @@
 		"authors": [
 			"Aevarkan"
 		],
+        "license": "GPL-3.0",
 		"product_type": "addon"
 	},
     "header": {
