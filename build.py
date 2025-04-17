@@ -6,6 +6,8 @@ import shutil
 # No need to include the 'v' in front
 VERSION = "0.9.9"
 MIN_ENGINE_VERSION = [ 1, 21, 70 ]
+PACK_ICON_PATH = "pack-icon.png"
+LICENCE_PATH = "LICENCE"
 
 CONSTANTS_TS_PATH = "src/constants.ts"
 CONSTANTS_JS_PATH = "scripts/constants.js"
@@ -14,12 +16,12 @@ TEMP_CONSTANTS_JS_PATH = "scripts/constants_temp.js"
 
 SCRIPTS_PATH = "scripts"
 
-BP_PATH = "BP"
-RP_PATH = "RP"
-BP_SCRIPTS_PATH = "BP/scripts"
+BP_PATH = "build/BP"
+RP_PATH = "build/RP"
+BP_SCRIPTS_PATH = "build/BP/scripts"
 MAIN_MANIFEST_PATH = "main-manifest.json"
-BP_MANIFEST_PATH = "BP/manifest.json"
-RP_MANIFEST_PATH = "RP/manifest.json"
+BP_MANIFEST_PATH = "build/BP/manifest.json"
+RP_MANIFEST_PATH = "build/RP/manifest.json"
 
 # Injects the version number into constants.ts
 def inject_to_src():
@@ -71,8 +73,8 @@ def move_scripts():
         except Exception as e:
             print(f"Error deleting folder: {e}")
 
-    if not os.path.exists("BP"):
-        os.makedirs("BP")
+    if not os.path.exists(BP_PATH):
+        os.makedirs(BP_PATH)
 
     # Move the 'scripts' folder to the BP directory
     try:
@@ -81,21 +83,12 @@ def move_scripts():
     except Exception as e:
         print(f"Error moving folder: {e}")
 
-def build_project():
-    # Inject version into constants.ts (into a temporary file)
-    inject_to_src()
-
-    # Compile TypeScript
-    compile_typescript()
-
-    # Rename the compiled file to constants.js
-    rename_output_file()
-
-    move_scripts()
-
-    # Clean up the temporary constants file
-    clean_up()
-
+def copy_misc_files():
+    shutil.copy(LICENCE_PATH, f'{BP_PATH}/{LICENCE_PATH}')
+    shutil.copy(LICENCE_PATH, f'{RP_PATH}/{LICENCE_PATH}')
+    shutil.copy(PACK_ICON_PATH, f'{BP_PATH}/{PACK_ICON_PATH}')
+    shutil.copy(PACK_ICON_PATH, f'{RP_PATH}/{PACK_ICON_PATH}')
+    shutil.copytree('functions', f'{BP_PATH}/functions')
 
 def build_manifest():
     # Load the original JSON file
@@ -156,6 +149,34 @@ def build_manifest():
 
     print(f"Successfully split the manifest file into BP/manifest.json and RP/manifest.json with version {VERSION}.")
 
-build_manifest()
+def create_directories():
+    if not os.path.exists(BP_PATH):
+        os.makedirs(BP_PATH)
+    
+    if not os.path.exists(RP_PATH):
+        os.makedirs(RP_PATH)
 
-# build_project()
+def build_project():
+
+    # Ensure folders are there
+    create_directories()
+
+    # Inject version into constants.ts (into a temporary file)
+    inject_to_src()
+
+    # Compile TypeScript
+    compile_typescript()
+
+    # Rename the compiled file to constants.js
+    rename_output_file()
+
+    move_scripts()
+
+    build_manifest()
+
+    copy_misc_files()
+
+    # Clean up the temporary constants file
+    clean_up()
+
+build_project()
