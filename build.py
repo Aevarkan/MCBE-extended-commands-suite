@@ -2,8 +2,10 @@ import json
 import os
 import subprocess
 import shutil
+import zipfile
 
 # No need to include the 'v' in front
+# This is required because the constants file will use this
 VERSION = "0.9.9"
 MIN_ENGINE_VERSION = [ 1, 21, 70 ]
 PACK_ICON_PATH = "pack-icon.png"
@@ -16,12 +18,14 @@ TEMP_CONSTANTS_JS_PATH = "scripts/constants_temp.js"
 
 SCRIPTS_PATH = "scripts"
 
-BP_PATH = "build/BP"
-RP_PATH = "build/RP"
-BP_SCRIPTS_PATH = "build/BP/scripts"
+BP_PATH = "build/Extended Commands Suite BP"
+RP_PATH = "build/Extended Commands Suite RP"
+BP_SCRIPTS_PATH = "build/Extended Commands Suite BP/scripts"
 MAIN_MANIFEST_PATH = "main-manifest.json"
-BP_MANIFEST_PATH = "build/BP/manifest.json"
-RP_MANIFEST_PATH = "build/RP/manifest.json"
+BP_MANIFEST_PATH = "build/Extended Commands Suite BP/manifest.json"
+RP_MANIFEST_PATH = "build/Extended Commands Suite RP/manifest.json"
+
+OUTPUT_FILE = f"build/extended-commands-suite.mcaddon"
 
 # Injects the version number into constants.ts
 def inject_to_src():
@@ -65,7 +69,7 @@ def clean_up():
         print("No temporary constants file to clean up.")
 
 def move_scripts():
-    # This deletes the entire BP/scripts folder
+    # This deletes the entire BP/scripts directory
     if os.path.exists(BP_SCRIPTS_PATH):
         try:
             shutil.rmtree(BP_SCRIPTS_PATH)
@@ -90,6 +94,7 @@ def copy_misc_files():
     shutil.copy(PACK_ICON_PATH, f'{RP_PATH}/{PACK_ICON_PATH}')
     shutil.copytree('functions', f'{BP_PATH}/functions')
     shutil.copytree('bp-entities', f'{BP_PATH}/entities')
+    shutil.copytree('rp-entities', f'{RP_PATH}/entities')
 
 def build_manifest():
     # Load the original JSON file
@@ -157,6 +162,18 @@ def create_directories():
     if not os.path.exists(RP_PATH):
         os.makedirs(RP_PATH)
 
+def create_mcaddon(bp_path, rp_path, output_file):
+    with zipfile.ZipFile(output_file, 'w', zipfile.ZIP_DEFLATED) as mcaddon:
+        # Add BP files
+        for folder_name in [bp_path, rp_path]:
+            for root, dirs, files in os.walk(folder_name):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    # Write with relative path inside the zip
+                    arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
+                    mcaddon.write(file_path, arcname)
+    print(f"Created: {output_file}")
+
 def build_project():
 
     # Ensure folders are there
@@ -176,6 +193,8 @@ def build_project():
     build_manifest()
 
     copy_misc_files()
+
+    create_mcaddon(BP_PATH, RP_PATH, OUTPUT_FILE)
 
     # Clean up the temporary constants file
     clean_up()
