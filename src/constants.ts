@@ -11,7 +11,8 @@ import { EntityDamageCause } from "@minecraft/server"
 // You shouldn't really need to change these, as you should be able define them in the command
 
 // Just a version counter, may be used later to help compatibility
-export const CURRENT_VERSION = "v0.9.9"
+// The python script will change this
+export const CURRENT_VERSION = "v{{VERSION}}"
 
 // Tags
 export const ENTITY_LOCK_TAG = "ecs:locked_entity"
