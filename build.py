@@ -176,13 +176,12 @@ def create_mcaddon(bp_path, rp_path, output_file):
         #             arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
         #             mcaddon.write(file_path, arcname)
         #         # Add BP files
-        for folder_name in [bp_path, rp_path]:
-            for root, dirs, files in os.walk(folder_name):
-                for file in files:
-                    file_path = os.path.join(root, file)
-                    # Write with relative path inside the zip
-                    arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
-                    mcaddon.write(file_path, arcname)
+        for root, dirs, files in os.walk(bp_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                # Write with relative path inside the zip
+                arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
+                mcaddon.write(file_path, arcname)
     print(f"Created: {output_file}")
 
 def build_project():
