@@ -16,6 +16,11 @@ export const CURRENT_VERSION = "v0.9.9"
 // Tags
 export const ENTITY_LOCK_TAG = "ecs:locked_entity"
 export const READ_ONLY_ADMIN_TAG = "admin" // Only a player can edit this in-game
+export const ADMIN_TAG = "ecs:admin"
+
+// Particles
+export const ENTITY_LOCK_PARTICLE = "minecraft:villager_angry"
+export const ENTITY_UNLOCK_PARTICLE = "minecraft:heart_particle"
 
 // Misc Options
 export const MAX_RAYCAST_BLOCK_DISTANCE = 64
