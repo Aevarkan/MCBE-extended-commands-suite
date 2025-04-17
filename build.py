@@ -89,6 +89,7 @@ def copy_misc_files():
     shutil.copy(PACK_ICON_PATH, f'{BP_PATH}/{PACK_ICON_PATH}')
     shutil.copy(PACK_ICON_PATH, f'{RP_PATH}/{PACK_ICON_PATH}')
     shutil.copytree('functions', f'{BP_PATH}/functions')
+    shutil.copytree('bp-entities', f'{BP_PATH}/entities')
 
 def build_manifest():
     # Load the original JSON file
