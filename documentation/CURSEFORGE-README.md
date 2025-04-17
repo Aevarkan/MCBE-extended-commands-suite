@@ -82,13 +82,49 @@ It stops abruptly, so I recommend you use `playmusic` and fade to another track 
 
 This command changes the size of **some** entities, most don't work. I've tested it with cats and rabbits.
 
-<span style="color:#E03E2D;">**Not all entities support this.**</span> You can edit the entity `.json` yourself, but I won't edit vanilla files in this pack as it will break compatibility.
+<span style="color:#e03e2d"><strong>Not all entities support this.</strong></span> You can edit the entity `.json` yourself, but I won't edit vanilla files in this pack as it will break compatibility.
 
-I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-components) that adds scale components to all entities, <span style="color:#E03E2D;">**be warned it will very likely not be compatible with other addons.**</span>
+I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-components) that adds scale components to all entities, <span style="color:#e03e2d"><strong>be warned it will very likely not be compatible with other addons.</strong></span>
 
 **Syntax**: `/scriptevent ecs:scale <scaleMultiplier: float>`
 
 **Example**: `/scriptevent ecs:scale 1.5`
+
+## shoot
+
+This command let's you shoot projectiles.
+
+Not all projectiles support this. 
+
+You can use the same [supplementary pack](https://github.com/Aevarkan/MCBE-ECS-supplementary-pack) to allow projectiles such as the Ender Dragon's fireball to work with this command, **again, be aware it will very likely not be compatible with other addons**.
+
+**Syntax**: `/scriptevent ecs:shoot <projectileId: string> <strength: float>`
+
+**Example**: `/scriptevent ecs:shoot minecraft:arrow 10`
+
+This shoots an arrow in the direction you're facing at a high speed!
+
+This works on entities, but it may be difficult to get them to face the correct way.
+
+## lock
+
+Locks an entity from player interaction. Mostly useful for armour stands.
+
+**Syntax**: `/scriptevent ecs:lock`
+
+Make sure you're facing the entity!
+
+You can also give it the tag `ecs:locked_entity` (This is what the command does anyway)
+
+## unlock
+
+Unlocks an entity from player interaction.
+
+**Syntax**: `/scriptevent ecs:unlock`
+
+Make sure you're facing the entity!
+
+Again, you can just remove the tag `ecs:locked_entity`.
 
 ## push / motion
 
@@ -112,8 +148,8 @@ This pushes an entity randomly between 45 degrees to the left and 45 degrees to 
 
 This pushes an entity upwards and along the positive x direction.
 
-<span style="color:#E03E2D;">**You must use the</span> `:` <span style="color:#E03E2D;">colon character to separate a number range. Any other character will not work.**
-</span>
+<span style="color:#e03e2d"><strong>You must use the</strong></span> **`:` <span style="color:#e03e2d">colon character to separate a number range. Any other character will not work.</span>**
+
 ## pushgliding
 
 This is a special version of `push` that **only** affects `Players` that are gliding with an elytra.
@@ -132,7 +168,7 @@ This freezes a Player by stopping their camera movements, it doesn't change thei
 
 If used on an entity, it will mostly freeze them (they move very slowly, and they will fall slowly as well).
 
-<span style="color:#E03E2D;">**Be careful when using this on entities, it is very performance intensive.**</span> Using this on players doesn't affect performance.
+<span style="color:#e03e2d"><strong>Be careful when using this on entities, it is very performance intensive.</strong></span> Using this on players doesn't affect performance.
 
 **Syntax**: `/scriptevent ecs:freeze <timeTicks: int>`
 
@@ -150,7 +186,7 @@ This executes a command sometimes.
 
 This will make the source of the command say "LUCKY!!!" 10% of the time the command is run.
 
-**<span style="color:#E03E2D;">Note that if this is put into a command block, the source will be</span> `Script Engine`<span style="color:#E03E2D;">, relative coordinates (~ or ^) will therefore not work.</span>**
+**<span style="color:#e03e2d">Note that if this is put into a command block, the source will be</span> `Script Engine`<span style="color:#e03e2d">, relative coordinates (~ or ^) will therefore not work.</span>**
 
 ## schedule
 
@@ -162,7 +198,7 @@ This brings the functionality of Java edition's `/schedule` to Bedrock.
 
 This will launch the entity which executed this command into the air when 30 seconds passes.
 
-<span style="color:#E03E2D;">**This doesn't work with command blocks, use the built-in tick delay instead.**</span>
+<span style="color:#e03e2d"><strong>This doesn't work with command blocks, use the built-in tick delay instead.</strong></span>
 
 ## multicommand
 
@@ -182,9 +218,7 @@ This will push the entity that executed it forwards and up, whilst also saying "
 
 **NOTE**: The old command functionality still works, you can find the documentation [here](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/OLD-SCRIPTEVENTS-README.md).
 
-<span style="color:#E03E2D;">**ATTENTION:</span> Existing commands put on items will break when version 1.0 releases** (which should come when Mojang puts custom slash commands out of experimental).
-
-**Please make a backup of the items and the commands you've put on them** (putting them all in a chest will work fine).
+<span style="color:#e03e2d"><strong>ATTENTION:</strong></span> **In order to fix a bug, I had to break existing commands. This is fixed from v0.9.8 onwards. If you have a previous version (v0.9.7 or older) you will have to reapply your commands.**
 
 __The one you've been waiting for:__ This command lets you put a use-command on any item.
 
@@ -195,23 +229,17 @@ Let's say we put two use-commands on a totem of undying.
 **Example:**
 
 ```
-/scriptevent ecs:auc2 give_effect false effect @s levitation 30 0 true
-/scriptevent ecs:auc2 discard_item false clear @s totem_of_undying 0 1
+/scriptevent ecs:auc2 give_effect false effect @S levitation 30 0 true
+/scriptevent ecs:auc2 discard_item false clear @S totem_of_undying 0 1
 ```
 
 **Make sure you put `false` there, it's a placeholder for future functionality.**
 
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
-<span style="color:#E03E2D;">**You must put lore on the item first.**</span> This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
+<span style="color:#e03e2d"><strong>You must put lore on the item first.</strong></span> This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
 
-<span style="color:#E03E2D;">**Don't make the command name similar to any items.**</span> The command is stored as <itemType><commandName>. ([It's a bit more complicated than that](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/src/rightClickDetection/utility.ts), but that's the gist of it)
-
-If you were to put a command named `flower` on a torch, it would end up being `minecraft:torchflower`, which **will** have conflicting functionality.
-
-This also means you can rename your item once you have put the command on it! It only checks the type id (e.g. minecraft:grass) and lore.
-
-Fixing this will break existing commands, so it will be left for version 1.0.
+<span style="color:#e03e2d"><strong>If you are using a target selector, you must use capital letters</strong></span> (`@A`, `@S`, `@R`, `@E`, `@P`) <span style="color:#e03e2d"><strong>instead of lowercase ones.</strong></span> This is due to lowercase ones resolving immediately and not when you use the item.
 
 ## ruc2
 
@@ -247,7 +275,7 @@ This removes the death command.
 
 Sets the lore on the item you're currently holding. Use `\n` to indicate a new line, note that you will need to apply formatting codes again on each new line.
 
-<span style="color:#E03E2D;">**You are limited to having 20 lines of lore with a maximum length of 50 each.**</span> See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setlore) for why.
+<span style="color:#e03e2d"><strong>You are limited to having 20 lines of lore with a maximum length of 50 each.</strong></span> See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setlore) for why.
 
 **Syntax**: `/scriptevent ecs:setlore <lore: string>`
 
@@ -292,3 +320,5 @@ This means you **cannot** obfuscate your code if you include stuff from this pac
 # Other Stuff
 
 You can find the source code on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite), it contains older releases (and the latest one if not already updated here).
+
+You can also join my Discord server: [https://discord.gg/cWJ7SqbaQK](https://discord.gg/cWJ7SqbaQK). I will of course still reply to your questions here though.

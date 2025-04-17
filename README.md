@@ -90,11 +90,48 @@ This command changes the size of **some** entities, most don't work. I've tested
 > [!IMPORTANT]
 > Not all entities support this. You can edit the entity `.json` yourself, but I won't edit vanilla files in this pack as it will break compatibility.
 >
-> I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-components) that adds scale components to all entities, **be warned it will very likely not be compatible with other addons**.
+> I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-ECS-supplementary-pack) that adds scale components to all entities, **be warned it will very likely not be compatible with other addons**.
 
 **Syntax**: `/scriptevent ecs:scale <scaleMultiplier: float>`
 
 **Example**: `/scriptevent ecs:scale 1.5`
+
+## `shoot`
+
+This command let's you shoot projectiles.
+
+> [!IMPORTANT]
+> Not all projectiles support this. 
+>
+> You can use the same [supplementary pack](https://github.com/Aevarkan/MCBE-ECS-supplementary-pack) to allow projectiles such as the Ender Dragon's fireball to work with this command, **again, be aware it will very likely not be compatible with other addons**.
+
+**Syntax**: `/scriptevent ecs:shoot <projectileId: string> <strength: float>`
+
+**Example**: `/scriptevent ecs:shoot minecraft:arrow 10`
+
+This shoots an arrow in the direction you're facing at a high speed!
+
+This works on entities, but it may be difficult to get them to face the correct way.
+
+## `lock`
+
+Locks an entity from player interaction. Mostly useful for armour stands.
+
+**Syntax**: `/scriptevent ecs:lock`
+
+Make sure you're facing the entity!
+
+You can also give it the tag `ecs:locked_entity` (This is what the command does anyway)
+
+## `unlock`
+
+Unlocks an entity from player interaction.
+
+**Syntax**: `/scriptevent ecs:unlock`
+
+Make sure you're facing the entity!
+
+Again, you can just remove the tag `ecs:locked_entity`.
 
 ## `push` / `motion`
 
