@@ -1,2 +1,5 @@
 *.js
 *.zip
+
+build/*
+!build/BUILD.md

@@ -10,6 +10,22 @@ import { EntityDamageCause } from "@minecraft/server"
 // These are where the default values are stored
 // You shouldn't really need to change these, as you should be able define them in the command
 
+// Just a version counter, may be used later to help compatibility
+// The python script will change this
+export const CURRENT_VERSION = "v{{VERSION}}"
+
+// Tags
+export const ENTITY_LOCK_TAG = "ecs:locked_entity"
+export const READ_ONLY_ADMIN_TAG = "admin" // Only a player can edit this in-game
+export const ADMIN_TAG = "ecs:admin"
+
+// Particles
+export const ENTITY_LOCK_PARTICLE = "minecraft:villager_angry"
+export const ENTITY_UNLOCK_PARTICLE = "minecraft:heart_particle"
+
+// Misc Options
+export const MAX_RAYCAST_BLOCK_DISTANCE = 64
+
 // Music Player
 export const DEFAULT_MUSIC_FADE = 1 // In seconds
 export const DEFAULT_MUSIC_VOLUME = 1

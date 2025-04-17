@@ -27,20 +27,16 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Zip Files
-        run: |
-            zip -r build-artifacts.zip . \
-            -x "documentation/*" \
-            -x ".git/*" \
-            -x "README.md" \
-            -x "node_modules/*" \
-            -x "src/*" \
-            -x ".gitignore" \
-            -x "package-lock.json" \
-            -x "package.json" \
-            -x "tsconfig.json" \
-            -x ".github/*"
-            mv build-artifacts.zip ./extended-commands-suite-$GITHUB_REF_NAME.mcpack
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run Build Script
+        run: python3 build.py
+
+      - name: Ensure correct name
+        run: mv build/extended-commands-suite.mcaddon ./extended-commands-suite-$GITHUB_REF_NAME.mcpack
 
       - name: Create Release
         run: |

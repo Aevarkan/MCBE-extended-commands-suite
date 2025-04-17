@@ -10,5 +10,11 @@ import "./rightClickDetection/rightClickDetection"
 import "./rightClickDetection/rightClickDetectionv2"
 import "./deathDetection/deathDetection"
 import "./scoreboardStatuses/index"
+import "./entityLock"
 
-console.info("Extended Commands Suite v0.9.7 loaded.")
+
+import "./versionCounter"
+
+import { CURRENT_VERSION } from "constants"
+
+console.info(`Extended Commands Suite ${CURRENT_VERSION} loaded.`)
