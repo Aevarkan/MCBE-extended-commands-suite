@@ -94,8 +94,8 @@ def copy_misc_files():
     shutil.copy(PACK_ICON_PATH, f'{RP_PATH}/{PACK_ICON_PATH}')
     shutil.copytree('functions', f'{BP_PATH}/functions')
     # Doesn't seem to show entities anyway, just use the supplementary pack
-    # shutil.copytree('bp-entities', f'{BP_PATH}/entities')
-    shutil.copytree('rp-entities', f'{RP_PATH}/entities')
+    shutil.copytree('bp-entities', f'{BP_PATH}/entities')
+    shutil.copytree('rp-entities', f'{RP_PATH}/entity')
 
 def build_manifest():
     # Load the original JSON file
@@ -168,20 +168,20 @@ def create_mcaddon(bp_path, rp_path, output_file):
         # We don't need to use a resource pack just yet
         # The entities don't show up for /shoot
         # Add BP files
-        # for folder_name in [bp_path, rp_path]:
-        #     for root, dirs, files in os.walk(folder_name):
-        #         for file in files:
-        #             file_path = os.path.join(root, file)
-        #             # Write with relative path inside the zip
-        #             arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
-        #             mcaddon.write(file_path, arcname)
-        #         # Add BP files
-        for root, dirs, files in os.walk(bp_path):
-            for file in files:
-                file_path = os.path.join(root, file)
-                # Write with relative path inside the zip
-                arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
-                mcaddon.write(file_path, arcname)
+        for folder_name in [bp_path, rp_path]:
+            for root, dirs, files in os.walk(folder_name):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    # Write with relative path inside the zip
+                    arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
+                    mcaddon.write(file_path, arcname)
+                # Add BP files
+        # for root, dirs, files in os.walk(bp_path):
+        #     for file in files:
+        #         file_path = os.path.join(root, file)
+        #         # Write with relative path inside the zip
+        #         arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
+        #         mcaddon.write(file_path, arcname)
     print(f"Created: {output_file}")
 
 def build_project():
