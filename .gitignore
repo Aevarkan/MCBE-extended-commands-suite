@@ -1,2 +1,5 @@
 *.js
 *.zip
+BP/scripts
+BP/manifest.json
+RP/manifest.json
