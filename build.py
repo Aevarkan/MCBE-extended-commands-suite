@@ -6,7 +6,7 @@ import zipfile
 
 # No need to include the 'v' in front
 # This is required because the constants file will use this
-VERSION = "0.9.9"
+VERSION = "0.9.10"
 MIN_ENGINE_VERSION = [ 1, 21, 70 ]
 PACK_ICON_PATH = "pack-icon.png"
 LICENCE_PATH = "LICENCE"
@@ -156,7 +156,19 @@ def build_manifest():
 
     print(f"Successfully split the manifest file into BP/manifest.json and RP/manifest.json with version {VERSION}.")
 
-def create_directories():
+def prepare_directories():
+
+    # Remove directories and files first
+    if os.path.exists(OUTPUT_FILE):
+        os.remove(OUTPUT_FILE)
+
+    if os.path.exists(BP_PATH):
+        shutil.rmtree(BP_PATH)
+
+    if os.path.exists(RP_PATH):
+        shutil.rmtree(RP_PATH)
+
+    # Now create them
     if not os.path.exists(BP_PATH):
         os.makedirs(BP_PATH)
     
@@ -186,8 +198,8 @@ def create_mcaddon(bp_path, rp_path, output_file):
 
 def build_project():
 
-    # Ensure folders are there
-    create_directories()
+    # Ensure folders are there and deletes existing files
+    prepare_directories()
 
     # Inject version into constants.ts (into a temporary file)
     inject_to_src()
