@@ -24,7 +24,7 @@ export const ENTITY_LOCK_PARTICLE = "minecraft:villager_angry"
 export const ENTITY_UNLOCK_PARTICLE = "minecraft:heart_particle"
 
 // Misc Options
-export const MAX_RAYCAST_BLOCK_DISTANCE = 64 // For farmode and lock/unlock commands
+export const MAX_RAYCAST_BLOCK_DISTANCE = 128 // For farmode and lock/unlock commands
 export const FARMODE_GOES_THROUGH_LIQUIDS = true 
 export const SMITE_COMMAND = "summon lightning_bolt"
 
