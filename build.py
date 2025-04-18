@@ -95,7 +95,7 @@ def copy_misc_files():
     shutil.copytree('functions', f'{BP_PATH}/functions')
     # Doesn't seem to show entities anyway, just use the supplementary pack
     shutil.copytree('bp-entities', f'{BP_PATH}/entities')
-    shutil.copytree('rp-entities', f'{RP_PATH}/entity')
+    # shutil.copytree('rp-entities', f'{RP_PATH}/entity')
 
 def build_manifest():
     # Load the original JSON file
