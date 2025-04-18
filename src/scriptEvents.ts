@@ -20,6 +20,7 @@ import { setScale } from "size";
 import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "rightClickDetection/manageRightClickDetectorv2";
 import { shoot } from "projectile";
 import { lockEntities, unlockEntities } from "entityLock";
+import { smite } from "smite";
 
 // This file contains ALL the script events
 
@@ -52,6 +53,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const shootId = new RegExp(`^(${prefixes.join('|')}):shoot$`)
     const lockId = new RegExp(`^(${prefixes.join('|')}):lock$`)
     const unlockId = new RegExp(`^(${prefixes.join('|')}):unlock$`)
+    const smiteId = new RegExp(`^(${prefixes.join('|')}):smite$`)
 
     const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
     const removeUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):ruc2$`)
@@ -166,6 +168,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (unlockId.test(event.id)) {
         unlockEntities(event)
+    }
+
+    else if (smiteId.test(event.id)) {
+        smite(event)
     }
 
     // Switch statements exist, but I don't like how they look
