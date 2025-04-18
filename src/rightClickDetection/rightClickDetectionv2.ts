@@ -7,7 +7,7 @@
 
 import { BlockRaycastOptions, DimensionLocation, Entity, ItemStack, ItemUseBeforeEvent, Player, system, Vector3, world } from "@minecraft/server";
 import { CommandInformation, getEntry, getMatches } from "./utility";
-import { MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
+import { FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
 
 world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const player = event.source as Player
@@ -43,17 +43,35 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
         const correctCommand = packet.command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`);
         
         if (packet.farMode) {
-            const targetBlock = getBlockFromRaycast(player, false)
-            const topBlockLocation: DimensionLocation = {
-                x: targetBlock.x,
-                y: targetBlock.y + 1, // Add 1 to not have the command done inside the block
-                z: targetBlock.z,
-                dimension: targetBlock.dimension
+
+            // Max distance error
+            try {
+                const targetBlock = getBlockFromRaycast(player, FARMODE_GOES_THROUGH_LIQUIDS)
+
+                if (!targetBlock) {
+                    throw new Error("Block out of range.")
+                }
+            
+
+                const topBlockLocation: DimensionLocation = {
+                    x: targetBlock.x,
+                    y: targetBlock.y + 1, // Add 1 to not have the command done inside the block
+                    z: targetBlock.z,
+                    dimension: targetBlock.dimension
+                }
+    
+                // console.log("In farmode!", correctCommand, targetBlock.x, targetBlock.y, targetBlock.z)
+    
+                doOffsetCommand(correctCommand, player, topBlockLocation)
+            } catch (error) {
+                player.sendMessage("Target block is too far away to run command!")
             }
 
-            doOffsetCommand(correctCommand, player, topBlockLocation)
 
         } else {
+
+            // console.log("In regular mode!", correctCommand)
+
             system.run(() => {
                 player.runCommand(correctCommand)
             })
@@ -68,7 +86,7 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
  * @param includeLiquidBlocks To pass through blocks like water.
  * @returns A block.
  */
-function getBlockFromRaycast(player: Player, includeLiquidBlocks: boolean) {
+export function getBlockFromRaycast(player: Player, includeLiquidBlocks: boolean) {
 
     // Make this into an option later
     // No we have to do it now
@@ -87,7 +105,7 @@ function getBlockFromRaycast(player: Player, includeLiquidBlocks: boolean) {
  * @param sourcePlayer The player that is executing the command.
  * @param location Where the command should be run.
  */
-function doOffsetCommand(command: string, sourcePlayer: Player, location: DimensionLocation) {
+export function doOffsetCommand(command: string, sourcePlayer: Player, location: DimensionLocation) {
     const commandLocation: Vector3 = {
         y: location.y,
         x: location.x,
@@ -100,7 +118,8 @@ function doOffsetCommand(command: string, sourcePlayer: Player, location: Dimens
     // This doesn't work on entities because you can't do /execute as on them
     system.run(() => {
         const dummyEntity = commandDimension.spawnEntity("ecs:dummy", commandLocation)
-        dummyEntity.runCommand(`execute as ${playerName} at @s run ${command}`)
+        // dummyEntity.runCommand(`execute as ${playerName} at @s run ${command}`)
+        dummyEntity.runCommand(command)
         dummyEntity.remove()
     })
 }

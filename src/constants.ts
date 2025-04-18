@@ -25,6 +25,8 @@ export const ENTITY_UNLOCK_PARTICLE = "minecraft:heart_particle"
 
 // Misc Options
 export const MAX_RAYCAST_BLOCK_DISTANCE = 64 // For farmode and lock/unlock commands
+export const FARMODE_GOES_THROUGH_LIQUIDS = true 
+export const SMITE_COMMAND = "summon lightning_bolt"
 
 // Music Player
 export const DEFAULT_MUSIC_FADE = 1 // In seconds
