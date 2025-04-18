@@ -117,9 +117,13 @@ export function doOffsetCommand(command: string, sourcePlayer: Player, location:
     // Create a dummy and have it run the command, but execute can have the player run it.
     // This doesn't work on entities because you can't do /execute as on them
     system.run(() => {
-        const dummyEntity = commandDimension.spawnEntity("ecs:dummy", commandLocation)
-        // dummyEntity.runCommand(`execute as ${playerName} at @s run ${command}`)
-        dummyEntity.runCommand(command)
-        dummyEntity.remove()
+        try {
+            const dummyEntity = commandDimension.spawnEntity("ecs:dummy", commandLocation)
+            // dummyEntity.runCommand(`execute as ${playerName} at @s run ${command}`)
+            dummyEntity.runCommand(command)
+            dummyEntity.remove()
+        } catch (error) {
+            sourcePlayer.sendMessage("Target block is outside of ticking range!")
+        }
     })
 }
