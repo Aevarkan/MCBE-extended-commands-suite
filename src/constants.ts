@@ -11,7 +11,7 @@ import { EntityDamageCause } from "@minecraft/server"
 // You shouldn't really need to change these, as you should be able define them in the command
 
 // Just a version counter, may be used later to help compatibility
-// The python script will change this
+// The python script will insert the version number
 export const CURRENT_VERSION = "v{{VERSION}}"
 
 // Tags

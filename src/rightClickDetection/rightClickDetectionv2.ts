@@ -64,7 +64,7 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     
                 doOffsetCommand(correctCommand, player, topBlockLocation)
             } catch (error) {
-                player.sendMessage("Target block is too far away to run command!")
+                player.sendMessage({translate: "ecs.command.error.too_far"})
             }
 
 
@@ -123,7 +123,7 @@ export function doOffsetCommand(command: string, sourcePlayer: Player, location:
             dummyEntity.runCommand(command)
             dummyEntity.remove()
         } catch (error) {
-            sourcePlayer.sendMessage("Target block is outside of ticking range!")
+            sourcePlayer.sendMessage({translate: "ecs.command.error.outside_ticking_range"})
         }
     })
 }

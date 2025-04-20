@@ -1,0 +1,15 @@
+ecs.command.error.too_far=Target block is too far away to run command!
+ecs.command.error.outside_ticking_range=Target block is outside of ticking range!
+ecs.command.error.stackable_item_no_support=Stackable items are not supported with this command.
+ecs.command.error.no_lore=You must put lore on your item first!
+
+ecs.command.lock.sucess=Locked: %s
+ecs.command.unlock.sucess=Unlocked: %s
+
+ecs.command.lore.editing=Editing: %s
+ecs.command.lore.submit=Submit
+ecs.command.lore.section_character=Section Character
+ecs.command.lore.maximum_50_characters=Maximum 50 characters.
+ecs.command.lore.line_number=Line %s
+
+ecs.grammar.list_separator=, 

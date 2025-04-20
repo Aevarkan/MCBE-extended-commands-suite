@@ -40,7 +40,7 @@ function createRightClickDetectorAction(player: Player, command: string, slot: n
     
     if (selectedItem.isStackable){
         
-        player.sendMessage("Stackable items are not supported with this command.")
+        player.sendMessage({translate: "ecs.command.error.stackable_item_no_support"})
         // QIDB has problems when reloading script / reloading the world
         // Cannot use it for now
         // // Increase counter by 1. This is very primitive, but I don't expect any problems unless 
@@ -80,7 +80,7 @@ function removeRightClickDetectorAction(player: Player, slot: number) {
     const selectedItem = inventory.getItem(slot)
     
     if (selectedItem.isStackable){
-        player.sendMessage("Stackable items are not supported with this command.")
+        player.sendMessage({translate: "ecs.command.error.stackable_item_no_support"})
         // const commandPairs = getAllItemCommandPairs()
         // for (const pair of commandPairs) {
         //     if (selectedItem.isStackableWith(pair.itemStack)) {

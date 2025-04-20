@@ -5,7 +5,7 @@ import shutil
 import zipfile
 
 # No need to include the 'v' in front
-# This is required because the constants file will use this
+# Only change version count here and as github tag
 VERSION = "0.9.10"
 MIN_ENGINE_VERSION = [ 1, 21, 70 ]
 PACK_ICON_PATH = "pack-icon.png"
@@ -95,6 +95,7 @@ def copy_misc_files():
     shutil.copytree('functions', f'{BP_PATH}/functions')
     # Doesn't seem to show entities anyway, just use the supplementary pack
     shutil.copytree('bp-entities', f'{BP_PATH}/entities')
+    shutil.copytree('language', f'{RP_PATH}/texts')
     # shutil.copytree('rp-entities', f'{RP_PATH}/entity')
 
 def build_manifest():

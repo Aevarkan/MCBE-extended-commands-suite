@@ -39,6 +39,6 @@ function smiteAction(player: Player) {
 
         doOffsetCommand(SMITE_COMMAND, player, topBlockLocation)
     } catch (error) {
-        player.sendMessage("Target block is too far away to run command!")
+        player.sendMessage({translate: "ecs.command.error.too_far"})
     }
 }

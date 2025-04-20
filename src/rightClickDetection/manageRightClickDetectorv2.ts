@@ -56,7 +56,7 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
     // You need to put lore on your item, it's too dangerous otherwise
     const lore = selectedItem.getLore()
     if (lore.length === 0) {
-        player.sendMessage("You must put lore on your item first!")
+        player.sendMessage({translate: "ecs.command.error.no_lore"})
         return
     }
 

@@ -9,7 +9,7 @@
 	},
     "header": {
         "bp_description": "Adds more commands to your Minecraft experience!",
-        "rp_description": "You and your players need this pack!",
+        "rp_description": "Contains the localisation strings.",
         "bp_name": "Extended Commands Suite",
         "rp_name": "Extended Commands Suite Resource Pack",
         "bp_uuid": "e0a2eeaf-059f-4eba-bf8e-ce7fbb86aaef",
