@@ -11,7 +11,7 @@ import { EntityDamageCause } from "@minecraft/server"
 // You shouldn't really need to change these, as you should be able define them in the command
 
 // Just a version counter, may be used later to help compatibility
-// The python script will change this
+// The python script will insert the version number
 export const CURRENT_VERSION = "v{{VERSION}}"
 
 // Tags
@@ -24,7 +24,9 @@ export const ENTITY_LOCK_PARTICLE = "minecraft:villager_angry"
 export const ENTITY_UNLOCK_PARTICLE = "minecraft:heart_particle"
 
 // Misc Options
-export const MAX_RAYCAST_BLOCK_DISTANCE = 64
+export const MAX_RAYCAST_BLOCK_DISTANCE = 128 // For farmode and lock/unlock commands
+export const FARMODE_GOES_THROUGH_LIQUIDS = true 
+export const SMITE_COMMAND = "summon lightning_bolt"
 
 // Music Player
 export const DEFAULT_MUSIC_FADE = 1 // In seconds

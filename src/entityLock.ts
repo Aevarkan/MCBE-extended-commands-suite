@@ -64,8 +64,15 @@ function unlockAction(player: Player) {
         player.spawnParticle(ENTITY_UNLOCK_PARTICLE, entityLocation)
     })
 
-    const playerMessage = "Unlocked " + entityNames.join(", ") + "."
+    const entityNamesString = entityNames.join(", ")
 
+    const playerMessage = {
+        translate: "ecs.command.lock.sucess",
+        with: { text: entityNamesString }
+        
+    }
+    // const playerMessage = "Unlocked " + entityNames.join(", ") + "."
+    // /tellraw @a {"rawtext":[{"translate":"Hello %%s and %%s", "with":["Steve","Alex"]}]}
     player.sendMessage(playerMessage)
 }
 

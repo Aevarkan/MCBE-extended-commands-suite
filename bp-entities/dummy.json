@@ -1,0 +1,25 @@
+{
+    "format_version": "1.19.30",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "ecs:dummy",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "components": {
+            "minecraft:damage_sensor": {
+                "triggers": {
+                    "cause": "all",
+                    "deals_damage": false
+                }
+            },
+            "minecraft:physics": {
+                "has_gravity": false,
+                "has_collision": false
+            },
+            "minecraft:fire_immune": true,
+            "minecraft:persistent": {}
+        }
+    }
+}
+

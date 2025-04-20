@@ -33,9 +33,9 @@ jobs:
         run: python3 build.py
 
       - name: Ensure correct name
-        run: mv build/extended-commands-suite.mcaddon ./extended-commands-suite-$GITHUB_REF_NAME.mcpack
+        run: mv build/extended-commands-suite.mcaddon ./extended-commands-suite-$GITHUB_REF_NAME.mcaddon
 
       - name: Create Release
         run: |
           gh auth login --with-token <<< ${{ secrets.GITHUB_TOKEN }}
-          gh release upload $GITHUB_REF_NAME ./extended-commands-suite-$GITHUB_REF_NAME.mcpack --clobber
+          gh release upload $GITHUB_REF_NAME ./extended-commands-suite-$GITHUB_REF_NAME.mcaddon --clobber

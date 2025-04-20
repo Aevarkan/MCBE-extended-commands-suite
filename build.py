@@ -5,11 +5,9 @@ import shutil
 import zipfile
 
 # No need to include the 'v' in front
-# This is required because the constants file will use this
-VERSION = "0.9.9"
+# Only change version count here and as github tag
+VERSION = "0.9.10"
 MIN_ENGINE_VERSION = [ 1, 21, 70 ]
-PACK_ICON_PATH = "pack-icon.png"
-LICENCE_PATH = "LICENCE"
 
 CONSTANTS_TS_PATH = "src/constants.ts"
 CONSTANTS_JS_PATH = "scripts/constants.js"
@@ -88,14 +86,48 @@ def move_scripts():
         print(f"Error moving folder: {e}")
 
 def copy_misc_files():
-    shutil.copy(LICENCE_PATH, f'{BP_PATH}/{LICENCE_PATH}')
-    shutil.copy(LICENCE_PATH, f'{RP_PATH}/{LICENCE_PATH}')
-    shutil.copy(PACK_ICON_PATH, f'{BP_PATH}/{PACK_ICON_PATH}')
-    shutil.copy(PACK_ICON_PATH, f'{RP_PATH}/{PACK_ICON_PATH}')
+    shutil.copy("LICENCE", f'{BP_PATH}/LICENCE')
+    shutil.copy("LICENCE", f'{RP_PATH}/LICENCE')
+    shutil.copy("pack-icon.png", f'{BP_PATH}/pack-icon.png')
+    shutil.copy("pack-icon.png", f'{RP_PATH}/pack-icon.png')
     shutil.copytree('functions', f'{BP_PATH}/functions')
     # Doesn't seem to show entities anyway, just use the supplementary pack
     shutil.copytree('bp-entities', f'{BP_PATH}/entities')
-    shutil.copytree('rp-entities', f'{RP_PATH}/entity')
+    # shutil.copytree('language', f'{RP_PATH}/texts')
+    # shutil.copytree('rp-entities', f'{RP_PATH}/entity')
+
+def split_lang_files(language_dir, bp_path, rp_path):
+
+    # Loop through all .lang files in the language directory
+    for filename in os.listdir(language_dir):
+        if filename.endswith(".lang"):
+            lang_code = filename.split('.')[0]
+            input_file = os.path.join(language_dir, filename)
+            bp_file_path = os.path.join(bp_path, "texts", filename)
+            rp_file_path = os.path.join(rp_path, "texts", filename)
+
+            with open(input_file, "r", encoding="utf-8") as infile, \
+                 open(bp_file_path, "w", encoding="utf-8") as bp_file, \
+                 open(rp_file_path, "w", encoding="utf-8") as rp_file:
+
+                for line in infile:
+                    stripped_line = line.strip()
+                    if not stripped_line:
+                        continue  # Skip empty lines
+
+                    if "=" in stripped_line:
+                        key_part, value_part = stripped_line.split("=", 1)
+                        key_part = key_part.strip()
+                        value_part = value_part.lstrip()
+
+                        if key_part.startswith("bp."):
+                            shortened_key = key_part[3:]  # Remove the "bp." prefix
+                            bp_file.write(f"{shortened_key}={value_part}\n")
+                        elif key_part.startswith("rp."):
+                            shortened_key = key_part[3:]  # Remove the "rp." prefix
+                            rp_file.write(f"{shortened_key}={value_part}\n")
+
+            print(f"Processed {filename}")
 
 def build_manifest():
     # Load the original JSON file
@@ -156,12 +188,26 @@ def build_manifest():
 
     print(f"Successfully split the manifest file into BP/manifest.json and RP/manifest.json with version {VERSION}.")
 
-def create_directories():
+def prepare_directories():
+
+    # Remove directories and files first
+    if os.path.exists(OUTPUT_FILE):
+        os.remove(OUTPUT_FILE)
+
+    if os.path.exists(BP_PATH):
+        shutil.rmtree(BP_PATH)
+
+    if os.path.exists(RP_PATH):
+        shutil.rmtree(RP_PATH)
+
+    # Now create them
     if not os.path.exists(BP_PATH):
         os.makedirs(BP_PATH)
+        os.makedirs(f'{BP_PATH}/texts')
     
     if not os.path.exists(RP_PATH):
         os.makedirs(RP_PATH)
+        os.makedirs(f'{RP_PATH}/texts')
 
 def create_mcaddon(bp_path, rp_path, output_file):
     with zipfile.ZipFile(output_file, 'w', zipfile.ZIP_DEFLATED) as mcaddon:
@@ -186,8 +232,8 @@ def create_mcaddon(bp_path, rp_path, output_file):
 
 def build_project():
 
-    # Ensure folders are there
-    create_directories()
+    # Ensure folders are there and deletes existing files
+    prepare_directories()
 
     # Inject version into constants.ts (into a temporary file)
     inject_to_src()
@@ -203,6 +249,8 @@ def build_project():
     build_manifest()
 
     copy_misc_files()
+
+    split_lang_files("./language", BP_PATH, RP_PATH)
 
     create_mcaddon(BP_PATH, RP_PATH, OUTPUT_FILE)
 
