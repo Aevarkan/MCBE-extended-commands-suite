@@ -7,6 +7,7 @@
 
 import { EntityComponentTypes, Player } from "@minecraft/server";
 
+// Not implemented yet
 function setKeepInventoryAction(player: Player, keepInventory: boolean) {
     const playerInventory = player.getComponent(EntityComponentTypes.Inventory).container
     const inventorySize = playerInventory.size - 1 // Arrays start at 0

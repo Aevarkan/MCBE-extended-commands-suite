@@ -20,7 +20,7 @@
     },
     "bp_modules": [
         {
-            "description": "Extended Commands Suite",
+            "description": "pack.description",
             "type": "data",
             "uuid": "6819db33-c2d7-45e2-b097-b22c4d377198",
             "version": [1, 0, 0]
@@ -35,7 +35,7 @@
     ],
     "rp_modules": [
         {
-            "description": "Extended Commands Suite Resources",
+            "description": "pack.description",
             "type": "resources",
             "uuid": "f7f266ce-74e9-4226-9c34-ee87886d1b47",
             "version": [1, 0, 0]

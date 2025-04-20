@@ -1,7 +1,7 @@
 bp.pack.description=Adds more commands to your Minecraft experience!
 bp.pack.name=Extended Commands Suite
 rp.pack.description=Contains the localisation files for the behavior pack.
-rp.pack.name=xtended Commands Suite Resource Pack
+rp.pack.name=Extended Commands Suite Resource Pack
 
 rp.ecs.command.error.too_far=Target block is too far away to run command!
 rp.ecs.command.error.outside_ticking_range=Target block is outside of ticking range!
