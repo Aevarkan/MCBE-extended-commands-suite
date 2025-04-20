@@ -18,7 +18,7 @@ world.afterEvents.playerSpawn.subscribe((event) => {
     
     if (hasECSTag) return
 
-    if (hasAdminTag) {
+    if (!hasAdminTag) {
         player.addTag(ADMIN_TAG)
     }
 })

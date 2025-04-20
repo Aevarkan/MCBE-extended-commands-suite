@@ -8,10 +8,10 @@
 		"product_type": "addon"
 	},
     "header": {
-        "bp_description": "Adds more commands to your Minecraft experience!",
-        "rp_description": "Contains the localisation strings.",
-        "bp_name": "Extended Commands Suite",
-        "rp_name": "Extended Commands Suite Resource Pack",
+        "bp_description": "pack.description",
+        "rp_description": "pack.description",
+        "bp_name": "pack.name",
+        "rp_name": "pack.name",
         "bp_uuid": "e0a2eeaf-059f-4eba-bf8e-ce7fbb86aaef",
         "rp_uuid": "ea4bb0ec-191c-4bab-a741-c4f0f301eeba",
         "comments": "VERSION AND MIN ENGINE VERSION ARE UPDATED IN THE PYTHON SCRIPT!!!",
