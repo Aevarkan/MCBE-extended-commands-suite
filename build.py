@@ -88,8 +88,10 @@ def move_scripts():
 def copy_misc_files():
     shutil.copy("LICENCE", f'{BP_PATH}/LICENCE')
     shutil.copy("LICENCE", f'{RP_PATH}/LICENCE')
-    shutil.copy("pack-icon.png", f'{BP_PATH}/pack-icon.png')
-    shutil.copy("pack-icon.png", f'{RP_PATH}/pack-icon.png')
+    shutil.copy("pack_icon.png", f'{BP_PATH}/pack_icon.png')
+    shutil.copy("pack_icon.png", f'{RP_PATH}/pack_icon.png')
+    shutil.copy("./language/languages.json", f'{BP_PATH}/texts/languages.json')
+    shutil.copy("./language/languages.json", f'{RP_PATH}/texts/languages.json')
     shutil.copytree('functions', f'{BP_PATH}/functions')
     # Doesn't seem to show entities anyway, just use the supplementary pack
     shutil.copytree('bp-entities', f'{BP_PATH}/entities')
