@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { EntityComponentTypes, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
+import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { addEntry, removeAllEntries, removeEntry } from "./utility";
 
 /**
@@ -50,7 +50,8 @@ export function removeRightClickDetectorv2(event: ScriptEventCommandMessageAfter
  * @param farMode Whether or not to do a raycast and cast the command there.
  */
 function createRightClickDetectorAction(player: Player, commandId: string, command: string, slot: number, farMode: boolean) {
-    const inventory = player.getComponent(EntityComponentTypes.Inventory).container
+    const inventoryComponent = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent
+    const inventory = inventoryComponent.container
     const selectedItem = inventory.getItem(slot)
 
     // You need to put lore on your item, it's too dangerous otherwise
@@ -70,7 +71,8 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
  * @param removeOptions Additional information about removal.
  */
 function removeRightClickDetectorAction(player: Player, slot: number, removeOptions: RemoveOptions) {
-    const inventory = player.getComponent(EntityComponentTypes.Inventory).container
+    const inventoryComponent = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent
+    const inventory = inventoryComponent.container
     const item = inventory.getItem(slot)
     
     if (removeOptions.removeAll === true) {

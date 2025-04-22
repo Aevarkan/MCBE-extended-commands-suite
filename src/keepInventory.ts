@@ -5,11 +5,12 @@
  * Author: Aevarkan
  */
 
-import { EntityComponentTypes, Player } from "@minecraft/server";
+import { EntityComponentTypes, EntityInventoryComponent, Player } from "@minecraft/server";
 
 // Not implemented yet
 function setKeepInventoryAction(player: Player, keepInventory: boolean) {
-    const playerInventory = player.getComponent(EntityComponentTypes.Inventory).container
+    const playerInventoryComponent = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent
+    const playerInventory = playerInventoryComponent.container
     const inventorySize = playerInventory.size - 1 // Arrays start at 0
 
     for (let i: number; i < inventorySize; i++) {
