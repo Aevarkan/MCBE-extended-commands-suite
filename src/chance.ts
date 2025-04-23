@@ -10,7 +10,6 @@ import { Dimension, Entity, ScriptEventCommandMessageAfterEvent, system, world }
 export function chance(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity
     const block = event.sourceBlock
-    const blockDimension = block.dimension
     const parameters = event.message
 
     // Split the message into command and chance
@@ -20,7 +19,10 @@ export function chance(event: ScriptEventCommandMessageAfterEvent) {
 
     // Executes the command
     if (entity) chanceActionEntity(entity, command, percentageChance)
-    if (block) chanceActionBlock(blockDimension, command, percentageChance)
+    if (block) {
+        const blockDimension = block.dimension
+        chanceActionBlock(blockDimension, command, percentageChance)
+    }
 }
 
 /**
