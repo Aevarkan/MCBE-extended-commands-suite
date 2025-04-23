@@ -3,6 +3,9 @@ Github repository for the Extended Commands Suite pack.
 
 This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions.
 
+> [!IMPORTANT]
+> I make it a priority to not break commands if it's not neccessary. You can find the list of breaking changes [here](documentation/BREAKING-CHANGES.md).
+
 If you've arrived here from [MCPEDL](https://mcpedl.com/extended-commands-suite/) or [CurseForge](https://www.curseforge.com/minecraft-bedrock/scripts/extended-commands-suite) looking for a newer release, then you're in the right place! Github will **always** have the most up to date version of this pack (it's where I build the pack), although I will try my best to keep MCPEDL and CurseForge updated.
 
 If this is your first time on Github, the download button is called **Releases** and should be on the right-hand side of your screen on both mobile and desktop. Click on the **assets** sections of a release and the `.mcpack` should be there for you to download.
@@ -82,6 +85,22 @@ This plays the credits track for the player that executed the command after fadi
 Stops the music track that is currently playing. It stops the track abruptly, so I recommended to use `playmusic` and fade to another track such as `music.game`.
 
 **Syntax**: `/scriptevent ecs:stopmusic`
+
+## `scoreboardname`
+
+> [!CAUTION]
+> Only use this on scoreboard objectives that only have players, otherwise the score will be wiped.
+>
+> This is because the command, in the background, deletes the scoreboard and replaces it with a new one.
+
+**Syntax**: `/scriptevent ecs:scoreboardname <scoreboardId: string> <newScoreboardName: string>`
+
+**Example**: `/scriptevent ecs:scoreboardname ecs:combined_total_kills Highest Kills`
+
+This sets the display name of `ecs:combined_total_kills` to "Highest Kills".
+
+> [!IMPORTANT]
+> Since this is a dangerous command, use it on a test scoreboard every Minecraft update before using it on your actual scoreboards.
 
 ## `scale`
 
@@ -205,6 +224,19 @@ This will make the entity that executed the command say "LUCKY!!!" 10% of the ti
 > [!NOTE]
 > If this is put into a command block, the source will be `Script Engine`, relative coordinates (~ or ^) will therefore not work.
 
+## `drop`
+
+This makes an entity drop an item.
+
+**Syntax**: `/scriptevent ecs:drop <itemTypeId: string> <itemQuantity: int>`
+
+**Example**: `/scriptevent ecs:drop minecraft:tnt 64`
+
+This makes the entity drop a stack of tnt.
+
+> [!TIP]
+> You can combine this with a [death command](#adddeathcommand--adc) and [chance](#chance) to make custom drops.
+
 ## `schedule`
 
 This brings the functionality of Java edition's `/schedule` to Bedrock.
@@ -220,7 +252,7 @@ This will launch the entity which executed this command into the air when 30 sec
 
 ## `multicommand`
 
-Does multiple commands at once, separated by a pipe `|`.
+Does multiple commands at once, separated by a pipe `|`. Don't use this if you don't have to, will likely be removed in the future.
 
 **Syntax**: `/scriptevent ecs:multicommand <command: string> | <another command: string>`
 
@@ -233,35 +265,37 @@ Does multiple commands at once, separated by a pipe `|`.
 
 This will push the entity that executed it forwards and up, whilst also saying "I'm flying". 
 
-## `auc2`
+## `addusecommand2` / `auc2`
 
 > [!NOTE]
 > The old command functionality still works, you can find the documentation [here](documentation/OLD-SCRIPTEVENTS-README.md).
 
 The one you've been waiting for: This command lets you put use-command on any item.
 
-**Syntax**: `/scriptevent ecs:auc2 <commandName: string> false <command: string>`
+**Syntax**: `/scriptevent ecs:auc2 <commandName: string> <enableFarmode: boolean> <command: string>`
+
+> [!NOTE]
+> In farmode, **you** do not run the command, meaning commands like `/effect` will not work.
 
 Let's say we put two use commands on a totem of undying.
 
-**Example:**
+**Example 1:**
 ```
 /scriptevent ecs:auc2 give_effect false effect @s levitation 30 0 true
 /scriptevent ecs:auc2 discard_item false clear @s totem_of_undying 0 1
 ```
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
+**Example 2:**
+```
+/scriptevent ecs:auc2 tnt true summon tnt
+```
+This will summon tnt at the block you're looking at when you use the item.
+
 > [!IMPORTANT]
 > You must put lore on the item first. This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
 
-> [!WARNING]
-> Don't make the command name similar to any items. The command is stored as <itemName><commandName>.
->
-> If you were to put a command named `flower` on a torch, it would end up being `minecraft:torchflower`, which **will** have conflicting functionality.
->
-> Fixing this will break existing commands, so it will be left for version 1.0.
-
-## `ruc2`
+## `removeusecommand2` / `ruc2`
 
 This removes the use command from the item you're holding.
 
@@ -275,21 +309,25 @@ This will remove the `give_effect` command put on the totem earlier.
 
 This removes all commands on the item.
 
-## `adddeathcommand`
+## `adddeathcommand` / `adc`
 
-This makes the entity run a command when it dies. Only one death command can be put on an entity.
+This makes the entity run a command when it dies.
 
-**Syntax**: `/scriptevent ecs:adddeathcommand <command: string>`
+**Syntax**: `/scriptevent ecs:adddeathcommand <commandId: string> <command: string>`
 
-**Example**: `/scriptevent ecs:adddeathcommand say AAAAAA`
+**Example**: `/scriptevent ecs:adc death_sound say AAAAAA`
 
 This command will make the entity say "AAAAAA" in chat when it dies.
 
-## `removedeathcommand`
+## `removedeathcommand` / `rdc`
 
-This removes the death command.
+This removes a death command. If no command id is specified, it deletes all of them.
 
-**Syntax**: `/scriptevent ecs:removedeathcommand`
+**Syntax**: `/scriptevent ecs:removedeathcommand <commandId: string>`
+
+**Example**: `/scriptevent ecs:rdc death_sound`
+
+This removes the `death_sound` command we put on entity earlier.
 
 ## `setlore`
 

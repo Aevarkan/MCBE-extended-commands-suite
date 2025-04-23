@@ -4,6 +4,8 @@ If you're looking for right click detection, scroll down to `auc2`.
 
 **This is a stable addon, it shouldn't require an update to remain compatible with new Minecraft versions. This means it also doesn't require any experimental toggles.**
 
+I make it a priority to not break commands if it's not neccessary. You can find the list of breaking changes [here](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/BREAKING-CHANGES.md).
+
 Do you find yourself wishing Bedrock could do with more commands?
 
 Well then you've come to the right place!
@@ -78,13 +80,29 @@ It stops abruptly, so I recommend you use `playmusic` and fade to another track 
 
 **Syntax**: `/scriptevent ecs:stopmusic`
 
+## `scoreboardname`
+
+<span style="color: #e03e2d;"><strong>Only use this on scoreboard objectives that only have players, otherwise the score will be wiped.</strong></span>
+
+This is because the command, in the background, deletes the scoreboard and replaces it with a new one.
+
+**Syntax**: `/scriptevent ecs:scoreboardname <scoreboardId: string> <newScoreboardName: string>`
+
+**Example**: `/scriptevent ecs:scoreboardname ecs:combined_total_kills Highest Kills`
+
+This sets the display name of `ecs:combined_total_kills` to "Highest Kills".
+
+> [!IMPORTANT]
+> Since this is a dangerous command, use it on a test scoreboard every Minecraft update before using it on your actual scoreboards.
+
+
 ## scale
 
 This command changes the size of **some** entities, most don't work. I've tested it with cats and rabbits.
 
-<span style="color:#e03e2d"><strong>Not all entities support this.</strong></span> You can edit the entity `.json` yourself, but I won't edit vanilla files in this pack as it will break compatibility.
+<span style="color: #e03e2d;"><strong>Not all entities support this.</strong></span> You can edit the entity `.json` yourself, but I won't edit vanilla files in this pack as it will break compatibility.
 
-I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-components) that adds scale components to all entities, <span style="color:#e03e2d"><strong>be warned it will very likely not be compatible with other addons.</strong></span>
+I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-components) that adds scale components to all entities, <span style="color: #e03e2d;"><strong>be warned it will very likely not be compatible with other addons.</strong></span>
 
 **Syntax**: `/scriptevent ecs:scale <scaleMultiplier: float>`
 
@@ -94,9 +112,7 @@ I have made a [supplementary pack](https://github.com/Aevarkan/MCBE-scale-compon
 
 This command let's you shoot projectiles.
 
-Not all projectiles support this. 
-
-You can use the same [supplementary pack](https://github.com/Aevarkan/MCBE-ECS-supplementary-pack) to allow projectiles such as the Ender Dragon's fireball to work with this command, **again, be aware it will very likely not be compatible with other addons**.
+<span style="color: #e03e2d;"><strong>Not all projectiles support this.</strong></span> You can use the same [supplementary pack](https://github.com/Aevarkan/MCBE-ECS-supplementary-pack) to allow projectiles such as the Ender Dragon's fireball to work with this command, **again, be aware it will very likely not be compatible with other addons**.
 
 **Syntax**: `/scriptevent ecs:shoot <projectileId: string> <strength: float>`
 
@@ -104,7 +120,7 @@ You can use the same [supplementary pack](https://github.com/Aevarkan/MCBE-ECS-s
 
 This shoots an arrow in the direction you're facing at a high speed!
 
-This works on entities, but it may be difficult to get them to face the correct way.
+An entity can run this command, but it may be difficult to get them to face the correct way.
 
 ## lock
 
@@ -148,7 +164,7 @@ This pushes an entity randomly between 45 degrees to the left and 45 degrees to 
 
 This pushes an entity upwards and along the positive x direction.
 
-<span style="color:#e03e2d"><strong>You must use the</strong></span> **`:` <span style="color:#e03e2d">colon character to separate a number range. Any other character will not work.</span>**
+<span style="color: #e03e2d;"><strong>You must use the</strong></span> **`:` <span style="color: #e03e2d;">colon character to separate a number range. Any other character will not work.</span>**
 
 ## pushgliding
 
@@ -168,7 +184,7 @@ This freezes a Player by stopping their camera movements, it doesn't change thei
 
 If used on an entity, it will mostly freeze them (they move very slowly, and they will fall slowly as well).
 
-<span style="color:#e03e2d"><strong>Be careful when using this on entities, it is very performance intensive.</strong></span> Using this on players doesn't affect performance.
+<span style="color: #e03e2d;"><strong>Be careful when using this on entities, it is very performance intensive.</strong></span> Using this on players doesn't affect performance.
 
 **Syntax**: `/scriptevent ecs:freeze <timeTicks: int>`
 
@@ -186,7 +202,19 @@ This executes a command sometimes.
 
 This will make the source of the command say "LUCKY!!!" 10% of the time the command is run.
 
-**<span style="color:#e03e2d">Note that if this is put into a command block, the source will be</span> `Script Engine`<span style="color:#e03e2d">, relative coordinates (~ or ^) will therefore not work.</span>**
+**<span style="color: #e03e2d;">Note that if this is put into a command block, the source will be</span> `Script Engine`<span style="color: #e03e2d;">, relative coordinates (~ or ^) will therefore not work.</span>**
+
+## drop
+
+This makes an entity drop an item.
+
+**Syntax**: `/scriptevent ecs:drop <itemTypeId: string> <itemQuantity: int>`
+
+**Example**: `/scriptevent ecs:drop minecraft:tnt 64`
+
+This makes the entity drop a stack of tnt.
+
+You can combine this with a death command and `chance` to make custom drops.
 
 ## schedule
 
@@ -198,11 +226,11 @@ This brings the functionality of Java edition's `/schedule` to Bedrock.
 
 This will launch the entity which executed this command into the air when 30 seconds passes.
 
-<span style="color:#e03e2d"><strong>This doesn't work with command blocks, use the built-in tick delay instead.</strong></span>
+<span style="color: #e03e2d;"><strong>This doesn't work with command blocks, use the built-in tick delay instead.</strong></span>
 
 ## multicommand
 
-Does multiple commands at once, separated by a pipe `|`. This is useful in conjunction with other commands here.
+Does multiple commands at once, separated by a pipe `|`.  Don't use this if you don't have to, will likely be removed in the future.
 
 **Syntax**: `/scriptevent ecs:multicommand <command: string> | <another command: string>`
 
@@ -214,34 +242,40 @@ There is no theoretical limit to how many commands you can include, but I've onl
 
 This will push the entity that executed it forwards and up, whilst also saying "I'm flying".
 
-## auc2
+## addusecommand2 / auc2
 
 **NOTE**: The old command functionality still works, you can find the documentation [here](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/OLD-SCRIPTEVENTS-README.md).
 
-<span style="color:#e03e2d"><strong>ATTENTION:</strong></span> **In order to fix a bug, I had to break existing commands. This is fixed from v0.9.8 onwards. If you have a previous version (v0.9.7 or older) you will have to reapply your commands.**
+__The one you've been waiting for:__ This command lets you put a use-command on any item. ([Recently changed](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/BREAKING-CHANGES.md))
 
-__The one you've been waiting for:__ This command lets you put a use-command on any item.
+**Syntax**: `/scriptevent ecs:auc2 <commandName: string> <enableFarmode: boolean> <command: string>`
 
-**Syntax**: `/scriptevent ecs:auc2 <commandName: string> false <command: string>`
+In farmode, <span style="color: #b96ad9;"><strong>you do not run the command</strong></span>, meaning commands like `/effect` will not work.
 
 Let's say we put two use-commands on a totem of undying.
 
-**Example:**
+**Example 1:**
 
 ```
 /scriptevent ecs:auc2 give_effect false effect @S levitation 30 0 true
 /scriptevent ecs:auc2 discard_item false clear @S totem_of_undying 0 1
 ```
 
-**Make sure you put `false` there, it's a placeholder for future functionality.**
+<span style="color: #b96ad9;"><strong>NOTE:</strong></span> Putting true there will put the command in farmode. The command will run at the block you are looking at, but <span style="color: #e03e2d;"><strong>you do not run the command</strong></span>, a dummy entity does it for you. This description will be fully updated later.
 
 This will delete the item when a player uses it and give that player levitation for 30 seconds with no particles.
 
-<span style="color:#e03e2d"><strong>You must put lore on the item first.</strong></span> This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
+**Example 2:**
+```
+/scriptevent ecs:auc2 tnt true summon tnt
+```
+This will summon tnt at the block you're looking at when you use the item.
 
-<span style="color:#e03e2d"><strong>If you are using a target selector, you must use capital letters</strong></span> (`@A`, `@S`, `@R`, `@E`, `@P`) <span style="color:#e03e2d"><strong>instead of lowercase ones.</strong></span> This is due to lowercase ones resolving immediately and not when you use the item.
+<span style="color: #e03e2d;"><strong>You must put lore on the item first.</strong></span> This is how ECS handles item matching, if you change the lore, it will be recognised as a different item and any commands will stop working.
 
-## ruc2
+<span style="color: #e03e2d;"><strong>If you are using a target selector, you must use capital letters</strong></span> (`@A`, `@S`, `@R`, `@E`, `@P`) <span style="color: #e03e2d;"><strong>instead of lowercase ones.</strong></span> This is due to lowercase ones resolving immediately and not when you use the item.
+
+## removeusecommand2 / ruc2
 
 This removes the use command from the item you're holding.
 
@@ -255,27 +289,31 @@ This will remove the `give_effect` command put on the totem earlier.
 
 This removes all commands on the item.
 
-## adddeathcommand
+## adddeathcommand / adc
 
-This makes the entity run a command when it dies. Only one death command can be put on an entity.
+This makes the entity run a command when it dies. ([Recently changed](https://github.com/Aevarkan/MCBE-extended-commands-suite/blob/main/documentation/BREAKING-CHANGES.md))
 
-**Syntax**: `/scriptevent ecs:adddeathcommand <command: string>`
+**Syntax**: `/scriptevent ecs:adddeathcommand <commandId: string> <command: string>`
 
-**Example**: `/scriptevent ecs:adddeathcommand say AAAAAA`
+**Example**: `/scriptevent ecs:adc death_sound say AAAAAA`
 
 This command will make the entity say "AAAAAA" in chat when it dies.
 
-## removedeathcommand
+## removedeathcommand / rdc
 
-This removes the death command.
+This removes a death command. If no command id is specified, it deletes all of them.
 
-**Syntax**: `/scriptevent ecs:removedeathcommand`
+**Syntax**: `/scriptevent ecs:removedeathcommand <commandId: string>`
+
+**Example**: `/scriptevent ecs:rdc death_sound`
+
+This removes the `death_sound` command we put on entity earlier.
 
 ## setlore
 
 Sets the lore on the item you're currently holding. Use `\n` to indicate a new line, note that you will need to apply formatting codes again on each new line.
 
-<span style="color:#e03e2d"><strong>You are limited to having 20 lines of lore with a maximum length of 50 each.</strong></span> See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setlore) for why.
+<span style="color: #e03e2d;"><strong>You are limited to having 20 lines of lore with a maximum length of 50 each.</strong></span> See [here](https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/itemstack?view=minecraft-bedrock-stable#setlore) for why.
 
 **Syntax**: `/scriptevent ecs:setlore <lore: string>`
 
@@ -321,4 +359,6 @@ This means you **cannot** obfuscate your code if you include stuff from this pac
 
 You can find the source code on [Github](https://github.com/Aevarkan/MCBE-extended-commands-suite), it contains older releases (and the latest one if not already updated here).
 
-You can also join my Discord server: [https://discord.gg/cWJ7SqbaQK](https://discord.gg/cWJ7SqbaQK). I will of course still reply to your questions here though.
+You can also join my [Discord](https://discord.gg/cWJ7SqbaQK) server for a faster response.
+
+I will of course still reply to your questions/requests here however.
