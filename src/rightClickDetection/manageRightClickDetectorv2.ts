@@ -6,7 +6,7 @@
  */
 
 import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { addEntry, removeAllEntries, removeEntry } from "./utility";
+import { addItemCommandEntry, removeAllItemCommandEntries, removeItemCommandEntry } from "./utility";
 
 /**
  * This makes a right click detector in the player's selected hotbar slot
@@ -61,7 +61,7 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
         return
     }
 
-    addEntry(selectedItem, command, commandId, farMode)
+    addItemCommandEntry(selectedItem, command, commandId, farMode)
 }
 
 /**
@@ -76,9 +76,9 @@ function removeRightClickDetectorAction(player: Player, slot: number, removeOpti
     const item = inventory.getItem(slot)
     
     if (removeOptions.removeAll === true) {
-        removeAllEntries(item)
+        removeAllItemCommandEntries(item)
     } else {
-        removeEntry(item, removeOptions.commandId)
+        removeItemCommandEntry(item, removeOptions.commandId)
     }
 }
 
