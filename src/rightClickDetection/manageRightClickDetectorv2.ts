@@ -7,6 +7,7 @@
 
 import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { addItemCommandEntry, removeAllItemCommandEntries, removeItemCommandEntry } from "./utility";
+import { RemoveOptions } from "definitions";
 
 /**
  * This makes a right click detector in the player's selected hotbar slot
@@ -37,7 +38,7 @@ export function removeRightClickDetectorv2(event: ScriptEventCommandMessageAfter
     if (commandId.length === 0) {
         removeRightClickDetectorAction(player, slot, {removeAll: true})
     } else {
-        removeRightClickDetectorAction(player, slot, {removeAll: false, commandId: commandId})
+        removeRightClickDetectorAction(player, slot, {removeAll: false, id: commandId})
     }
 }
 
@@ -78,14 +79,6 @@ function removeRightClickDetectorAction(player: Player, slot: number, removeOpti
     if (removeOptions.removeAll === true) {
         removeAllItemCommandEntries(item)
     } else {
-        removeItemCommandEntry(item, removeOptions.commandId)
+        removeItemCommandEntry(item, removeOptions.id)
     }
 }
-
-/**
- * Whether to remove all entries or just one.
- * If removing just one, the Id is required.
- */
-type RemoveOptions =
-  | { removeAll: true }
-  | { removeAll: false; commandId: string }
