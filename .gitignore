@@ -3,3 +3,5 @@
 
 build/*
 !build/BUILD.md
+
+node_modules/*

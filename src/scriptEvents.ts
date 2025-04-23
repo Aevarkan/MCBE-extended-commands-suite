@@ -21,6 +21,8 @@ import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "rightCli
 import { shoot } from "projectile";
 import { lockEntities, unlockEntities } from "entityLock";
 import { smite } from "smite";
+import { dropItem } from "drop";
+import { setScoreboardNameScriptEvent } from "scoreboardStatuses/changeName";
 
 // This file contains ALL the script events
 
@@ -45,8 +47,8 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeUseCommandShortId = new RegExp(`^(${prefixes.join('|')}):ruc$`)
     const setLoreId = new RegExp(`^(${prefixes.join('|')}):setlore$`)
     const multiCommandId = new RegExp(`^(${prefixes.join('|')}):multicommand$`)
-    const addDeathCommandId = new RegExp(`^(${prefixes.join('|')}):adddeathcommand$`)
-    const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
+    const scoreboardNameId = new RegExp(`^(${prefixes.join('|')}):scoreboardname$`)
+
     const chanceId = new RegExp(`^(${prefixes.join('|')}):chance$`)
     const editLoreId = new RegExp(`^(${prefixes.join('|')}):editlore$`)
     const scaleId = new RegExp(`^(${prefixes.join('|')}):scale$`)
@@ -54,9 +56,19 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const lockId = new RegExp(`^(${prefixes.join('|')}):lock$`)
     const unlockId = new RegExp(`^(${prefixes.join('|')}):unlock$`)
     const smiteId = new RegExp(`^(${prefixes.join('|')}):smite$`)
+    const dropId = new RegExp(`^(${prefixes.join('|')}):drop$`)
 
     const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
+    const addUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):addusecommand2$`)
     const removeUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):ruc2$`)
+    const removeUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):removeusecommand2$`)
+
+    const addDeathCommandId = new RegExp(`^(${prefixes.join('|')}):adddeathcommand$`)
+    const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
+    const addDeathCommandShortId = new RegExp(`^(${prefixes.join('|')}):adc$`)
+    const removeDeathCommandShortId = new RegExp(`^(${prefixes.join('|')}):rdc$`)
+
+
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -130,11 +142,11 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
         multiCommand(event)
     }
 
-    else if (addDeathCommandId.test(event.id)) {
+    else if (addDeathCommandId.test(event.id) || addDeathCommandShortId.test(event.id)) {
         createDeathDetector(event)
     }
 
-    else if (removeDeathCommandId.test(event.id)) {
+    else if (removeDeathCommandId.test(event.id) || removeDeathCommandShortId.test(event.id)) {
         removeDeathDetector(event)
     }
 
@@ -150,11 +162,11 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
         setScale(event)
     }
 
-    else if (addUseCommandv2ShortId.test(event.id)) {
+    else if (addUseCommandv2Id.test(event.id) || addUseCommandv2ShortId.test(event.id)) {
         createRightClickDetectorv2(event)
     }
 
-    else if (removeUseCommandv2ShortId.test(event.id)) {
+    else if (removeUseCommandv2Id.test(event.id) || removeUseCommandv2ShortId.test(event.id)) {
         removeRightClickDetectorv2(event)
     }
 
@@ -172,6 +184,14 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (smiteId.test(event.id)) {
         smite(event)
+    }
+
+    else if (dropId.test(event.id)) {
+        dropItem(event)
+    }
+
+    else if (scoreboardNameId.test(event.id)) {
+        setScoreboardNameScriptEvent(event)
     }
 
     // Switch statements exist, but I don't like how they look

@@ -6,7 +6,7 @@ import zipfile
 
 # No need to include the 'v' in front
 # Only change version count here and as github tag
-VERSION = "0.9.10"
+VERSION = "0.9.11"
 MIN_ENGINE_VERSION = [ 1, 21, 70 ]
 
 CONSTANTS_TS_PATH = "src/constants.ts"
@@ -24,6 +24,8 @@ BP_MANIFEST_PATH = "build/Extended Commands Suite BP/manifest.json"
 RP_MANIFEST_PATH = "build/Extended Commands Suite RP/manifest.json"
 
 OUTPUT_FILE = f"build/extended-commands-suite.mcaddon"
+OUTPUT_FILE_BP = f"build/extended-commands-suite-bp.mcpack"
+OUTPUT_FILE_RP = f"build/extended-commands-suite-rp.mcpack"
 
 # Injects the version number into constants.ts
 def inject_to_src():
@@ -88,8 +90,10 @@ def move_scripts():
 def copy_misc_files():
     shutil.copy("LICENCE", f'{BP_PATH}/LICENCE')
     shutil.copy("LICENCE", f'{RP_PATH}/LICENCE')
-    shutil.copy("pack-icon.png", f'{BP_PATH}/pack-icon.png')
-    shutil.copy("pack-icon.png", f'{RP_PATH}/pack-icon.png')
+    shutil.copy("pack_icon.png", f'{BP_PATH}/pack_icon.png')
+    shutil.copy("pack_icon.png", f'{RP_PATH}/pack_icon.png')
+    shutil.copy("./language/languages.json", f'{BP_PATH}/texts/languages.json')
+    shutil.copy("./language/languages.json", f'{RP_PATH}/texts/languages.json')
     shutil.copytree('functions', f'{BP_PATH}/functions')
     # Doesn't seem to show entities anyway, just use the supplementary pack
     shutil.copytree('bp-entities', f'{BP_PATH}/entities')
@@ -209,8 +213,8 @@ def prepare_directories():
         os.makedirs(RP_PATH)
         os.makedirs(f'{RP_PATH}/texts')
 
-def create_mcaddon(bp_path, rp_path, output_file):
-    with zipfile.ZipFile(output_file, 'w', zipfile.ZIP_DEFLATED) as mcaddon:
+def create_mcaddon(bp_path, rp_path, output_file_1, output_file_2, output_file_3):
+    with zipfile.ZipFile(output_file_1, 'w', zipfile.ZIP_DEFLATED) as mcaddon:
         # We don't need to use a resource pack just yet
         # The entities don't show up for /shoot
         # Add BP files
@@ -222,13 +226,23 @@ def create_mcaddon(bp_path, rp_path, output_file):
                     arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
                     mcaddon.write(file_path, arcname)
                 # Add BP files
-        # for root, dirs, files in os.walk(bp_path):
-        #     for file in files:
-        #         file_path = os.path.join(root, file)
-        #         # Write with relative path inside the zip
-        #         arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
-        #         mcaddon.write(file_path, arcname)
-    print(f"Created: {output_file}")
+    print(f"Created: {output_file_1}")
+    with zipfile.ZipFile(output_file_2, 'w', zipfile.ZIP_DEFLATED) as mcpack_1:
+        for root, dirs, files in os.walk(bp_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                # Write with relative path inside the zip
+                arcname = os.path.relpath(file_path, start=bp_path)
+                mcpack_1.write(file_path, arcname)
+    print(f"Created: {output_file_2}")
+    with zipfile.ZipFile(output_file_3, 'w', zipfile.ZIP_DEFLATED) as mcpack_2:
+        for root, dirs, files in os.walk(rp_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                # Write with relative path inside the zip
+                arcname = os.path.relpath(file_path, start=rp_path)
+                mcpack_2.write(file_path, arcname)
+    print(f"Created: {output_file_3}")
 
 def build_project():
 
@@ -252,7 +266,7 @@ def build_project():
 
     split_lang_files("./language", BP_PATH, RP_PATH)
 
-    create_mcaddon(BP_PATH, RP_PATH, OUTPUT_FILE)
+    create_mcaddon(BP_PATH, RP_PATH, OUTPUT_FILE, OUTPUT_FILE_BP, OUTPUT_FILE_RP)
 
     # Clean up the temporary constants file
     clean_up()

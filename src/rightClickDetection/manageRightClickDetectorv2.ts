@@ -5,8 +5,9 @@
  * Author: Aevarkan
  */
 
-import { EntityComponentTypes, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { addEntry, removeAllEntries, removeEntry } from "./utility";
+import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
+import { addItemCommandEntry, removeAllItemCommandEntries, removeItemCommandEntry } from "./utility";
+import { RemoveOptions } from "definitions";
 
 /**
  * This makes a right click detector in the player's selected hotbar slot
@@ -37,7 +38,7 @@ export function removeRightClickDetectorv2(event: ScriptEventCommandMessageAfter
     if (commandId.length === 0) {
         removeRightClickDetectorAction(player, slot, {removeAll: true})
     } else {
-        removeRightClickDetectorAction(player, slot, {removeAll: false, commandId: commandId})
+        removeRightClickDetectorAction(player, slot, {removeAll: false, id: commandId})
     }
 }
 
@@ -50,7 +51,8 @@ export function removeRightClickDetectorv2(event: ScriptEventCommandMessageAfter
  * @param farMode Whether or not to do a raycast and cast the command there.
  */
 function createRightClickDetectorAction(player: Player, commandId: string, command: string, slot: number, farMode: boolean) {
-    const inventory = player.getComponent(EntityComponentTypes.Inventory).container
+    const inventoryComponent = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent
+    const inventory = inventoryComponent.container
     const selectedItem = inventory.getItem(slot)
 
     // You need to put lore on your item, it's too dangerous otherwise
@@ -60,7 +62,7 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
         return
     }
 
-    addEntry(selectedItem, command, commandId, farMode)
+    addItemCommandEntry(selectedItem, command, commandId, farMode)
 }
 
 /**
@@ -70,20 +72,13 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
  * @param removeOptions Additional information about removal.
  */
 function removeRightClickDetectorAction(player: Player, slot: number, removeOptions: RemoveOptions) {
-    const inventory = player.getComponent(EntityComponentTypes.Inventory).container
+    const inventoryComponent = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent
+    const inventory = inventoryComponent.container
     const item = inventory.getItem(slot)
     
     if (removeOptions.removeAll === true) {
-        removeAllEntries(item)
+        removeAllItemCommandEntries(item)
     } else {
-        removeEntry(item, removeOptions.commandId)
+        removeItemCommandEntry(item, removeOptions.id)
     }
 }
-
-/**
- * Whether to remove all entries or just one.
- * If removing just one, the Id is required.
- */
-type RemoveOptions =
-  | { removeAll: true }
-  | { removeAll: false; commandId: string }

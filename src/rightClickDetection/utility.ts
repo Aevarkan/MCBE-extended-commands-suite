@@ -15,7 +15,7 @@ import { RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PRE
  * @param commandId The identifier for the command.
  * @param farMode If the command runs in farmode.
  */
-export function addEntry(item: ItemStack, command: string, commandId: string, farmode: boolean) {
+export function addItemCommandEntry(item: ItemStack, command: string, commandId: string, farmode: boolean) {
     const itemTypeId = item.typeId
     const selectedItemLore = item.getLore()
     const itemLoreString = selectedItemLore.join()
@@ -34,7 +34,7 @@ export function addEntry(item: ItemStack, command: string, commandId: string, fa
  * @param item The `ItemStack` to check.
  * @returns An array of command ids.
  */
-export function getMatches(item: ItemStack): string[] {
+export function getItemCommandMatches(item: ItemStack): string[] {
     const itemTypeId = item.typeId
     const itemLore = item.getLore()
     const loreString = itemLore.join()
@@ -65,7 +65,7 @@ export function getMatches(item: ItemStack): string[] {
  * @param commandId The entry ID.
  * @returns An object with command information.
  */
-export function getEntry(item: ItemStack, commandId: string): CommandInformation {
+export function getItemCommandEntry(item: ItemStack, commandId: string): CommandInformation {
     const itemTypeId = item.typeId
 
     const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
@@ -96,7 +96,7 @@ export interface CommandInformation {
  * @param item The item to remove.
  * @param commandId The identifier.
  */
-export function removeEntry(item: ItemStack, commandId: string) {
+export function removeItemCommandEntry(item: ItemStack, commandId: string) {
     const itemTypeId = item.typeId
 
     const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
@@ -112,10 +112,10 @@ export function removeEntry(item: ItemStack, commandId: string) {
  * Removes all entries from the command database for an item.
  * @param item The `ItemStack`.
  */
-export function removeAllEntries(item: ItemStack) {
-    const matchingIds = getMatches(item)
+export function removeAllItemCommandEntries(item: ItemStack) {
+    const matchingIds = getItemCommandMatches(item)
 
     matchingIds.forEach(id => {
-        removeEntry(item, id)
+        removeItemCommandEntry(item, id)
     })
 }

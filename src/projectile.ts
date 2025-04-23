@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { DimensionLocation, Entity, EntityComponentTypes, ScriptEventCommandMessageAfterEvent, Vector3 } from "@minecraft/server";
+import { DimensionLocation, Entity, EntityComponentTypes, EntityProjectileComponent, ScriptEventCommandMessageAfterEvent, Vector3 } from "@minecraft/server";
 
 // Plan:
 // Two commands: /shoot and /projectile
@@ -70,7 +70,7 @@ function shootProjectileAsEntity(projectileEntityTypeId: string, location: Dimen
         return
     }
 
-    const projectileComponent = projectileEntity.getComponent(EntityComponentTypes.Projectile)
+    const projectileComponent = projectileEntity.getComponent(EntityComponentTypes.Projectile) as EntityProjectileComponent
 
     projectileComponent.owner = sourceEntity
     // This command always has perfect shots, could change this later though

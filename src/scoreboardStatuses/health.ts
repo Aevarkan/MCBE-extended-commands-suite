@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { Entity, EntityComponentTypes, world } from "@minecraft/server";
+import { Entity, EntityComponentTypes, EntityHealthComponent, world } from "@minecraft/server";
 import { getScoreboard } from "./utility";
 import { HEALTH_SCOREBOARD_NAME } from "constants";
 
@@ -43,6 +43,7 @@ function initialiseScoreboard(entity: Entity) {
     // Only does it for entities with health
     if (!hasHealth) return
 
-    const health = entity.getComponent(EntityComponentTypes.Health).currentValue
+    const healthComponent = entity.getComponent(EntityComponentTypes.Health) as EntityHealthComponent
+    const health = healthComponent.currentValue
     healthScoreboard.setScore(entity, health)
 }

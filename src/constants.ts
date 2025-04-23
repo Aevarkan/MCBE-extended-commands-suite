@@ -82,10 +82,14 @@ export const MAGIC_KILL_CAUSES: EntityDamageCause[] = [
     EntityDamageCause.wither
 ]
 
-// Right Click Detection
 
 // DO NOT CHANGE THESE
+
+// Right Click Detection
 export const RIGHT_CLICK_PREFIX_COMMAND = "_ecs_right_click_cmd_"
 export const RIGHT_CLICK_PREFIX_FARMODE = "_ecs_right_click_farmode_"
 export const RIGHT_CLICK_PREFIX_LORE = "_ecs_right_click_lore_"
 export const RIGHT_CLICK_SUFFIX_SEPARATOR = "_ecs_"
+
+// Death Commands
+export const DEATH_COMMAND_PREFIX = "_ecs_death_command_"

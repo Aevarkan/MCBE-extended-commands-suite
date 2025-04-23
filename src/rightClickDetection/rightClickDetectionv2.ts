@@ -6,14 +6,14 @@
  */
 
 import { BlockRaycastOptions, DimensionLocation, Entity, ItemStack, ItemUseBeforeEvent, Player, system, Vector3, world } from "@minecraft/server";
-import { CommandInformation, getEntry, getMatches } from "./utility";
+import { CommandInformation, getItemCommandEntry, getItemCommandMatches } from "./utility";
 import { FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
 
 world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const player = event.source as Player
     const item = event.itemStack as ItemStack
 
-    const matchedIds = getMatches(item)
+    const matchedIds = getItemCommandMatches(item)
 
     // console.info("Detected right click")
 
@@ -27,7 +27,7 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const commandPackets = [] as CommandInformation[]
 
     matchedIds.forEach(id => {
-        const entryinfo = getEntry(item, id)
+        const entryinfo = getItemCommandEntry(item, id)
         commandPackets.push(entryinfo)
     })
 

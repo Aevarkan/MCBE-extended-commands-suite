@@ -6,6 +6,7 @@
  */
 
 import { system, world } from "@minecraft/server";
+import { getAllDeathCommandEntryIds, getDeathCommandEntry } from "./utility";
 
 // Runs every time an entity dies and checks if it has a detector.
 world.afterEvents.entityDie.subscribe((event) => {
@@ -14,6 +15,16 @@ world.afterEvents.entityDie.subscribe((event) => {
     // Stops errors from popping up further down
     if (!entity.isValid()) return
 
+    const deathCommandIds = getAllDeathCommandEntryIds(entity)
+
+    deathCommandIds.forEach(id => {
+        const command = getDeathCommandEntry(entity, id)
+        system.run(() => {
+            entity.runCommand(command)
+        })
+    })
+
+    // Left here for compatability
     const isDetector = entity.getDynamicProperty("enabledDeathDetector") as boolean
 
     if (isDetector) {
