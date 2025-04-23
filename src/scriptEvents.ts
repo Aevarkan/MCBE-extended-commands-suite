@@ -22,6 +22,7 @@ import { shoot } from "projectile";
 import { lockEntities, unlockEntities } from "entityLock";
 import { smite } from "smite";
 import { dropItem } from "drop";
+import { setScoreboardNameScriptEvent } from "scoreboardStatuses/changeName";
 
 // This file contains ALL the script events
 
@@ -46,6 +47,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeUseCommandShortId = new RegExp(`^(${prefixes.join('|')}):ruc$`)
     const setLoreId = new RegExp(`^(${prefixes.join('|')}):setlore$`)
     const multiCommandId = new RegExp(`^(${prefixes.join('|')}):multicommand$`)
+    const scoreboardNameId = new RegExp(`^(${prefixes.join('|')}):scoreboardname$`)
 
     const chanceId = new RegExp(`^(${prefixes.join('|')}):chance$`)
     const editLoreId = new RegExp(`^(${prefixes.join('|')}):editlore$`)
@@ -186,6 +188,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (dropId.test(event.id)) {
         dropItem(event)
+    }
+
+    else if (scoreboardNameId.test(event.id)) {
+        setScoreboardNameScriptEvent(event)
     }
 
     // Switch statements exist, but I don't like how they look
