@@ -21,6 +21,7 @@ import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "rightCli
 import { shoot } from "projectile";
 import { lockEntities, unlockEntities } from "entityLock";
 import { smite } from "smite";
+import { dropItem } from "drop";
 
 // This file contains ALL the script events
 
@@ -54,6 +55,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const lockId = new RegExp(`^(${prefixes.join('|')}):lock$`)
     const unlockId = new RegExp(`^(${prefixes.join('|')}):unlock$`)
     const smiteId = new RegExp(`^(${prefixes.join('|')}):smite$`)
+    const dropId = new RegExp(`^(${prefixes.join('|')}):drop$`)
 
     const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
     const removeUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):ruc2$`)
@@ -172,6 +174,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (smiteId.test(event.id)) {
         smite(event)
+    }
+
+    else if (dropId.test(event.id)) {
+        dropItem(event)
     }
 
     // Switch statements exist, but I don't like how they look
