@@ -62,10 +62,3 @@ export function getDeathCommandEntry(entity: Entity, deathCommandKey: string) {
     return command
 }
 
-/**
- * Whether to remove all entries or just one.
- * If removing just one, the id is required.
- */
-type RemoveOptions =
-  | { removeAll: true }
-  | { removeAll: false; id: string }
