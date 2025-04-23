@@ -24,6 +24,8 @@ BP_MANIFEST_PATH = "build/Extended Commands Suite BP/manifest.json"
 RP_MANIFEST_PATH = "build/Extended Commands Suite RP/manifest.json"
 
 OUTPUT_FILE = f"build/extended-commands-suite.mcaddon"
+OUTPUT_FILE_BP = f"build/extended-commands-suite-bp.mcpack"
+OUTPUT_FILE_RP = f"build/extended-commands-suite-rp.mcpack"
 
 # Injects the version number into constants.ts
 def inject_to_src():
@@ -211,8 +213,8 @@ def prepare_directories():
         os.makedirs(RP_PATH)
         os.makedirs(f'{RP_PATH}/texts')
 
-def create_mcaddon(bp_path, rp_path, output_file):
-    with zipfile.ZipFile(output_file, 'w', zipfile.ZIP_DEFLATED) as mcaddon:
+def create_mcaddon(bp_path, rp_path, output_file_1, output_file_2, output_file_3):
+    with zipfile.ZipFile(output_file_1, 'w', zipfile.ZIP_DEFLATED) as mcaddon:
         # We don't need to use a resource pack just yet
         # The entities don't show up for /shoot
         # Add BP files
@@ -224,13 +226,23 @@ def create_mcaddon(bp_path, rp_path, output_file):
                     arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
                     mcaddon.write(file_path, arcname)
                 # Add BP files
-        # for root, dirs, files in os.walk(bp_path):
-        #     for file in files:
-        #         file_path = os.path.join(root, file)
-        #         # Write with relative path inside the zip
-        #         arcname = os.path.relpath(file_path, start=os.path.dirname(bp_path))
-        #         mcaddon.write(file_path, arcname)
-    print(f"Created: {output_file}")
+    print(f"Created: {output_file_1}")
+    with zipfile.ZipFile(output_file_2, 'w', zipfile.ZIP_DEFLATED) as mcpack_1:
+        for root, dirs, files in os.walk(bp_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                # Write with relative path inside the zip
+                arcname = os.path.relpath(file_path, start=bp_path)
+                mcpack_1.write(file_path, arcname)
+    print(f"Created: {output_file_2}")
+    with zipfile.ZipFile(output_file_3, 'w', zipfile.ZIP_DEFLATED) as mcpack_2:
+        for root, dirs, files in os.walk(rp_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                # Write with relative path inside the zip
+                arcname = os.path.relpath(file_path, start=rp_path)
+                mcpack_2.write(file_path, arcname)
+    print(f"Created: {output_file_3}")
 
 def build_project():
 
@@ -254,7 +266,7 @@ def build_project():
 
     split_lang_files("./language", BP_PATH, RP_PATH)
 
-    create_mcaddon(BP_PATH, RP_PATH, OUTPUT_FILE)
+    create_mcaddon(BP_PATH, RP_PATH, OUTPUT_FILE, OUTPUT_FILE_BP, OUTPUT_FILE_RP)
 
     # Clean up the temporary constants file
     clean_up()
