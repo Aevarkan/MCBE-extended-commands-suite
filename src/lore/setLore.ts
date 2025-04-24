@@ -8,6 +8,9 @@
 import { EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 import { MAX_LORE_LINES } from "constants";
+import { DynamicLoreVariables } from "definitions";
+import { checkEnumMatchString } from "utility/functions";
+import { setDynamicLore } from "./manageDynamicLore";
 
 export function setLore(event: ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
@@ -35,6 +38,12 @@ function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
     // Must replace the item, as we can't modify existing ones
     let updatedItem = item.clone()
     updatedItem.setLore(loreArray)
+    
+    // Dynamic lore check
+    const containsDynamicLore = checkEnumMatchString(loreArray, DynamicLoreVariables)
+    if (containsDynamicLore) {
+        setDynamicLore(item, loreArray)
+    }
 
     inventory.setItem(slotIndex, updatedItem)
 }
@@ -102,14 +111,21 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
             // We don't want to update the lore if the player backs out
             if (response.canceled) return
 
-            const lore = response.formValues as string[]
+            // We don't want the section character
+            const lore = response.formValues.slice(1) as string[]
+            
+            // Checking for dynamic lore, only works if the item isn't stackable
+            // const supportedDynamicValues = Object.values(DynamicLoreVariables) as string[]
+            const containsDynamicLore = checkEnumMatchString(lore, DynamicLoreVariables)
+            if (containsDynamicLore) {
+                setDynamicLore(item, lore)
+            }
 
-            // I know the loop is inefficient, but I want to use the function I made ;)
+            // I know the loop is inefficient, but I want to use the function I made :)
             // It shouldn't really affect performance that much anyway
-            for (let i = 1; i <= MAX_LORE_LINES; i++) {
+            for (let i = 0; i < MAX_LORE_LINES; i++) {
                 if (lore[i]) {
-                    // Take 1 from i because of that section character
-                    item = setLorePart(item, lore[i], i-1)
+                    item = setLorePart(item, lore[i], i)
                 }
             }
 
@@ -125,7 +141,7 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
  * @param player The player.
  * @param item The new item.
  */
-function setItemInSelectedSlot(player: Player, item: ItemStack) {
+export function setItemInSelectedSlot(player: Player, item: ItemStack) {
     const selectedSlot = player.selectedSlotIndex
     const inventory = player.getComponent(EntityInventoryComponent.componentId).container
 
