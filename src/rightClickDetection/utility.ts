@@ -7,9 +7,7 @@
 
 import { ItemStack, world } from "@minecraft/server"
 import { RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PREFIX_LORE, RIGHT_CLICK_SUFFIX_SEPARATOR } from "constants"
-import { DynamicLoreVariables } from "definitions"
-import { getDynamicLore } from "lore/manageDynamicLore"
-import { checkEnumMatchString } from "utility/functions"
+import { getDynamicLore, hasDynamicLore } from "lore/manageDynamicLore"
 
 /**
  * Adds an entry into the command database.
@@ -23,9 +21,10 @@ export function addItemCommandEntry(item: ItemStack, command: string, commandId:
     const selectedItemLore = item.getLore()
     let itemLoreString = selectedItemLore.join() // This is a let because we want to check for dynamic lore
     
-    const hasDynamicLore = checkEnumMatchString(selectedItemLore, DynamicLoreVariables)
-    if (hasDynamicLore) {
+    const isDynamic = hasDynamicLore(item)
+    if (isDynamic) {
         itemLoreString = getDynamicLore(item).join()
+        // console.log("Detected dynamic lore!")
     }
 
     const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
@@ -35,6 +34,8 @@ export function addItemCommandEntry(item: ItemStack, command: string, commandId:
     world.setDynamicProperty(fullCommandId, command)
     world.setDynamicProperty(fullFarmodeId, farmode)
     world.setDynamicProperty(fullLoreId, itemLoreString)
+
+    // console.log("Lore stored as ", itemLoreString)
 }
 
 /**
@@ -50,6 +51,8 @@ export function getItemCommandMatches(item: ItemStack): string[] {
     const dynamicLoreString = getDynamicLore(item).join()
     const partialLorePrefix = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}`
 
+    // console.log("Dynamic lore is: ", dynamicLoreString)
+
     // Filtering
     const allIds = world.getDynamicPropertyIds()
     // The ones that start with the prefix
@@ -64,7 +67,7 @@ export function getItemCommandMatches(item: ItemStack): string[] {
         }
 
         // We also need to match dynamic lore
-        else if (dynamicLoreString === loreString) {
+        else if (storedLoreString === dynamicLoreString) {
             const commandId = id.slice(partialLorePrefix.length)
             matchedCommandIds.push(commandId)
         }
