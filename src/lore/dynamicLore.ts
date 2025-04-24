@@ -5,16 +5,19 @@
  * Author: Aevarkan
  */
 
-import { ItemComponentTypes, ItemStack, Player, world } from "@minecraft/server";
+import { EntityComponentTypes, EntityEquippableComponent, EntityHitEntityAfterEvent, EntityHurtAfterEvent, EquipmentSlot, ItemComponentTypes, ItemStack, Player, world } from "@minecraft/server";
 import { getDynamicLore, hasDynamicLore } from "./manageDynamicLore";
 import { DynamicLoreVariables, ReplacementLore } from "definitions";
 import { setItemInSelectedSlot } from "./setLore";
 
 // The lore is updated everytime the item is used
-// Since we only have durability for now, we only need to check on attacks and block breaks
+// Since we only have durability for now, we only need to check damage and block breaks
 world.afterEvents.playerBreakBlock.subscribe((event) => {
-    
+
     const originalItemStack = event.itemStackAfterBreak
+
+    // Because sometimes you break things with your fist
+    if (!originalItemStack) return
     
     // Don't update non-dynamic lore (It deletes it otherwise!)
     const isDynamic = hasDynamicLore(originalItemStack)
@@ -25,20 +28,51 @@ world.afterEvents.playerBreakBlock.subscribe((event) => {
     setItemInSelectedSlot(event.player, updatedItemStack)
 })
 
-// world.afterEvents.entityHitEntity.subscribe((event) => {
-//     const sourceEntity = event.damagingEntity
-//     const hitEntity = event.hitEntity
+world.afterEvents.entityHurt.subscribe((event: EntityHurtAfterEvent) => {
+    const entity = event.hurtEntity
 
-//     const entities = [sourceEntity, hitEntity]
+    if (!(entity instanceof Player)) return
 
-//     entities.forEach(entity => {
+    const equipmentComponent = entity.getComponent(EntityComponentTypes.Equippable) as EntityEquippableComponent
+    const headSlot = equipmentComponent.getEquipmentSlot(EquipmentSlot.Head)
+    const chestSlot = equipmentComponent.getEquipmentSlot(EquipmentSlot.Chest)
+    const legsSlot = equipmentComponent.getEquipmentSlot(EquipmentSlot.Legs)
+    const feetSlot = equipmentComponent.getEquipmentSlot(EquipmentSlot.Feet)
+    const offhandSlot = equipmentComponent.getEquipmentSlot(EquipmentSlot.Offhand)
+    const slots = [headSlot, chestSlot, legsSlot, feetSlot, offhandSlot]
+
+    slots.forEach(slot => {
+
+        if (!slot.hasItem()) return
+
+        const updatedItem = updateDynamicLore(slot.getItem())
+        slot.setItem(updatedItem)
+    })
+})
+
+world.afterEvents.entityHitEntity.subscribe((event: EntityHitEntityAfterEvent) => {
+    const sourceEntity = event.damagingEntity
+    const hitEntity = event.hitEntity
+
+    const entities = [sourceEntity, hitEntity]
+
+    entities.forEach(entity => {
         
-//         if (entity !instanceof Player) return
+        if (!(entity instanceof Player)) return
 
+        const equipmentComponent = entity.getComponent(EntityComponentTypes.Equippable) as EntityEquippableComponent
+        const mainhandSlot = equipmentComponent.getEquipmentSlot(EquipmentSlot.Mainhand)
+        const slots = [mainhandSlot]
 
+        slots.forEach(slot => {
 
-//     })
-// })
+            if (!slot.hasItem()) return
+
+            const updatedItem = updateDynamicLore(slot.getItem())
+            slot.setItem(updatedItem)
+        })
+    })
+})
 
 /**
  * Updates an item's dynamic lore.
