@@ -42,7 +42,8 @@ function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
     // Dynamic lore check
     const containsDynamicLore = checkEnumMatchString(loreArray, DynamicLoreVariables)
     if (containsDynamicLore) {
-        setDynamicLore(item, loreArray)
+        // console.log("Detected dynamic lore!")
+        updatedItem = setDynamicLore(item, loreArray)
     }
 
     inventory.setItem(slotIndex, updatedItem)

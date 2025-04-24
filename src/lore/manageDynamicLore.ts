@@ -21,6 +21,7 @@ export function getDynamicLore(item: ItemStack): string[] {
         const storedLoreLine = item.getDynamicProperty(`${DYNAMIC_LORE_PREFIX}${i}`) as string
         dynamicLore.push(storedLoreLine)
     }
+    // console.log("Dynamic lore is: ",dynamicLore)
     return dynamicLore
 }
 
@@ -28,17 +29,21 @@ export function getDynamicLore(item: ItemStack): string[] {
  * Sets the dynamic lore string of an item.
  * @param item The item.
  * @param dynamicLore The dynamic lore array.
+ * @returns The updated ItemStack
  */
-export function setDynamicLore(item: ItemStack, dynamicLore: string[]) {
+export function setDynamicLore(item: ItemStack, dynamicLore: string[]): ItemStack {
 
+    const updatedItem = item.clone()
     // Clear old lore
     for (let i = 0; i < MAX_LORE_LINES; i++) {
         // Stored as lore_line_0 -> lore_line_19
-        item.setDynamicProperty(`${DYNAMIC_LORE_PREFIX}${i}`, undefined)
+        updatedItem.setDynamicProperty(`${DYNAMIC_LORE_PREFIX}${i}`, undefined)
     }
 
 
     dynamicLore.forEach((line, lineIndex) => {
-        item.setDynamicProperty(`${DYNAMIC_LORE_PREFIX}${lineIndex}`, line)
+        updatedItem.setDynamicProperty(`${DYNAMIC_LORE_PREFIX}${lineIndex}`, line)
     })
+
+    return updatedItem
 }
