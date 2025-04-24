@@ -97,3 +97,4 @@ export const DEATH_COMMAND_PREFIX = "_ecs_death_command_"
 
 // Dynamic Lore
 export const DYNAMIC_LORE_PREFIX = "dynamic_lore_line_"
+export const DYNAMIC_LORE_CHECK_KEY = `${DYNAMIC_LORE_PREFIX}0`

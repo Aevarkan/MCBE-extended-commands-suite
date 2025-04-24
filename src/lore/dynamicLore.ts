@@ -6,7 +6,7 @@
  */
 
 import { ItemComponentTypes, ItemStack, Player, world } from "@minecraft/server";
-import { getDynamicLore } from "./manageDynamicLore";
+import { getDynamicLore, hasDynamicLore } from "./manageDynamicLore";
 import { DynamicLoreVariables, ReplacementLore } from "definitions";
 import { setItemInSelectedSlot } from "./setLore";
 
@@ -15,6 +15,11 @@ import { setItemInSelectedSlot } from "./setLore";
 world.afterEvents.playerBreakBlock.subscribe((event) => {
     
     const originalItemStack = event.itemStackAfterBreak
+    
+    // Don't update non-dynamic lore (It deletes it otherwise!)
+    const isDynamic = hasDynamicLore(originalItemStack)
+    if (!isDynamic) return
+
     const updatedItemStack = updateDynamicLore(originalItemStack)
 
     setItemInSelectedSlot(event.player, updatedItemStack)

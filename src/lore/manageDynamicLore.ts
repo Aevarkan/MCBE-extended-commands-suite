@@ -7,7 +7,7 @@
  */
 
 import { ItemStack } from "@minecraft/server";
-import { DYNAMIC_LORE_PREFIX, MAX_LORE_LINES } from "constants";
+import { DYNAMIC_LORE_CHECK_KEY, DYNAMIC_LORE_PREFIX, MAX_LORE_LINES } from "constants";
 
 /**
  * Gets the original dynamic lore string of an item.
@@ -46,4 +46,18 @@ export function setDynamicLore(item: ItemStack, dynamicLore: string[]): ItemStac
     })
 
     return updatedItem
+}
+
+/**
+ * Checks if an ItemStack has dynamic lore.
+ * @param item The itemstack to check.
+ * @returns true if there is dynamic lore, otherwise false.
+ */
+export function hasDynamicLore(item: ItemStack): boolean {
+    let isDynamic = false
+    const customProperties = item.getDynamicPropertyIds()
+    if (customProperties.includes(DYNAMIC_LORE_CHECK_KEY)) {
+        isDynamic = true
+    }
+    return isDynamic
 }

@@ -10,7 +10,7 @@ import { ModalFormData } from "@minecraft/server-ui";
 import { MAX_LORE_LINES } from "constants";
 import { DynamicLoreVariables } from "definitions";
 import { checkEnumMatchString } from "utility/functions";
-import { setDynamicLore } from "./manageDynamicLore";
+import { getDynamicLore, hasDynamicLore, setDynamicLore } from "./manageDynamicLore";
 
 export function setLore(event: ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
@@ -44,6 +44,10 @@ function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
     if (containsDynamicLore) {
         // console.log("Detected dynamic lore!")
         updatedItem = setDynamicLore(item, loreArray)
+    } 
+    // We set an empty array otherwise
+    else {
+        updatedItem = setDynamicLore(item, [])
     }
 
     inventory.setItem(slotIndex, updatedItem)
@@ -54,10 +58,17 @@ function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
  * @param item The item that contains the lore.
  * @param lineIndex The line of lore to get, starts from 0.
  */
-function getLorePart(item: ItemStack, lineIndex: number) {
+function getLorePart(item: ItemStack, lineIndex: number, includeDynamicLore: boolean) {
     const loreArray = item.getLore()
-    
+    const dynamicLore = getDynamicLore(item)
+    const isDynamic = hasDynamicLore(item)
+
     let lore = loreArray[lineIndex]
+    // We only get the dynamic lore if there is any!
+    if (includeDynamicLore && isDynamic) {
+        lore = dynamicLore[lineIndex]
+    }
+
     if (!lore) { lore = "" }
 
     return lore
@@ -102,7 +113,7 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
     for (let i = 0; i < MAX_LORE_LINES; i++) {
         const currentLine = i + 1
         const currentLineString = currentLine.toString()
-        loreForm.textField({translate: "ecs.command.lore.line_number", with: [currentLineString] }, { translate: "ecs.command.lore.maximum_50_characters" }, getLorePart(item, i))
+        loreForm.textField({translate: "ecs.command.lore.line_number", with: [currentLineString] }, { translate: "ecs.command.lore.maximum_50_characters" }, getLorePart(item, i, true))
     }
     
     loreForm
@@ -119,7 +130,9 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
             // const supportedDynamicValues = Object.values(DynamicLoreVariables) as string[]
             const containsDynamicLore = checkEnumMatchString(lore, DynamicLoreVariables)
             if (containsDynamicLore) {
-                setDynamicLore(item, lore)
+                item = setDynamicLore(item, lore)
+            } else {
+                item = setDynamicLore(item, [])
             }
 
             // I know the loop is inefficient, but I want to use the function I made :)
