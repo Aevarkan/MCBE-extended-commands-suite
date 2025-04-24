@@ -41,25 +41,9 @@ function createRightClickDetectorAction(player: Player, command: string, slot: n
     if (selectedItem.isStackable){
         
         player.sendMessage({translate: "ecs.command.error.stackable_item_no_support"})
-        // QIDB has problems when reloading script / reloading the world
-        // Cannot use it for now
-        // // Increase counter by 1. This is very primitive, but I don't expect any problems unless 
-        // // Someone makes a huge number of stackable items, which shouldn't really happen
-        // let count = world.getDynamicProperty('cmdlib:stackable_item_command_counter') as number || 0
-        // count += 1;
-        // world.setDynamicProperty('cmdlib:stackable_item_command_counter', count);
-
-        // // Use the count as the key
-        // const key = `item_${count}`;
-
-        // const commandOptions: CommandOptions = {
-        //     command: command,
-        //     farMode: farMode
-        // }
-
-        // saveItemCommandPair(key, selectedItem, commandOptions)
+        // Old command, doesn't work on stackable items
         
-    } else { // If unstackable item, then just set dynamic properties on it
+    } else {
         // Must replace the item, as we can't modify existing ones
         let updatedItem = selectedItem.clone()
         updatedItem.setDynamicProperty('isCommandItem', true)
@@ -81,13 +65,8 @@ function removeRightClickDetectorAction(player: Player, slot: number) {
     
     if (selectedItem.isStackable){
         player.sendMessage({translate: "ecs.command.error.stackable_item_no_support"})
-        // const commandPairs = getAllItemCommandPairs()
-        // for (const pair of commandPairs) {
-        //     if (selectedItem.isStackableWith(pair.itemStack)) {
-        //         removeItemCommandPair(pair.key)
-        //     }
-        // }
-    } else { // Unstackable items are easier
+        // Old command, doesn't work on stackable items
+    } else {
         // Must replace the item, as we can't modify existing ones
         let updatedItem = selectedItem.clone()
         updatedItem.setDynamicProperty('isCommandItem', true)

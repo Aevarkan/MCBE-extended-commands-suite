@@ -11,6 +11,7 @@ import "./rightClickDetection/rightClickDetectionv2"
 import "./deathDetection/deathDetection"
 import "./scoreboardStatuses/index"
 import "./entityLock"
+import "./lore/dynamicLore"
 
 
 import "./versionCounter"

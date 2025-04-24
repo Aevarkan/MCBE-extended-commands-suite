@@ -7,6 +7,7 @@
 
 import { ItemStack, world } from "@minecraft/server"
 import { RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PREFIX_LORE, RIGHT_CLICK_SUFFIX_SEPARATOR } from "constants"
+import { getDynamicLore, hasDynamicLore } from "lore/manageDynamicLore"
 
 /**
  * Adds an entry into the command database.
@@ -18,7 +19,13 @@ import { RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PRE
 export function addItemCommandEntry(item: ItemStack, command: string, commandId: string, farmode: boolean) {
     const itemTypeId = item.typeId
     const selectedItemLore = item.getLore()
-    const itemLoreString = selectedItemLore.join()
+    let itemLoreString = selectedItemLore.join() // This is a let because we want to check for dynamic lore
+    
+    const isDynamic = hasDynamicLore(item)
+    if (isDynamic) {
+        itemLoreString = getDynamicLore(item).join()
+        // console.log("Detected dynamic lore!")
+    }
 
     const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
     const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
@@ -27,6 +34,8 @@ export function addItemCommandEntry(item: ItemStack, command: string, commandId:
     world.setDynamicProperty(fullCommandId, command)
     world.setDynamicProperty(fullFarmodeId, farmode)
     world.setDynamicProperty(fullLoreId, itemLoreString)
+
+    // console.log("Lore stored as ", itemLoreString)
 }
 
 /**
@@ -39,8 +48,10 @@ export function getItemCommandMatches(item: ItemStack): string[] {
     const itemLore = item.getLore()
     const loreString = itemLore.join()
     const matchedCommandIds = [] as string[]
-    
+    const dynamicLoreString = getDynamicLore(item).join()
     const partialLorePrefix = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}`
+
+    // console.log("Dynamic lore is: ", dynamicLoreString)
 
     // Filtering
     const allIds = world.getDynamicPropertyIds()
@@ -51,6 +62,12 @@ export function getItemCommandMatches(item: ItemStack): string[] {
     loreIds.forEach(id => {
         const storedLoreString = world.getDynamicProperty(id)
         if (storedLoreString === loreString) {
+            const commandId = id.slice(partialLorePrefix.length)
+            matchedCommandIds.push(commandId)
+        }
+
+        // We also need to match dynamic lore
+        else if (storedLoreString === dynamicLoreString) {
             const commandId = id.slice(partialLorePrefix.length)
             matchedCommandIds.push(commandId)
         }

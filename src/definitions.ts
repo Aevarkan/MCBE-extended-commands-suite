@@ -1,7 +1,35 @@
 /**
+ * This file is part of Extended Commands Suite which is released under GPL-3.0.
+ * See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full licence details.
+ * File: definitions.ts
+ * Author: Aevarkan
+ */
+
+/**
  * Whether to remove all entries or just one.
  * If removing just one, the id is required.
  */
 export type RemoveOptions =
-  | { removeAll: true }
-  | { removeAll: false; id: string }
+    | { removeAll: true }
+    | { removeAll: false; id: string }
+
+/**
+ * Supported dynamic lore variables.
+ */
+export enum DynamicLoreVariables {
+    /**
+     * @remarks
+     * Current durability of an item.
+     */
+    Durability = "$DUR",
+    /**
+     * @remarks
+     * The maximum durability of an item.
+     */
+    MaxDurability = "$MAX_DUR",
+}
+
+export interface ReplacementLore {
+    [DynamicLoreVariables.Durability]?: string,
+    [DynamicLoreVariables.MaxDurability]?: string,
+}

@@ -7,6 +7,10 @@
 
 import { EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
+import { MAX_LORE_LINES } from "constants";
+import { DynamicLoreVariables } from "definitions";
+import { checkEnumMatchString } from "utility/functions";
+import { getDynamicLore, hasDynamicLore, setDynamicLore } from "./manageDynamicLore";
 
 export function setLore(event: ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
@@ -34,6 +38,17 @@ function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
     // Must replace the item, as we can't modify existing ones
     let updatedItem = item.clone()
     updatedItem.setLore(loreArray)
+    
+    // Dynamic lore check
+    const containsDynamicLore = checkEnumMatchString(loreArray, DynamicLoreVariables)
+    if (containsDynamicLore) {
+        // console.log("Detected dynamic lore!")
+        updatedItem = setDynamicLore(item, loreArray)
+    } 
+    // We set an empty array otherwise
+    else {
+        updatedItem = setDynamicLore(item, [])
+    }
 
     inventory.setItem(slotIndex, updatedItem)
 }
@@ -43,10 +58,17 @@ function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
  * @param item The item that contains the lore.
  * @param lineIndex The line of lore to get, starts from 0.
  */
-function getLorePart(item: ItemStack, lineIndex: number) {
+function getLorePart(item: ItemStack, lineIndex: number, includeDynamicLore: boolean) {
     const loreArray = item.getLore()
-    
+    const dynamicLore = getDynamicLore(item)
+    const isDynamic = hasDynamicLore(item)
+
     let lore = loreArray[lineIndex]
+    // We only get the dynamic lore if there is any!
+    if (includeDynamicLore && isDynamic) {
+        lore = dynamicLore[lineIndex]
+    }
+
     if (!lore) { lore = "" }
 
     return lore
@@ -80,7 +102,7 @@ function setLorePart(item: ItemStack, lore: string, lineIndex: number): ItemStac
  * @param item The item to edit the lore of.
  */
 function showLoreEditingForm(player: Player, item: ItemStack) {
-    const loreForm = new ModalFormData().title({translate: "ecs.command.lore.editing", with: { text: item.typeId }})
+    const loreForm = new ModalFormData().title({translate: "ecs.command.lore.editing", with: [item.typeId] })
 
     loreForm.submitButton({translate: "ecs.command.lore.submit"})
 
@@ -88,10 +110,10 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
     loreForm.textField({translate: "ecs.command.lore.section_character"}, "§", "§")
 
     // All 20 lore lines
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < MAX_LORE_LINES; i++) {
         const currentLine = i + 1
         const currentLineString = currentLine.toString()
-        loreForm.textField({translate: "ecs.command.lore.line_number", with: { text: currentLineString }}, { translate: "ecs.command.lore.maximum_50_characters" }, getLorePart(item, i))
+        loreForm.textField({translate: "ecs.command.lore.line_number", with: [currentLineString] }, { translate: "ecs.command.lore.maximum_50_characters" }, getLorePart(item, i, true))
     }
     
     loreForm
@@ -101,14 +123,23 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
             // We don't want to update the lore if the player backs out
             if (response.canceled) return
 
-            const lore = response.formValues as string[]
+            // We don't want the section character
+            const lore = response.formValues.slice(1) as string[]
+            
+            // Checking for dynamic lore, only works if the item isn't stackable
+            // const supportedDynamicValues = Object.values(DynamicLoreVariables) as string[]
+            const containsDynamicLore = checkEnumMatchString(lore, DynamicLoreVariables)
+            if (containsDynamicLore) {
+                item = setDynamicLore(item, lore)
+            } else {
+                item = setDynamicLore(item, [])
+            }
 
-            // I know the loop is inefficient, but I want to use the function I made ;)
+            // I know the loop is inefficient, but I want to use the function I made :)
             // It shouldn't really affect performance that much anyway
-            for (let i = 1; i <= 20; i++) {
+            for (let i = 0; i < MAX_LORE_LINES; i++) {
                 if (lore[i]) {
-                    // Take 1 from i because of that section character
-                    item = setLorePart(item, lore[i], i-1)
+                    item = setLorePart(item, lore[i], i)
                 }
             }
 
@@ -124,7 +155,7 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
  * @param player The player.
  * @param item The new item.
  */
-function setItemInSelectedSlot(player: Player, item: ItemStack) {
+export function setItemInSelectedSlot(player: Player, item: ItemStack) {
     const selectedSlot = player.selectedSlotIndex
     const inventory = player.getComponent(EntityInventoryComponent.componentId).container
 
