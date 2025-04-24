@@ -110,16 +110,6 @@ function updateDynamicLore(item: ItemStack): ItemStack {
  * @returns The updated lore array.
  */
 function replace(placeholderLore: string[], replacementLore: ReplacementLore): string[] {
-    // const newLore = placeholderLore.map(loreLine => {
-    //     let newLoreLine = loreLine
-
-    //     // It passes empty lines sometimes
-    //     if (!loreLine) return
-        
-    //     newLoreLine = newLoreLine.split(DynamicLoreVariables.Durability).join(replacementLore[DynamicLoreVariables.Durability])
-    //     newLoreLine = newLoreLine.split(DynamicLoreVariables.MaxDurability).join(replacementLore[DynamicLoreVariables.MaxDurability])
-    //     return newLoreLine.toString()
-    // })
 
     const newLore = [] as string[]
     placeholderLore.forEach(loreLine => {

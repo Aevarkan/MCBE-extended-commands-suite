@@ -18,9 +18,6 @@ export function playMusic(event: ScriptEventCommandMessageAfterEvent) {
     // The parts
     const trackId = parts[0].toString()
 
-    // This fancy notation is simply
-    // If the thing before the question mark is true, then do the thing that's right after it
-    // Otherwise, go to the other side of the colon
     // If parts.length greater than 1, then turn this section into a float, otherwise use the default
     const musicVolume = parts.length > 1 ? parseFloat(parts[1]) : DEFAULT_MUSIC_VOLUME
     const musicFade = parts.length > 2 ? parseFloat(parts[2]) : DEFAULT_MUSIC_FADE
