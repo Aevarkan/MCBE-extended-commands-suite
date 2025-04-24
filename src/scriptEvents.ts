@@ -12,7 +12,7 @@ import { scheduleCommand } from "schedule";
 import { tpToSpawn } from "tpSpawn";
 import { freeze } from "freeze";
 import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageRightClickDetector";
-import { editLore, setLore } from "setLore";
+import { editLore, setLore } from "lore/setLore";
 import { multiCommand } from "multiCommand";
 import { createDeathDetector, removeDeathDetector } from "deathDetection/manageDeathDetector";
 import { chance } from "chance";
