@@ -91,7 +91,7 @@ function setLorePart(item: ItemStack, lore: string, lineIndex: number): ItemStac
  * @param item The item to edit the lore of.
  */
 function showLoreEditingForm(player: Player, item: ItemStack) {
-    const loreForm = new ModalFormData().title({translate: "ecs.command.lore.editing", with: { text: item.typeId }})
+    const loreForm = new ModalFormData().title({translate: "ecs.command.lore.editing", with: [item.typeId] })
 
     loreForm.submitButton({translate: "ecs.command.lore.submit"})
 
@@ -102,7 +102,7 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
     for (let i = 0; i < MAX_LORE_LINES; i++) {
         const currentLine = i + 1
         const currentLineString = currentLine.toString()
-        loreForm.textField({translate: "ecs.command.lore.line_number", with: { text: currentLineString }}, { translate: "ecs.command.lore.maximum_50_characters" }, getLorePart(item, i))
+        loreForm.textField({translate: "ecs.command.lore.line_number", with: [currentLineString] }, { translate: "ecs.command.lore.maximum_50_characters" }, getLorePart(item, i))
     }
     
     loreForm
