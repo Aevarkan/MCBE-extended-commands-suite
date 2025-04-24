@@ -337,7 +337,23 @@ You are limited to having 20 lines of lore with a maximum length of 50 each. See
 
 **Syntax**: `/scriptevent ecs:setlore <lore: string>`
 
-**Example:** `/scriptevent ecs:setlore §9I have a pen\n§cI have an apple\n§9I have a pen\n§eI have pineapple`
+**Example 1:** `/scriptevent ecs:setlore §9I have a pen\n§cI have an apple\n§9I have a pen\n§eI have pineapple`
+
+**Example 2:** `/scriptevent ecs:setlore §rHi, my durability is §b$DUR§r out of §4$MAX_DUR§r!\n§rI have §a$DUR§r HP!§r`
+
+In the second example, the variables $DUR and $MAX_DUR will be replaced with their actual values once you use the item.
+
+> [!INFO]
+> Item commands made with [auc2](#addusecommand2--auc2) will still work!
+
+Currently, the only variables are $DUR and $MAX_DUR, feel free to share any ideas!.
+
+![Dynamic Lore Example](documentation/dynamic-lore-example.png)
+
+You cannot get rid of `Has Customised Properties`.
+
+> [!IMPORTANT]
+> Dynamic lore only works on non-stackable items!
 
 ## `editlore`
 
