@@ -27,6 +27,7 @@ export const ENTITY_UNLOCK_PARTICLE = "minecraft:heart_particle"
 export const MAX_RAYCAST_BLOCK_DISTANCE = 128 // For farmode and lock/unlock commands
 export const FARMODE_GOES_THROUGH_LIQUIDS = true 
 export const SMITE_COMMAND = "summon lightning_bolt"
+export const MAX_LORE_LINES = 20 // This is a minecraft default, you can't change it here
 
 // Music Player
 export const DEFAULT_MUSIC_FADE = 1 // In seconds
@@ -93,3 +94,6 @@ export const RIGHT_CLICK_SUFFIX_SEPARATOR = "_ecs_"
 
 // Death Commands
 export const DEATH_COMMAND_PREFIX = "_ecs_death_command_"
+
+// Dynamic Lore
+export const DYNAMIC_LORE_PREFIX = "dynamic_lore_line_"

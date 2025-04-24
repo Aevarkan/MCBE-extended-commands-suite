@@ -112,7 +112,6 @@ export function doOffsetCommand(command: string, sourcePlayer: Player, location:
         z: location.z
     }
     const commandDimension = location.dimension
-    const playerName = sourcePlayer.name
 
     // Create a dummy and have it run the command, but execute can have the player run it.
     // This doesn't work on entities because you can't do /execute as on them

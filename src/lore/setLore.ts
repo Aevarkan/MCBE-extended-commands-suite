@@ -7,6 +7,7 @@
 
 import { EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
+import { MAX_LORE_LINES } from "constants";
 
 export function setLore(event: ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
@@ -88,7 +89,7 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
     loreForm.textField({translate: "ecs.command.lore.section_character"}, "§", "§")
 
     // All 20 lore lines
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < MAX_LORE_LINES; i++) {
         const currentLine = i + 1
         const currentLineString = currentLine.toString()
         loreForm.textField({translate: "ecs.command.lore.line_number", with: { text: currentLineString }}, { translate: "ecs.command.lore.maximum_50_characters" }, getLorePart(item, i))
@@ -105,7 +106,7 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
 
             // I know the loop is inefficient, but I want to use the function I made ;)
             // It shouldn't really affect performance that much anyway
-            for (let i = 1; i <= 20; i++) {
+            for (let i = 1; i <= MAX_LORE_LINES; i++) {
                 if (lore[i]) {
                     // Take 1 from i because of that section character
                     item = setLorePart(item, lore[i], i-1)
