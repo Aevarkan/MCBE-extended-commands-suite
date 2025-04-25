@@ -5,6 +5,8 @@ rp.pack.name=Extended Commands Suite Resource Pack
 
 rp.ecs.command.error.too_far=Target block is too far away to run command!
 rp.ecs.command.error.outside_ticking_range=Target block is outside of ticking range!
+rp.ecs.command.error.outside_world_boundary=Target block is outside of world height boundary!
+
 rp.ecs.command.item_command.error.stackable_item_no_support=Stackable items are not supported with this command.
 rp.ecs.command.item_command.error.no_lore=You must put lore on your item first!
 
