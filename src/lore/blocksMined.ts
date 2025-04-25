@@ -14,6 +14,9 @@ world.afterEvents.playerBreakBlock.subscribe((event) => {
     const player = event.player
     const breakingItem = event.itemStackAfterBreak
 
+    // Empty hand check
+    if (!breakingItem) return
+
     const equipmentComponent = player.getComponent(EntityComponentTypes.Equippable)
     const breakingItemSlot = equipmentComponent.getEquipmentSlot(EquipmentSlot.Mainhand)
     const isBreakingItemDynamic = hasDynamicLore(breakingItem)
