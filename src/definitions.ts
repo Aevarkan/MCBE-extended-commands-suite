@@ -46,7 +46,7 @@ export enum DynamicLoreVariables {
      * @remarks
      * The number of blocks this item has broken.
      */
-    BlocksBroken = "$BLOCKS_MINED"
+    BlocksBroken = "$BLOCKS_BROKEN"
 }
 
 export interface ReplacementLore {
