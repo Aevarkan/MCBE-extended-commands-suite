@@ -18,4 +18,4 @@ import "./versionCounter"
 
 import { CURRENT_VERSION } from "constants"
 
-console.info(`Extended Commands Suite ${CURRENT_VERSION} loaded.`)
+console.info(`§aExtended Commands Suite §b${CURRENT_VERSION}§a loaded.§r`)

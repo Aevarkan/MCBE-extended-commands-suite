@@ -9,4 +9,6 @@ import { world } from "@minecraft/server";
 import { CURRENT_VERSION } from "constants";
 
 // Future proofing
+const previousVersion = world.getDynamicProperty("ecs_version") as string
+
 world.setDynamicProperty("ecs_version", CURRENT_VERSION)
