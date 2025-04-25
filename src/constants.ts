@@ -101,3 +101,4 @@ export const DYNAMIC_LORE_CHECK_KEY = `${DYNAMIC_LORE_PREFIX}0`
 export const DYNAMIC_LORE_ITEM_TOTAL_KILLS = "total_kills"
 export const DYNAMIC_LORE_ITEM_PVP_KILLS = "pvp_kills"
 export const DYNAMIC_LORE_ITEM_PVE_KILLS = "pve_kills"
+export const DYNAMIC_LORE_ITEM_BLOCKS_BROKEN = "blocks_broken"

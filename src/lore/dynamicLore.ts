@@ -9,7 +9,7 @@ import { EntityComponentTypes, EntityEquippableComponent, EntityHitEntityAfterEv
 import { getDynamicLore, hasDynamicLore } from "./manageDynamicLore";
 import { DynamicLoreVariables, ReplacementLore } from "definitions";
 import { setItemInSelectedSlot } from "./setLore";
-import { DYNAMIC_LORE_ITEM_PVE_KILLS, DYNAMIC_LORE_ITEM_PVP_KILLS, DYNAMIC_LORE_ITEM_TOTAL_KILLS } from "constants";
+import { DYNAMIC_LORE_ITEM_BLOCKS_BROKEN, DYNAMIC_LORE_ITEM_PVE_KILLS, DYNAMIC_LORE_ITEM_PVP_KILLS, DYNAMIC_LORE_ITEM_TOTAL_KILLS } from "constants";
 
 // The lore is updated everytime the item is used
 // Since we only have durability for now, we only need to check damage and block breaks
@@ -98,6 +98,9 @@ export function updateDynamicLore(item: ItemStack): ItemStack {
     const pvpKills = item.getDynamicProperty(DYNAMIC_LORE_ITEM_PVP_KILLS) == undefined ? 0 : item.getDynamicProperty(DYNAMIC_LORE_ITEM_PVP_KILLS) as number
     const pveKills = item.getDynamicProperty(DYNAMIC_LORE_ITEM_PVE_KILLS) == undefined ? 0 : item.getDynamicProperty(DYNAMIC_LORE_ITEM_PVE_KILLS) as number
 
+    // Blocks broken
+    const blocksBroken = item.getDynamicProperty(DYNAMIC_LORE_ITEM_BLOCKS_BROKEN) == undefined ? 0 : item.getDynamicProperty(DYNAMIC_LORE_ITEM_BLOCKS_BROKEN) as number
+
     // Replacing the lore
     const replacementLore: ReplacementLore = {
         [DynamicLoreVariables.Durability]: hasDurability ? itemDurability.toString() : "0",
@@ -105,6 +108,7 @@ export function updateDynamicLore(item: ItemStack): ItemStack {
         [DynamicLoreVariables.TotalKills]: totalKills.toString(),
         [DynamicLoreVariables.PlayerKills]: pvpKills.toString(),
         [DynamicLoreVariables.EntityKills]: pveKills.toString(),
+        [DynamicLoreVariables.BlocksBroken]: blocksBroken.toString(),
     }
 
     const updatedLore = replace(dynamicLoreArray, replacementLore)

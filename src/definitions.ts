@@ -42,6 +42,11 @@ export enum DynamicLoreVariables {
      * The number of non-player entities killed whilst this item is held.
      */
     EntityKills = "$PVE_KILLS",
+    /**
+     * @remarks
+     * The number of blocks this item has broken.
+     */
+    BlocksBroken = "$BLOCKS_MINED"
 }
 
 export interface ReplacementLore {
@@ -50,4 +55,5 @@ export interface ReplacementLore {
     [DynamicLoreVariables.PlayerKills]?: string,
     [DynamicLoreVariables.EntityKills]?: string,
     [DynamicLoreVariables.TotalKills]?: string,
+    [DynamicLoreVariables.BlocksBroken]?: string,
 }
