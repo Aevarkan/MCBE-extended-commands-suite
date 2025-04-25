@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { DimensionLocation, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server"
+import { DimensionLocation, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server"
 import { COMMAND_ERROR_SOUND, SMITE_COMMAND } from "constants"
 import { doOffsetCommand, getBlockFromRaycast } from "rightClickDetection/rightClickDetectionv2"
 
@@ -28,7 +28,6 @@ function smiteAction(player: Player) {
         if (!targetBlock) {
             throw new Error("Block out of range.")
         }
-    
 
         const topBlockLocation: DimensionLocation = {
             x: targetBlock.x,
@@ -39,7 +38,15 @@ function smiteAction(player: Player) {
 
         doOffsetCommand(SMITE_COMMAND, player, topBlockLocation)
     } catch (error) {
-        player.sendMessage({translate: "ecs.command.error.too_far"})
-        player.playSound(COMMAND_ERROR_SOUND)
+        if (error instanceof LocationInUnloadedChunkError) {
+            player.sendMessage({translate: "ecs.command.error.outside_ticking_range"})
+            player.playSound(COMMAND_ERROR_SOUND)
+        } else if (error instanceof LocationOutOfWorldBoundariesError) {
+            player.sendMessage({translate: "ecs.command.error.outside_world_boundary"})
+            player.playSound(COMMAND_ERROR_SOUND)
+        } else {
+            player.sendMessage({translate: "ecs.command.error.too_far"})
+            player.playSound(COMMAND_ERROR_SOUND)
+        }
     }
 }
