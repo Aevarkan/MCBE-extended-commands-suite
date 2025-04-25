@@ -98,3 +98,6 @@ export const DEATH_COMMAND_PREFIX = "_ecs_death_command_"
 // Dynamic Lore
 export const DYNAMIC_LORE_PREFIX = "dynamic_lore_line_"
 export const DYNAMIC_LORE_CHECK_KEY = `${DYNAMIC_LORE_PREFIX}0`
+export const DYNAMIC_LORE_ITEM_TOTAL_KILLS = "total_kills"
+export const DYNAMIC_LORE_ITEM_PVP_KILLS = "pvp_kills"
+export const DYNAMIC_LORE_ITEM_PVE_KILLS = "pve_kills"
