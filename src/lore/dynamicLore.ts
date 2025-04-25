@@ -128,14 +128,15 @@ function replace(placeholderLore: string[], replacementLore: ReplacementLore): s
 
         // It passes empty lines sometimes
         if (!loreLine) return
-        
-        newLoreLine = newLoreLine.split(DynamicLoreVariables.Durability).join(replacementLore[DynamicLoreVariables.Durability])
-        newLoreLine = newLoreLine.split(DynamicLoreVariables.MaxDurability).join(replacementLore[DynamicLoreVariables.MaxDurability])
-        newLoreLine = newLoreLine.split(DynamicLoreVariables.PlayerKills).join(replacementLore[DynamicLoreVariables.PlayerKills])
-        newLoreLine = newLoreLine.split(DynamicLoreVariables.EntityKills).join(replacementLore[DynamicLoreVariables.EntityKills])
-        newLoreLine = newLoreLine.split(DynamicLoreVariables.TotalKills).join(replacementLore[DynamicLoreVariables.TotalKills])
-        newLore.push(newLoreLine.toString())
-        // newLore.push(newLoreLine)
+
+        // Substitues all the variables for their real values
+        const dynamicLoreVariables = Object.values(DynamicLoreVariables)
+
+        dynamicLoreVariables.forEach(dynamicLoreVariable => {
+            newLoreLine = newLoreLine.split(dynamicLoreVariable).join(replacementLore[dynamicLoreVariable])
+        })
+
+        newLore.push(newLoreLine)
     })
 
 
