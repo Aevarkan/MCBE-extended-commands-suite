@@ -20,10 +20,6 @@ world.afterEvents.playerBreakBlock.subscribe((event) => {
     const equipmentComponent = player.getComponent(EntityComponentTypes.Equippable)
     const breakingItemSlot = equipmentComponent.getEquipmentSlot(EquipmentSlot.Mainhand)
     const isBreakingItemDynamic = hasDynamicLore(breakingItem)
-    
-    // The tool used to break the block must be in the mainhand (If the offhand can break blocks, this will have to be changed!)
-    // const breakingItemInSlot = breakingItemSlot.getItem()
-    // if (!(breakingItem === breakingItemInSlot)) return
 
     // We only add to the break counter if the item has dynamic lore
     if (!isBreakingItemDynamic) return
