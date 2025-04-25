@@ -7,4 +7,4 @@
 
 import "./dynamicLore"
 import "./itemKills"
-
+import "./blocksMined"

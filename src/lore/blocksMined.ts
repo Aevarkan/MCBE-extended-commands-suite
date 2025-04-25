@@ -6,7 +6,7 @@
  */
 
 import { ContainerSlot, EntityComponentTypes, EquipmentSlot, ItemStack, Player, world } from "@minecraft/server";
-import { DYNAMIC_LORE_ITEM_BLOCKS_BROKEN, DYNAMIC_LORE_ITEM_PVE_KILLS, DYNAMIC_LORE_ITEM_PVP_KILLS, DYNAMIC_LORE_ITEM_TOTAL_KILLS } from "constants";
+import { DYNAMIC_LORE_ITEM_BLOCKS_BROKEN } from "constants";
 import { hasDynamicLore } from "./manageDynamicLore";
 import { updateDynamicLore } from "./dynamicLore";
 
@@ -19,8 +19,8 @@ world.afterEvents.playerBreakBlock.subscribe((event) => {
     const isBreakingItemDynamic = hasDynamicLore(breakingItem)
     
     // The tool used to break the block must be in the mainhand (If the offhand can break blocks, this will have to be changed!)
-    const breakingItemInSlot = breakingItemSlot.getItem()
-    if (!(breakingItem === breakingItemInSlot)) return
+    // const breakingItemInSlot = breakingItemSlot.getItem()
+    // if (!(breakingItem === breakingItemInSlot)) return
 
     // We only add to the break counter if the item has dynamic lore
     if (!isBreakingItemDynamic) return
