@@ -376,7 +376,7 @@ This is an interactive version of `setlore`.
 
 Dynamic lore automatically updates on an item.
 
-> [!INFO]
+> [!NOTE]
 > Item commands made with [auc2](#addusecommand2--auc2) will still work!
 
 There are several properties tracked for an item:
