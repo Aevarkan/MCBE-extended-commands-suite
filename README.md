@@ -31,7 +31,7 @@ The example commands are inside of [this](functions/extendedcommands/examples/) 
 
 # Auxillary Features
 
-ECS also tracks a few things via scoreboard:
+ECS also tracks a few things via scoreboard such as:
 - Entity Health
 - Player Deaths
 - Player Kills
@@ -41,6 +41,9 @@ The full list is as follows:
 ```
 ecs:health
 ecs:deaths
+ecs:max_render_distance
+ecs:blocks_broken
+ecs:blocks_placed
 ecs:combined_total_kills
 ecs:pvp_total_kills
 ecs:pve_total_kills
@@ -54,6 +57,20 @@ ecs:combined_magic_kills
 ecs:pve_magic_kills
 ecs:pvp_magic_kills
 ecs:pvp_deaths
+```
+
+Player information is also tracked via tags:
+
+```
+ecs:is_sneaking
+ecs:is_jumping
+ecs:device_pc
+ecs:device_console
+ecs:device_mobile
+ecs:input_keyboard
+ecs:input_gamepad
+ecs:input_motion_controller
+ecs:input_touch
 ```
 
 # List of all Commands
@@ -341,16 +358,8 @@ You are limited to having 20 lines of lore with a maximum length of 50 each. See
 
 **Example 2:** `/scriptevent ecs:setlore §rHi, my durability is §b$DUR§r out of §4$MAX_DUR§r!\n§rI have §a$DUR§r HP!§r`
 
-In the second example, the variables $DUR and $MAX_DUR will be replaced with their actual values once you use the item.
+In the second example, the variables $DUR and $MAX_DUR will be replaced with their actual values once you use the item. See [dynamic lore](#dynamic-lore) for more information.
 
-> [!INFO]
-> Item commands made with [auc2](#addusecommand2--auc2) will still work!
-
-Currently, the only variables are $DUR and $MAX_DUR, feel free to share any ideas!.
-
-![Dynamic Lore Example](documentation/dynamic-lore-example.png)
-
-You cannot get rid of `Has Customised Properties`.
 
 > [!IMPORTANT]
 > Dynamic lore only works on non-stackable items!
@@ -362,6 +371,28 @@ This is an interactive version of `setlore`.
 **Syntax**: `/scriptevent ecs:editlore`
 
 ![Interactive Lore Command Screenshot](documentation/interactive-lore-command.png)
+
+## Dynamic Lore
+
+Dynamic lore automatically updates on an item.
+
+> [!INFO]
+> Item commands made with [auc2](#addusecommand2--auc2) will still work!
+
+There are several properties tracked for an item:
+
+```
+$DUR
+$MAX_DUR
+$TOTAL_KILLS
+$PVP_KILLS
+$PVE_KILLS
+$BLOCKS_BROKEN
+```
+
+![Dynamic Lore Example](documentation/dynamic-lore-example.png)
+
+You cannot get rid of `Has Customised Properties`.
 
 # Licence
 

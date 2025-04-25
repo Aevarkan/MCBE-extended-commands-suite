@@ -40,6 +40,9 @@ The full list is as follows:
 
 <div class="spoiler"><pre><code>ecs:health
 ecs:deaths
+ecs:max_render_distance
+ecs:blocks_broken
+ecs:blocks_placed
 ecs:combined_total_kills
 ecs:pvp_total_kills
 ecs:pve_total_kills
@@ -53,6 +56,20 @@ ecs:combined_magic_kills
 ecs:pve_magic_kills
 ecs:pvp_magic_kills
 ecs:pvp_deaths</code></pre></div>
+
+Player information is also tracked via tags:
+
+<div class="spoiler"><pre><code>
+ecs:is_sneaking
+ecs:is_jumping
+ecs:device_pc
+ecs:device_console
+ecs:device_mobile
+ecs:input_keyboard
+ecs:input_gamepad
+ecs:input_motion_controller
+ecs:input_touch
+</code></pre></div>
 
 # List of all Commands
 
@@ -250,7 +267,7 @@ __The one you've been waiting for:__ This command lets you put a use-command on 
 
 **Syntax**: `/scriptevent ecs:auc2 <commandName: string> <enableFarmode: boolean> <command: string>`
 
-In farmode, <span style="color:#b96ad9"><strong>you do not run the command</strong></span>, meaning commands like `/effect` will not work.
+In farmode, <span style="color:#e03e2d"><strong>you do not run the command</strong></span>, meaning commands like `/effect` will not work.
 
 Let's say we put two use-commands on a totem of undying.
 
@@ -321,15 +338,7 @@ Sets the lore on the item you're currently holding. Use `\n` to indicate a new l
 
 **Example 2:** `/scriptevent ecs:setlore §rHi, my durability is §b$DUR§r out of §4$MAX_DUR§r!\n§rI have §a$DUR§r HP!§r`
 
-In the second example, the variables `$DUR` and `$MAX_DUR` will be replaced with their actual values once you use the item.
-
-Item commands made with `auc2` will still work!
-
-Currently, the only variables are $DUR and $MAX_DUR, feel free to share any ideas!.
-
-![Dynamic lore example.](https://media.forgecdn.net/attachments/1167/983/dynamic-lore-example-png.png)
-
-You cannot get rid of "Has Customised Properties".
+In the second example, the variables `$DUR` and `$MAX_DUR` will be replaced with their actual values once you use the item. See dynamic lore further down for more information.
 
 <span style="color:#e03e2d"><strong>Dynamic lore only works on non-stackable items!</strong></span>
 
@@ -342,6 +351,27 @@ This is an interactive version of `setlore`.
 ![Picture of interactive lore command.](https://media.forgecdn.net/attachments/1167/984/interactive-lore-command-png.png)
 
 The section character is simply there for you to copy-paste to make adding colours easier, any inputs in that field will not change anything.
+
+## Dynamic Lore
+
+Dynamic lore automatically updates on an item.
+
+<span style="color:#b96ad9"><strong>Item commands made with auc2 will still work!</strong></span>
+
+There are several properties tracked for an item:
+
+<div class="spoiler"><pre><code>
+$DUR
+$MAX_DUR
+$TOTAL_KILLS
+$PVP_KILLS
+$PVE_KILLS
+$BLOCKS_BROKEN
+</code></pre></div>
+
+![Dynamic Lore Example](https://media.forgecdn.net/attachments/1167/983/dynamic-lore-example-png.png)
+
+You cannot get rid of `Has Customised Properties`.
 
 # Licence
 
@@ -367,7 +397,7 @@ This licence allows you to use part of this pack in your own, however you **must
 *   Give a link to this pack (MCPEDL, CurseForge, or Github)
 *   Licence your addon under [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
-This means you **cannot** obfuscate your code if you include stuff from this pack in your addon.
+This means you **cannot** obfuscate **your** code if you include stuff from this pack in your addon.
 
 # Other Stuff
 
