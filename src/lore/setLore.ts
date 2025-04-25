@@ -7,7 +7,7 @@
 
 import { EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { MAX_LORE_LINES } from "constants";
+import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND, MAX_LORE_LINES } from "constants";
 import { DynamicLoreVariables } from "definitions";
 import { checkEnumMatchString } from "utility/functions";
 import { getDynamicLore, hasDynamicLore, setDynamicLore } from "./manageDynamicLore";
@@ -46,8 +46,10 @@ function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
         updatedItem = setDynamicLore(updatedItem, loreArray)
         updatedItem = updateDynamicLore(updatedItem)
         player.sendMessage({translate: "ecs.command.lore.dynamic_lore.success"})
+        player.playSound(COMMAND_SUCESS_SOUND)
     } else if (containsDynamicLore && item.isStackable){
         player.sendMessage({translate: "ecs.command.lore.dynamic_lore.no_stackable_items"})
+        player.playSound(COMMAND_ERROR_SOUND)
     } else {
         updatedItem = setDynamicLore(updatedItem, [])
         // player.sendMessage({translate: "ecs.command.lore.success"})

@@ -6,7 +6,7 @@
  */
 
 import { Entity, Player, ScriptEventCommandMessageAfterEvent, world } from "@minecraft/server";
-import { ADMIN_TAG, ENTITY_LOCK_PARTICLE, ENTITY_LOCK_TAG, ENTITY_UNLOCK_PARTICLE, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
+import { ADMIN_TAG, COMMAND_SUCESS_SOUND, ENTITY_LOCK_PARTICLE, ENTITY_LOCK_TAG, ENTITY_UNLOCK_PARTICLE, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
 
 world.beforeEvents.playerInteractWithEntity.subscribe((event) => {
     const targetEntity = event.target
@@ -47,6 +47,7 @@ function lockAction(player: Player) {
     const playerMessage = "Locked " + entityNames.join(", ") + "."
 
     player.sendMessage(playerMessage)
+    player.playSound(COMMAND_SUCESS_SOUND)
 }
 
 /**
@@ -68,12 +69,12 @@ function unlockAction(player: Player) {
 
     const playerMessage = {
         translate: "ecs.command.lock.sucess",
-        with: { text: entityNamesString }
-        
+        with: [entityNamesString]
     }
     // const playerMessage = "Unlocked " + entityNames.join(", ") + "."
     // /tellraw @a {"rawtext":[{"translate":"Hello %%s and %%s", "with":["Steve","Alex"]}]}
     player.sendMessage(playerMessage)
+    player.playSound(COMMAND_SUCESS_SOUND)
 }
 
 /**

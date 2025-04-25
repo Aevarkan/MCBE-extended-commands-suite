@@ -6,7 +6,7 @@
  */
 
 import { DimensionLocation, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server"
-import { SMITE_COMMAND } from "constants"
+import { COMMAND_ERROR_SOUND, SMITE_COMMAND } from "constants"
 import { doOffsetCommand, getBlockFromRaycast } from "rightClickDetection/rightClickDetectionv2"
 
 export function smite(event:ScriptEventCommandMessageAfterEvent) {
@@ -40,5 +40,6 @@ function smiteAction(player: Player) {
         doOffsetCommand(SMITE_COMMAND, player, topBlockLocation)
     } catch (error) {
         player.sendMessage({translate: "ecs.command.error.too_far"})
+        player.playSound(COMMAND_ERROR_SOUND)
     }
 }

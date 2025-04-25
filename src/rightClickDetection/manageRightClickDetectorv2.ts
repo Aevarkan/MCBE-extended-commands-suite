@@ -9,6 +9,7 @@ import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventComm
 import { addItemCommandEntry, removeAllItemCommandEntries, removeItemCommandEntry } from "./utility";
 import { RemoveOptions } from "definitions";
 import { hasDynamicLore } from "lore/manageDynamicLore";
+import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND } from "constants";
 
 /**
  * This makes a right click detector in the player's selected hotbar slot
@@ -44,9 +45,11 @@ export function removeRightClickDetectorv2(event: ScriptEventCommandMessageAfter
     if (commandId.length === 0) {
         removeRightClickDetectorAction(player, slot, {removeAll: true})
         player.sendMessage({translate: "ecs.command.item_command.removed_all", with: [itemTypeId]})
+        player.playSound(COMMAND_SUCESS_SOUND)
     } else {
         removeRightClickDetectorAction(player, slot, {removeAll: false, id: commandId})
         player.sendMessage({translate: "ecs.command.item_command.removed_command", with: [commandId, itemTypeId]})
+        player.playSound(COMMAND_SUCESS_SOUND)
     }
 }
 
@@ -67,6 +70,7 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
     const lore = selectedItem.getLore()
     if (lore.length === 0) {
         player.sendMessage({translate: "ecs.command.item_command.error.no_lore"})
+        player.playSound(COMMAND_ERROR_SOUND)
         return
     }
 
@@ -77,6 +81,7 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
     }
 
     player.sendMessage({translate: "ecs.command.item_command.applied_command", with: [command, commandId, selectedItem.typeId]})
+    player.playSound(COMMAND_SUCESS_SOUND)
 
     addItemCommandEntry(selectedItem, command, commandId, farMode)
 }

@@ -7,7 +7,7 @@
 
 import { BlockRaycastOptions, DimensionLocation, Entity, ItemStack, ItemUseBeforeEvent, Player, system, Vector3, world } from "@minecraft/server";
 import { CommandInformation, getItemCommandEntry, getItemCommandMatches } from "./utility";
-import { FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
+import { COMMAND_ERROR_SOUND, FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
 
 world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const player = event.source as Player
@@ -65,6 +65,7 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
                 doOffsetCommand(correctCommand, player, topBlockLocation)
             } catch (error) {
                 player.sendMessage({translate: "ecs.command.error.too_far"})
+                player.playSound(COMMAND_ERROR_SOUND)
             }
 
 
@@ -123,6 +124,7 @@ export function doOffsetCommand(command: string, sourcePlayer: Player, location:
             dummyEntity.remove()
         } catch (error) {
             sourcePlayer.sendMessage({translate: "ecs.command.error.outside_ticking_range"})
+            sourcePlayer.playSound(COMMAND_ERROR_SOUND)
         }
     })
 }

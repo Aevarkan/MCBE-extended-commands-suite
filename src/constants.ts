@@ -28,6 +28,8 @@ export const MAX_RAYCAST_BLOCK_DISTANCE = 128 // For farmode and lock/unlock com
 export const FARMODE_GOES_THROUGH_LIQUIDS = true 
 export const SMITE_COMMAND = "summon lightning_bolt"
 export const MAX_LORE_LINES = 20 // This is a minecraft default, you can't change it here
+export const COMMAND_SUCESS_SOUND = "note.pling"
+export const COMMAND_ERROR_SOUND = "mob.villager.no"
 
 // Music Player
 export const DEFAULT_MUSIC_FADE = 1 // In seconds
