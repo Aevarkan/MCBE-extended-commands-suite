@@ -8,6 +8,7 @@
 import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { addItemCommandEntry, removeAllItemCommandEntries, removeItemCommandEntry } from "./utility";
 import { RemoveOptions } from "definitions";
+import { hasDynamicLore } from "lore/manageDynamicLore";
 
 /**
  * This makes a right click detector in the player's selected hotbar slot
@@ -35,10 +36,17 @@ export function removeRightClickDetectorv2(event: ScriptEventCommandMessageAfter
     const slot = player.selectedSlotIndex as number
     const commandId = event.message
 
+    // This is used just for command feedback
+    const inventoryComponent = player.getComponent(EntityComponentTypes.Inventory)
+    const itemTypeId = inventoryComponent.container.getItem(slot).typeId
+    // const lore = inventoryComponent.container.getItem(slot).getLore()
+
     if (commandId.length === 0) {
         removeRightClickDetectorAction(player, slot, {removeAll: true})
+        player.sendMessage({translate: "ecs.command.item_command.removed_all", with: [itemTypeId]})
     } else {
         removeRightClickDetectorAction(player, slot, {removeAll: false, id: commandId})
+        player.sendMessage({translate: "ecs.command.item_command.removed_command", with: [commandId, itemTypeId]})
     }
 }
 
@@ -58,9 +66,17 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
     // You need to put lore on your item, it's too dangerous otherwise
     const lore = selectedItem.getLore()
     if (lore.length === 0) {
-        player.sendMessage({translate: "ecs.command.error.no_lore"})
+        player.sendMessage({translate: "ecs.command.item_command.error.no_lore"})
         return
     }
+
+    // Just for command feedback
+    const isDynamic = hasDynamicLore(selectedItem)
+    if (isDynamic) {
+        player.sendMessage({translate: "ecs.command.item_command.detected_dynamic_lore"})
+    }
+
+    player.sendMessage({translate: "ecs.command.item_command.applied_command", with: [command, commandId, selectedItem.typeId]})
 
     addItemCommandEntry(selectedItem, command, commandId, farMode)
 }

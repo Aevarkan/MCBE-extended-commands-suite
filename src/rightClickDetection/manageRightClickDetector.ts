@@ -40,7 +40,7 @@ function createRightClickDetectorAction(player: Player, command: string, slot: n
     
     if (selectedItem.isStackable){
         
-        player.sendMessage({translate: "ecs.command.error.stackable_item_no_support"})
+        player.sendMessage({translate: "ecs.command.item_command.error.stackable_item_no_support"})
         // Old command, doesn't work on stackable items
         
     } else {
@@ -64,7 +64,7 @@ function removeRightClickDetectorAction(player: Player, slot: number) {
     const selectedItem = inventory.getItem(slot)
     
     if (selectedItem.isStackable){
-        player.sendMessage({translate: "ecs.command.error.stackable_item_no_support"})
+        player.sendMessage({translate: "ecs.command.item_command.error.stackable_item_no_support"})
         // Old command, doesn't work on stackable items
     } else {
         // Must replace the item, as we can't modify existing ones

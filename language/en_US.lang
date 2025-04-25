@@ -5,8 +5,14 @@ rp.pack.name=Extended Commands Suite Resource Pack
 
 rp.ecs.command.error.too_far=Target block is too far away to run command!
 rp.ecs.command.error.outside_ticking_range=Target block is outside of ticking range!
-rp.ecs.command.error.stackable_item_no_support=Stackable items are not supported with this command.
-rp.ecs.command.error.no_lore=You must put lore on your item first!
+rp.ecs.command.item_command.error.stackable_item_no_support=Stackable items are not supported with this command.
+rp.ecs.command.item_command.error.no_lore=You must put lore on your item first!
+
+rp.ecs.command.item_command.detected_dynamic_lore=Dynamic lore linked successfully!
+rp.ecs.command.item_command.applied_command=Command "%1" registered as "%2" for %3.
+
+rp.ecs.command.item_command.removed_all=Removed all item commands for %s.
+rp.ecs.command.item_command.removed_command=Removed item command "%1" for %2.
 
 rp.ecs.command.lock.sucess=Locked: %s
 rp.ecs.command.unlock.sucess=Unlocked: %s
