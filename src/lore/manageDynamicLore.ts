@@ -8,6 +8,7 @@
 
 import { ItemStack } from "@minecraft/server";
 import { DYNAMIC_LORE_CHECK_KEY, DYNAMIC_LORE_PREFIX, MAX_LORE_LINES } from "constants";
+import { updateDynamicLore } from "./dynamicLore";
 
 /**
  * Gets the original dynamic lore string of an item.
@@ -45,7 +46,9 @@ export function setDynamicLore(item: ItemStack, dynamicLore: string[]): ItemStac
         updatedItem.setDynamicProperty(`${DYNAMIC_LORE_PREFIX}${lineIndex}`, line)
     })
 
-    return updatedItem
+    const updatedItemWithLore = updateDynamicLore(updatedItem)
+
+    return updatedItemWithLore
 }
 
 /**

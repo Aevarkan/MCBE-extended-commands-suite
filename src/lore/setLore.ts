@@ -41,13 +41,14 @@ function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
     
     // Dynamic lore check
     const containsDynamicLore = checkEnumMatchString(loreArray, DynamicLoreVariables)
-    if (containsDynamicLore) {
-        // console.log("Detected dynamic lore!")
+    if (containsDynamicLore && !(item.isStackable)) {
         updatedItem = setDynamicLore(item, loreArray)
-    } 
-    // We set an empty array otherwise
-    else {
+        player.sendMessage({translate: "ecs.command.lore.dynamic_lore.success"})
+    } else if (containsDynamicLore && item.isStackable){
+        player.sendMessage({translate: "ecs.command.lore.dynamic_lore.no_stackable_items"})
+    } else {
         updatedItem = setDynamicLore(item, [])
+        // player.sendMessage({translate: "ecs.command.lore.success"})
     }
 
     inventory.setItem(slotIndex, updatedItem)
@@ -126,28 +127,7 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
             // We don't want the section character
             const lore = response.formValues.slice(1) as string[]
             
-            // Checking for dynamic lore, only works if the item isn't stackable
-            // const supportedDynamicValues = Object.values(DynamicLoreVariables) as string[]
-            const containsDynamicLore = checkEnumMatchString(lore, DynamicLoreVariables)
-            if (containsDynamicLore && !(item.isStackable)) {
-                item = setDynamicLore(item, lore)
-                player.sendMessage({translate: "ecs.command.lore.dynamic_lore.success"})
-            } else if (containsDynamicLore && item.isStackable){
-                player.sendMessage({translate: "ecs.command.lore.dynamic_lore.no_stackable_items"})
-            } else {
-                item = setDynamicLore(item, [])
-                // player.sendMessage({translate: "ecs.command.lore.success"})
-            }
-
-            // I know the loop is inefficient, but I want to use the function I made :)
-            // It shouldn't really affect performance that much anyway
-            for (let i = 0; i < MAX_LORE_LINES; i++) {
-                if (lore[i]) {
-                    item = setLorePart(item, lore[i], i)
-                }
-            }
-
-            setItemInSelectedSlot(player, item)
+            setLoreAction(player, lore, player.selectedSlotIndex)
         })
         .catch((error) => {
             console.error("Error showing lore edit form: ", error)
