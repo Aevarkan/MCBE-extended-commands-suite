@@ -5,7 +5,5 @@
  * Author: Aevarkan
  */
 
-import "./health"
-import "./death"
-import "./kills"
-import "./blockCounter"
+import "./stateDetection"
+import "./deviceDetection"

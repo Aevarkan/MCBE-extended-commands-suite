@@ -5,7 +5,6 @@
  * Author: Aevarkan
  */
 
-import "./health"
-import "./death"
-import "./kills"
-import "./blockCounter"
+import "./dynamicLore"
+import "./itemKills"
+import "./blocksMined"

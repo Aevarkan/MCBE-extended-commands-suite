@@ -27,9 +27,33 @@ export enum DynamicLoreVariables {
      * The maximum durability of an item.
      */
     MaxDurability = "$MAX_DUR",
+    /**
+     * @remarks
+     * The total number of players and entities killed whilst this item is held.
+     */
+    TotalKills = "$TOTAL_KILLS",
+    /**
+     * @remarks
+     * The number of players killed whilst this item is held.
+     */
+    PlayerKills = "$PVP_KILLS",
+    /**
+     * @remarks
+     * The number of non-player entities killed whilst this item is held.
+     */
+    EntityKills = "$PVE_KILLS",
+    /**
+     * @remarks
+     * The number of blocks this item has broken.
+     */
+    BlocksBroken = "$BLOCKS_MINED"
 }
 
 export interface ReplacementLore {
     [DynamicLoreVariables.Durability]?: string,
     [DynamicLoreVariables.MaxDurability]?: string,
+    [DynamicLoreVariables.PlayerKills]?: string,
+    [DynamicLoreVariables.EntityKills]?: string,
+    [DynamicLoreVariables.TotalKills]?: string,
+    [DynamicLoreVariables.BlocksBroken]?: string,
 }

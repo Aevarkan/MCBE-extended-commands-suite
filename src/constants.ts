@@ -34,9 +34,23 @@ export const DEFAULT_MUSIC_FADE = 1 // In seconds
 export const DEFAULT_MUSIC_VOLUME = 1
 export const DEFAULT_MUSIC_LOOP = false
 
+// Tag Statuses
+export const PLAYER_SNEAKING_TAG = "ecs:is_sneaking"
+export const PLAYER_JUMPING_TAG = "ecs:is_jumping"
+export const PLAYER_DEVICE_PC_TAG = "ecs:device_pc"
+export const PLAYER_DEVICE_CONSOLE_TAG = "ecs:device_console"
+export const PLAYER_DEVICE_MOBILE_TAG = "ecs:device_mobile"
+export const PLAYER_INPUT_KEYBOARD_AND_MOUSE_TAG = "ecs:input_keyboard"
+export const PLAYER_INPUT_GAMEPAD = "ecs:input_gamepad"
+export const PLAYER_INPUT_MOTION_CONTROLLER = "ecs:input_motion_controller"
+export const PLAYER_INPUT_TOUCH = "ecs:input_touch"
+
 // Scoreboard Counters
 export const HEALTH_SCOREBOARD_NAME = "ecs:health"
 export const DEATH_SCOREBOARD_NAME = "ecs:deaths"
+export const PLAYER_MAX_RENDER_DISTANCE_SCOREBOARD_NAME = "ecs:max_render_distance"
+export const BLOCKS_BROKEN_SCOREBOARD_NAME = "ecs:blocks_broken"
+export const BLOCKS_PLACED_SCOREBOARD_NAME = "ecs:blocks_placed"
 export const COMBINED_TOTAL_KILLS_SCOREBOARD_NAME = "ecs:combined_total_kills"
 export const PVP_TOTAL_KILLS_SCOREBOARD_NAME = "ecs:pvp_total_kills"
 export const PVE_TOTAL_KILLS_SCOREBOARD_NAME = "ecs:pve_total_kills"
@@ -98,3 +112,7 @@ export const DEATH_COMMAND_PREFIX = "_ecs_death_command_"
 // Dynamic Lore
 export const DYNAMIC_LORE_PREFIX = "dynamic_lore_line_"
 export const DYNAMIC_LORE_CHECK_KEY = `${DYNAMIC_LORE_PREFIX}0`
+export const DYNAMIC_LORE_ITEM_TOTAL_KILLS = "total_kills"
+export const DYNAMIC_LORE_ITEM_PVP_KILLS = "pvp_kills"
+export const DYNAMIC_LORE_ITEM_PVE_KILLS = "pve_kills"
+export const DYNAMIC_LORE_ITEM_BLOCKS_BROKEN = "blocks_broken"
