@@ -129,10 +129,14 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
             // Checking for dynamic lore, only works if the item isn't stackable
             // const supportedDynamicValues = Object.values(DynamicLoreVariables) as string[]
             const containsDynamicLore = checkEnumMatchString(lore, DynamicLoreVariables)
-            if (containsDynamicLore) {
+            if (containsDynamicLore && !(item.isStackable)) {
                 item = setDynamicLore(item, lore)
+                player.sendMessage({translate: "ecs.command.lore.dynamic_lore.success"})
+            } else if (containsDynamicLore && item.isStackable){
+                player.sendMessage({translate: "ecs.command.lore.dynamic_lore.no_stackable_items"})
             } else {
                 item = setDynamicLore(item, [])
+                // player.sendMessage({translate: "ecs.command.lore.success"})
             }
 
             // I know the loop is inefficient, but I want to use the function I made :)
