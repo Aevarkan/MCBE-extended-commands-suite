@@ -30,7 +30,8 @@ export function getDynamicLore(item: ItemStack): string[] {
  * Sets the dynamic lore string of an item.
  * @param item The item.
  * @param dynamicLore The dynamic lore array.
- * @returns The updated ItemStack
+ * @returns The ItemStack with updated dynamic properties.
+ * @remarks This doesn't substitute the actual variables.
  */
 export function setDynamicLore(item: ItemStack, dynamicLore: string[]): ItemStack {
 
@@ -46,9 +47,7 @@ export function setDynamicLore(item: ItemStack, dynamicLore: string[]): ItemStac
         updatedItem.setDynamicProperty(`${DYNAMIC_LORE_PREFIX}${lineIndex}`, line)
     })
 
-    const updatedItemWithLore = updateDynamicLore(updatedItem)
-
-    return updatedItemWithLore
+    return updatedItem
 }
 
 /**
