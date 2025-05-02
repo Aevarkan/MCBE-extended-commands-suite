@@ -11,7 +11,7 @@ import { getDynamicLore, hasDynamicLore } from "server/lore/manageDynamicLore"
 import { CommandInformation } from "types/misc"
 
 /**
- * Database handling, purely for storing commands.
+ * Database handling for item commands.
  */
 export class ItemCommandDatabase {
 
@@ -119,7 +119,6 @@ export class ItemCommandDatabase {
 
     /**
      * Removes an entry from the command databaase.
-     * @param item The item to remove.
      * @param commandId The identifier.
      */
     removeItemCommandEntry(commandId: string) {
