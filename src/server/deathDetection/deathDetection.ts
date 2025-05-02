@@ -6,7 +6,7 @@
  */
 
 import { system, world } from "@minecraft/server";
-import { Database } from "classes/Database";
+import { EntityCommandDatabase } from "classes/EntityCommandDatabase";
 
 // Runs every time an entity dies and checks if it has a detector.
 world.afterEvents.entityDie.subscribe((event) => {
@@ -15,10 +15,13 @@ world.afterEvents.entityDie.subscribe((event) => {
     // Stops errors from popping up further down
     if (!entity.isValid()) return
 
-    const deathCommandIds = Database.getAllDeathCommandEntryIds(entity)
+    const entityDatabase = new EntityCommandDatabase(entity)
+
+    const deathCommandIds = entityDatabase.getAllDeathCommandEntryIds()
+    // const deathCommandIds = Database.getAllDeathCommandEntryIds(entity)
 
     deathCommandIds.forEach(id => {
-        const command = Database.getDeathCommandEntry(entity, id)
+        const command = entityDatabase.getDeathCommandEntry(id)
         system.run(() => {
             entity.runCommand(command)
         })
