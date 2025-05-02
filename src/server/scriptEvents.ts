@@ -24,6 +24,7 @@ import { smite } from "server/smite";
 import { dropItem } from "server/drop";
 import { setScoreboardNameScriptEvent } from "server/scoreboardStatuses/changeName";
 import { setKeepInventoryScriptEvent } from "server/keepInventory";
+import { createEmoteDetectorScriptEvent, removeEmoteDetectorScriptEvent } from "./emoteDetection/manageEmoteDetector";
 
 // This file contains ALL the script events
 
@@ -69,6 +70,11 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
     const addDeathCommandShortId = new RegExp(`^(${prefixes.join('|')}):adc$`)
     const removeDeathCommandShortId = new RegExp(`^(${prefixes.join('|')}):rdc$`)
+
+    const addEmoteCommandId = new RegExp(`^(${prefixes.join('|')}):addemotecommand$`)
+    const removeEmoteCommandId = new RegExp(`^(${prefixes.join('|')}):removeemotecommand$`)
+    const addEmoteCommandShortId = new RegExp(`^(${prefixes.join('|')}):aec$`)
+    const removeEmoteCommandShortId = new RegExp(`^(${prefixes.join('|')}):rec$`)
 
 
 
@@ -150,6 +156,14 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (removeDeathCommandId.test(event.id) || removeDeathCommandShortId.test(event.id)) {
         removeDeathDetector(event)
+    }
+
+    else if (addEmoteCommandId.test(event.id) || addEmoteCommandShortId.test(event.id)) {
+        createEmoteDetectorScriptEvent(event)
+    }
+
+    else if (removeEmoteCommandId.test(event.id) || removeEmoteCommandShortId.test(event.id)) {
+        removeEmoteDetectorScriptEvent(event)
     }
 
     else if (chanceId.test(event.id)) {

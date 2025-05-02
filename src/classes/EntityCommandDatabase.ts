@@ -6,7 +6,7 @@
  */
 
 import { Entity } from "@minecraft/server"
-import { DEATH_COMMAND_PREFIX } from "constants"
+import { DEATH_COMMAND_PREFIX, EMOTE_COMMAND_PREFIX } from "constants"
 
 /**
  * Stores commands for an entity.
@@ -22,6 +22,12 @@ export class EntityCommandDatabase {
     constructor(entity: Entity) {
         this.entity = entity
     }
+
+    /**
+     * #################################
+     * ######## DEATH DETECTION ########
+     * #################################
+     */
 
     /**
      * Adds a death command entry to an entity.
@@ -70,6 +76,62 @@ export class EntityCommandDatabase {
     getDeathCommandEntry(deathCommandKey: string) {
         // const fullId = `${DEATH_COMMAND_PREFIX}${deathCommandKey}`
         const command = this.entity.getDynamicProperty(deathCommandKey) as string
+        return command
+    }
+
+    /**
+     * #################################
+     * ######## EMOTE DETECTION ########
+     * #################################
+     */
+
+    /**
+     * Adds an emote command entry to an entity.
+     * @param command The command the entity will run once on emoting.
+     * @param commandId The identifier for the command.
+     */
+    addEmoteCommandEntry(command: string, commandId: string) {
+        const fullEmoteCommandId = `${EMOTE_COMMAND_PREFIX}${commandId}`
+    
+        this.entity.setDynamicProperty(fullEmoteCommandId, command)
+    }
+
+    /**
+     * Removes an entity's emote command.
+     * @param commandId The identifier for the command.
+     */
+    removeEmoteCommandEntry(commandId: string) {
+        const fullEmoteCommandId = `${EMOTE_COMMAND_PREFIX}${commandId}`
+    
+        this.entity.setDynamicProperty(fullEmoteCommandId, undefined)
+    }
+
+    removeAllEmoteCommandEntries() {
+        const allEmoteCommandIds = this.getAllEmoteCommandEntryIds()
+    
+        allEmoteCommandIds.forEach(id => {
+            this.removeEmoteCommandEntry(id)
+        })
+    }
+
+    /**
+     * Gets all emote command ids on an entity.
+     * @returns A string array of ids, including the prefix.
+     */
+    getAllEmoteCommandEntryIds() {
+        const allKeys = this.entity.getDynamicPropertyIds()
+        const allEmoteCommandIds = allKeys.filter(item => item.startsWith(EMOTE_COMMAND_PREFIX))
+        return allEmoteCommandIds
+    }
+    
+    /**
+     * Gets an emote command for an entity.
+     * @param emoteCommandKey The identifier of the death command, including the prefix.
+     * @returns The command string.
+     */
+    getEmoteCommandEntry(emoteCommandKey: string) {
+        // const fullId = `${EMOTE_COMMAND_PREFIX}${emoteCommandKey}`
+        const command = this.entity.getDynamicProperty(emoteCommandKey) as string
         return command
     }
 }

@@ -111,6 +111,9 @@ export const RIGHT_CLICK_SUFFIX_SEPARATOR = "_ecs_"
 // Death Commands
 export const DEATH_COMMAND_PREFIX = "_ecs_death_command_"
 
+// Emote Commands
+export const EMOTE_COMMAND_PREFIX = "_ecs_emote_command_"
+
 // Dynamic Lore
 export const DYNAMIC_LORE_PREFIX = "dynamic_lore_line_"
 export const DYNAMIC_LORE_CHECK_KEY = `${DYNAMIC_LORE_PREFIX}0`

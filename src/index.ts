@@ -6,10 +6,12 @@
  */
 
 import "./server/scriptEvents"
+import "./server/entityLock"
+
 import "./server/rightClickDetection/rightClickDetection"
 import "./server/rightClickDetection/rightClickDetectionv2"
 import "./server/deathDetection/deathDetection"
-import "./server/entityLock"
+import "./server/emoteDetection/emoteDetection"
 
 import "./server/lore/index"
 import "./server/scoreboardStatuses/index"
