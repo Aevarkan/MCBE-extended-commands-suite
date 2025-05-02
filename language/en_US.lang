@@ -13,7 +13,7 @@ rp.ecs.command.keepinventory.off=Local keep inventory is now off.
 rp.ecs.command.item_command.error.stackable_item_no_support=Stackable items are not supported with this command.
 rp.ecs.command.item_command.error.no_lore=You must put lore on your item first!
 
-rp.ecs.command.item_command.detected_dynamic_lore=Dynamic lore linked successfully!
+rp.ecs.command.item_command.detected_dynamic_lore=§aDynamic lore linked successfully.§r
 rp.ecs.command.item_command.applied_command=Command "%1" registered as "%2" for %3.
 
 rp.ecs.command.item_command.removed_all=Removed all item commands for %s.

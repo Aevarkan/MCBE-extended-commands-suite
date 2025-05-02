@@ -76,12 +76,14 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
 
     // Just for command feedback
     const isDynamic = hasDynamicLore(selectedItem)
-    if (isDynamic) {
-        player.sendMessage({translate: "ecs.command.item_command.detected_dynamic_lore"})
-    }
 
     player.sendMessage({translate: "ecs.command.item_command.applied_command", with: [command, commandId, selectedItem.typeId]})
     player.playSound(COMMAND_SUCESS_SOUND)
+
+    // Putting it here so it goes below the success message for players
+    if (isDynamic) {
+        player.sendMessage({translate: "ecs.command.item_command.detected_dynamic_lore"})
+    }
 
     addItemCommandEntry(selectedItem, command, commandId, farMode)
 }
