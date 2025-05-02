@@ -16,9 +16,9 @@ world.afterEvents.playerEmote.subscribe((event) => {
 
     const emoteDatabase = new EntityCommandDatabase(player)
     
-    const deathCommandIds = emoteDatabase.getAllEmoteCommandEntryIds()
+    const emoteCommandIds = emoteDatabase.getAllEmoteCommandEntryIds()
     
-    deathCommandIds.forEach(id => {
+    emoteCommandIds.forEach(id => {
         const command = emoteDatabase.getEmoteCommandEntry(id)
         system.run(() => {
             player.runCommand(command)
