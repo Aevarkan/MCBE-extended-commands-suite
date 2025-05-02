@@ -58,10 +58,6 @@ function removeEmoteDetector(entity: Entity, removeOptions: RemoveOptions) {
     const entityDatabase = new EntityCommandDatabase(entity)
 
     if (removeOptions.removeAll === true) {
-        // Old way for compatibility
-        entity.setDynamicProperty("enabledEmoteDetector", false)
-        entity.setDynamicProperty("onDeathCommand", undefined)
-        
         entityDatabase.removeAllEmoteCommandEntries()
     } else {
         entityDatabase.removeEmoteCommandEntry(removeOptions.id)
