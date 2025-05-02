@@ -6,7 +6,7 @@
  */
 
 import { Entity } from "@minecraft/server"
-import { DEATH_COMMAND_PREFIX, EMOTE_COMMAND_PREFIX } from "constants"
+import { DEATH_COMMAND_PREFIX, EMOTE_COMMAND_PREFIX, JUMP_COMMAND_PREFIX } from "constants"
 
 /**
  * Stores commands for an entity.
@@ -132,6 +132,62 @@ export class EntityCommandDatabase {
     getEmoteCommandEntry(emoteCommandKey: string) {
         // const fullId = `${EMOTE_COMMAND_PREFIX}${emoteCommandKey}`
         const command = this.entity.getDynamicProperty(emoteCommandKey) as string
+        return command
+    }
+
+    /**
+     * ################################
+     * ######## JUMP DETECTION ########
+     * ################################
+     */
+
+    /**
+     * Adds a jump command entry to an entity.
+     * @param command The command the entity will run once on emoting.
+     * @param commandId The identifier for the command.
+     */
+    addJumpCommandEntry(command: string, commandId: string) {
+        const fullJumpCommandId = `${JUMP_COMMAND_PREFIX}${commandId}`
+    
+        this.entity.setDynamicProperty(fullJumpCommandId, command)
+    }
+
+    /**
+     * Removes an entity's jump command.
+     * @param commandId The identifier for the command.
+     */
+    removeJumpCommandEntry(commandId: string) {
+        const fullJumpCommandId = `${JUMP_COMMAND_PREFIX}${commandId}`
+    
+        this.entity.setDynamicProperty(fullJumpCommandId, undefined)
+    }
+
+    removeAllJumpCommandEntries() {
+        const allJumpCommandIds = this.getAllEmoteCommandEntryIds()
+    
+        allJumpCommandIds.forEach(id => {
+            this.removeEmoteCommandEntry(id)
+        })
+    }
+
+    /**
+     * Gets all jump command ids on an entity.
+     * @returns A string array of ids, including the prefix.
+     */
+    getAllJumpCommandEntryIds() {
+        const allKeys = this.entity.getDynamicPropertyIds()
+        const allJumpCommandIds = allKeys.filter(item => item.startsWith(JUMP_COMMAND_PREFIX))
+        return allJumpCommandIds
+    }
+    
+    /**
+     * Gets an jump command for an entity.
+     * @param jumpCommandKey The identifier of the jump command, including the prefix.
+     * @returns The command string.
+     */
+    getJumpCommandEntry(jumpCommandKey: string) {
+        // const fullId = `${JUMP_COMMAND_PREFIX}${jumpCommandKey}`
+        const command = this.entity.getDynamicProperty(jumpCommandKey) as string
         return command
     }
 }

@@ -12,6 +12,7 @@ import "./server/rightClickDetection/rightClickDetection"
 import "./server/rightClickDetection/rightClickDetectionv2"
 import "./server/deathDetection/deathDetection"
 import "./server/emoteDetection/emoteDetection"
+import "./server/jumpDetection/jumpDetection"
 
 import "./server/lore/index"
 import "./server/scoreboardStatuses/index"

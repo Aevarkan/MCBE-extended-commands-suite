@@ -25,6 +25,7 @@ import { dropItem } from "server/drop";
 import { setScoreboardNameScriptEvent } from "server/scoreboardStatuses/changeName";
 import { setKeepInventoryScriptEvent } from "server/keepInventory";
 import { createEmoteDetectorScriptEvent, removeEmoteDetectorScriptEvent } from "./emoteDetection/manageEmoteDetector";
+import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./jumpDetection/manageJumpDetector";
 
 // This file contains ALL the script events
 
@@ -76,7 +77,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const addEmoteCommandShortId = new RegExp(`^(${prefixes.join('|')}):aec$`)
     const removeEmoteCommandShortId = new RegExp(`^(${prefixes.join('|')}):rec$`)
 
-
+    const addJumpCommandId = new RegExp(`^(${prefixes.join('|')}):addjumpcommand$`)
+    const removeJumpCommandId = new RegExp(`^(${prefixes.join('|')}):removejumpcommand$`)
+    const addJumpCommandShortId = new RegExp(`^(${prefixes.join('|')}):ajc$`)
+    const removeJumpCommandShortId = new RegExp(`^(${prefixes.join('|')}):rjc$`)
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -164,6 +168,14 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (removeEmoteCommandId.test(event.id) || removeEmoteCommandShortId.test(event.id)) {
         removeEmoteDetectorScriptEvent(event)
+    }
+
+    else if (addJumpCommandId.test(event.id) || addJumpCommandShortId.test(event.id)) {
+        createJumpDetectorScriptEvent(event)
+    }
+
+    else if (removeJumpCommandId.test(event.id) || removeJumpCommandShortId.test(event.id)) {
+        removeJumpDetectorScriptEvent(event)
     }
 
     else if (chanceId.test(event.id)) {
