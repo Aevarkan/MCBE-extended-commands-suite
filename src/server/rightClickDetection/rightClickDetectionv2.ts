@@ -5,15 +5,16 @@
  * Author: Aevarkan
  */
 
-import { BlockRaycastOptions, DimensionLocation, Entity, ItemStack, ItemUseBeforeEvent, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, system, Vector3, world } from "@minecraft/server";
-import { CommandInformation, getItemCommandEntry, getItemCommandMatches } from "./utility";
+import { BlockRaycastOptions, DimensionLocation, ItemStack, ItemUseBeforeEvent, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, system, Vector3, world } from "@minecraft/server";
+import { Database } from "classes/Database";
 import { COMMAND_ERROR_SOUND, FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
+import { CommandInformation } from "types/misc";
 
 world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const player = event.source as Player
     const item = event.itemStack as ItemStack
 
-    const matchedIds = getItemCommandMatches(item)
+    const matchedIds = Database.getItemCommandMatches(item)
 
     // console.info("Detected right click")
 
@@ -27,7 +28,7 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const commandPackets = [] as CommandInformation[]
 
     matchedIds.forEach(id => {
-        const entryinfo = getItemCommandEntry(item, id)
+        const entryinfo = Database.getItemCommandEntry(item, id)
         commandPackets.push(entryinfo)
     })
 

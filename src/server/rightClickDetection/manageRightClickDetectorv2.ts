@@ -6,10 +6,10 @@
  */
 
 import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { addItemCommandEntry, removeAllItemCommandEntries, removeItemCommandEntry } from "./utility";
 import { RemoveOptions } from "server/definitions";
 import { hasDynamicLore } from "server/lore/manageDynamicLore";
 import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND } from "constants";
+import { Database } from "classes/Database";
 
 /**
  * This makes a right click detector in the player's selected hotbar slot
@@ -85,7 +85,7 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
         player.sendMessage({translate: "ecs.command.item_command.detected_dynamic_lore"})
     }
 
-    addItemCommandEntry(selectedItem, command, commandId, farMode)
+    Database.addItemCommandEntry(selectedItem, command, commandId, farMode)
 }
 
 /**
@@ -100,8 +100,8 @@ function removeRightClickDetectorAction(player: Player, slot: number, removeOpti
     const item = inventory.getItem(slot)
     
     if (removeOptions.removeAll === true) {
-        removeAllItemCommandEntries(item)
+        Database.removeAllItemCommandEntries(item)
     } else {
-        removeItemCommandEntry(item, removeOptions.id)
+        Database.removeItemCommandEntry(item, removeOptions.id)
     }
 }
