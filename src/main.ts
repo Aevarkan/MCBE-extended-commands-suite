@@ -5,17 +5,7 @@
  * Author: Aevarkan
  */
 
-import "./server/scriptEvents"
-import "./server/rightClickDetection/rightClickDetection"
-import "./server/rightClickDetection/rightClickDetectionv2"
-import "./server/deathDetection/deathDetection"
-import "./server/entityLock"
-
-import "./server/lore/index"
-import "./server/scoreboardStatuses/index"
-import "./server/tagStatuses/index"
-
-import "./server/versionCounter"
+import "./index"
 
 import { CURRENT_VERSION } from "constants"
 
