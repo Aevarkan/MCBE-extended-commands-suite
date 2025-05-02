@@ -7,8 +7,8 @@
 
 import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { addItemCommandEntry, removeAllItemCommandEntries, removeItemCommandEntry } from "./utility";
-import { RemoveOptions } from "definitions";
-import { hasDynamicLore } from "lore/manageDynamicLore";
+import { RemoveOptions } from "server/definitions";
+import { hasDynamicLore } from "server/lore/manageDynamicLore";
 import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND } from "constants";
 
 /**

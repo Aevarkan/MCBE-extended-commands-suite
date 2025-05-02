@@ -7,7 +7,7 @@
 
 import { InputMode, PlatformType, world } from "@minecraft/server";
 import { PLAYER_DEVICE_CONSOLE_TAG, PLAYER_DEVICE_MOBILE_TAG, PLAYER_DEVICE_PC_TAG, PLAYER_INPUT_GAMEPAD, PLAYER_INPUT_KEYBOARD_AND_MOUSE_TAG, PLAYER_INPUT_MOTION_CONTROLLER, PLAYER_INPUT_TOUCH, PLAYER_MAX_RENDER_DISTANCE_SCOREBOARD_NAME } from "constants";
-import { getScoreboard } from "scoreboardStatuses/utility";
+import { getScoreboard } from "server/scoreboardStatuses/utility";
 
 world.afterEvents.playerSpawn.subscribe((event) => {
     const player = event.player

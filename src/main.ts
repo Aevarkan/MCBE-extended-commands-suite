@@ -5,17 +5,17 @@
  * Author: Aevarkan
  */
 
-import "./scriptEvents"
-import "./rightClickDetection/rightClickDetection"
-import "./rightClickDetection/rightClickDetectionv2"
-import "./deathDetection/deathDetection"
-import "./entityLock"
+import "./server/scriptEvents"
+import "./server/rightClickDetection/rightClickDetection"
+import "./server/rightClickDetection/rightClickDetectionv2"
+import "./server/deathDetection/deathDetection"
+import "./server/entityLock"
 
-import "./lore/index"
-import "./scoreboardStatuses/index"
-import "./tagStatuses/index"
+import "./server/lore/index"
+import "./server/scoreboardStatuses/index"
+import "./server/tagStatuses/index"
 
-import "./versionCounter"
+import "./server/versionCounter"
 
 import { CURRENT_VERSION } from "constants"
 

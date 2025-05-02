@@ -6,24 +6,24 @@
  */
 
 import { Player, system } from "@minecraft/server";
-import { push } from "push";
-import { playMusic, stopMusic } from "manageMusic";
-import { scheduleCommand } from "schedule";
-import { tpToSpawn } from "tpSpawn";
-import { freeze } from "freeze";
-import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageRightClickDetector";
-import { editLore, setLore } from "lore/setLore";
-import { multiCommand } from "multiCommand";
-import { createDeathDetector, removeDeathDetector } from "deathDetection/manageDeathDetector";
-import { chance } from "chance";
-import { setScale } from "size";
-import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "rightClickDetection/manageRightClickDetectorv2";
-import { shoot } from "projectile";
-import { lockEntities, unlockEntities } from "entityLock";
-import { smite } from "smite";
-import { dropItem } from "drop";
-import { setScoreboardNameScriptEvent } from "scoreboardStatuses/changeName";
-import { setKeepInventoryScriptEvent } from "keepInventory";
+import { push } from "server/push";
+import { playMusic, stopMusic } from "server/manageMusic";
+import { scheduleCommand } from "server/schedule";
+import { tpToSpawn } from "server/tpSpawn";
+import { freeze } from "server/freeze";
+import { createRightClickDetector, removeRightClickDetector } from "server/rightClickDetection/manageRightClickDetector";
+import { editLore, setLore } from "server/lore/setLore";
+import { multiCommand } from "server/multiCommand";
+import { createDeathDetector, removeDeathDetector } from "server/deathDetection/manageDeathDetector";
+import { chance } from "server/chance";
+import { setScale } from "server/size";
+import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "server/rightClickDetection/manageRightClickDetectorv2";
+import { shoot } from "server/projectile";
+import { lockEntities, unlockEntities } from "server/entityLock";
+import { smite } from "server/smite";
+import { dropItem } from "server/drop";
+import { setScoreboardNameScriptEvent } from "server/scoreboardStatuses/changeName";
+import { setKeepInventoryScriptEvent } from "server/keepInventory";
 
 // This file contains ALL the script events
 

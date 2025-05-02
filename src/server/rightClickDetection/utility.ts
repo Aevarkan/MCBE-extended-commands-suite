@@ -7,7 +7,7 @@
 
 import { ItemStack, world } from "@minecraft/server"
 import { RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PREFIX_LORE, RIGHT_CLICK_SUFFIX_SEPARATOR } from "constants"
-import { getDynamicLore, hasDynamicLore } from "lore/manageDynamicLore"
+import { getDynamicLore, hasDynamicLore } from "server/lore/manageDynamicLore"
 
 /**
  * Adds an entry into the command database.
