@@ -6,7 +6,7 @@
  */
 
 import { Entity, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { addDeathCommandEntry, removeAllDeathCommandEntries, removeDeathCommandEntry } from "./utility";
+import { Database } from "classes/Database";
 import { RemoveOptions } from "server/definitions";
 
 /**
@@ -44,7 +44,7 @@ export function removeDeathDetector(event: ScriptEventCommandMessageAfterEvent) 
  * @param command The command the entity will run when it dies.
  */
 function createDeathDetectorAction(entity: Entity, entryId: string, command: string) {
-    addDeathCommandEntry(entity, command, entryId)
+    Database.addDeathCommandEntry(entity, command, entryId)
 }
 
 /**
@@ -59,8 +59,8 @@ function removeDeathDetectorAction(entity: Entity, removeOptions: RemoveOptions)
         entity.setDynamicProperty("enabledDeathDetector", false)
         entity.setDynamicProperty("onDeathCommand", undefined)
         
-        removeAllDeathCommandEntries(entity)
+        Database.removeAllDeathCommandEntries(entity)
     } else {
-        removeDeathCommandEntry(entity, removeOptions.id)
+        Database.removeDeathCommandEntry(entity, removeOptions.id)
     }
 }
