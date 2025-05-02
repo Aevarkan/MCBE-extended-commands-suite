@@ -9,7 +9,7 @@ import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventComm
 import { RemoveOptions } from "server/definitions";
 import { hasDynamicLore } from "server/lore/manageDynamicLore";
 import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND } from "constants";
-import { Database } from "classes/Database";
+import { ItemCommandDatabase } from "classes/ItemCommandDatabase";
 
 /**
  * This makes a right click detector in the player's selected hotbar slot
@@ -85,7 +85,9 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
         player.sendMessage({translate: "ecs.command.item_command.detected_dynamic_lore"})
     }
 
-    Database.addItemCommandEntry(selectedItem, command, commandId, farMode)
+    const itemCommandDatabase = new ItemCommandDatabase(selectedItem)
+
+    itemCommandDatabase.addItemCommandEntry(command, commandId, farMode)
 }
 
 /**
@@ -98,10 +100,11 @@ function removeRightClickDetectorAction(player: Player, slot: number, removeOpti
     const inventoryComponent = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent
     const inventory = inventoryComponent.container
     const item = inventory.getItem(slot)
+    const itemCommandDatabase = new ItemCommandDatabase(item)
     
     if (removeOptions.removeAll === true) {
-        Database.removeAllItemCommandEntries(item)
+        itemCommandDatabase.removeAllItemCommandEntries()
     } else {
-        Database.removeItemCommandEntry(item, removeOptions.id)
+        itemCommandDatabase.removeItemCommandEntry(removeOptions.id)
     }
 }

@@ -1,102 +1,44 @@
 /**
  * This file is part of Extended Commands Suite which is released under GPL-3.0.
  * See file LICENCE or go to https://www.gnu.org/licenses/gpl-3.0.en.html for full licence details.
- * File: Database.ts
+ * File: ItemCommandDatabase.ts
  * Author: Aevarkan
  */
 
-import { Entity, ItemStack, world } from "@minecraft/server"
-import { DEATH_COMMAND_PREFIX, RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PREFIX_LORE, RIGHT_CLICK_SUFFIX_SEPARATOR } from "constants"
+import { ItemStack, world } from "@minecraft/server"
+import { RIGHT_CLICK_PREFIX_COMMAND, RIGHT_CLICK_PREFIX_FARMODE, RIGHT_CLICK_PREFIX_LORE, RIGHT_CLICK_SUFFIX_SEPARATOR } from "constants"
 import { getDynamicLore, hasDynamicLore } from "server/lore/manageDynamicLore"
 import { CommandInformation } from "types/misc"
 
 /**
  * Database handling, purely for storing commands.
  */
-class _Database {
+export class ItemCommandDatabase {
+
+    readonly itemStack: ItemStack
 
     /**
-     * ########################
-     * #### DEATH COMMANDS ####
-     * ########################
+     * Creates a new database viewer for an {@link ItemStack}.
+     * @param entity
      */
-
-    /**
-     * Adds a death command entry to an entity.
-     * @param entity The entity.
-     * @param command The command the entity will run once killed.
-     * @param commandId The identifier for the command.
-     */
-    addDeathCommandEntry(entity: Entity, command: string, commandId: string) {
-        const fullDeathCommandId = `${DEATH_COMMAND_PREFIX}${commandId}`
-    
-        entity.setDynamicProperty(fullDeathCommandId, command)
+    constructor(itemStack: ItemStack) {
+        this.itemStack = itemStack
     }
 
     /**
-     * Removes an entity's death command.
-     * @param entity The entity.
-     * @param commandId The identifier for the command.
-     */
-    removeDeathCommandEntry(entity: Entity, commandId: string) {
-        const fullDeathCommandId = `${DEATH_COMMAND_PREFIX}${commandId}`
-    
-        entity.setDynamicProperty(fullDeathCommandId, undefined)
-    }
-
-    removeAllDeathCommandEntries(entity: Entity) {
-        const allDeathCommandIds = Database.getAllDeathCommandEntryIds(entity)
-    
-        allDeathCommandIds.forEach(id => {
-            Database.removeDeathCommandEntry(entity, id)
-        })
-    }
-
-    /**
-     * Gets all death command ids on an entity.
-     * @param entity The entity.
-     * @returns A string array of ids, including the prefix.
-     */
-    getAllDeathCommandEntryIds(entity: Entity) {
-        const allKeys = entity.getDynamicPropertyIds()
-        const allDeathCommandIds = allKeys.filter(item => item.startsWith(DEATH_COMMAND_PREFIX))
-        return allDeathCommandIds
-    }
-    
-    /**
-     * Gets a death command for an entity.
-     * @param entity The entity.
-     * @param deathCommandKey The identifier of the death command, including the prefix.
-     * @returns The command string.
-     */
-    getDeathCommandEntry(entity: Entity, deathCommandKey: string) {
-        // const fullId = `${DEATH_COMMAND_PREFIX}${deathCommandKey}`
-        const command = entity.getDynamicProperty(deathCommandKey) as string
-        return command
-    }
-
-    /**
-     * #######################
-     * #### ITEM COMMANDS ####
-     * #######################
-     */
-
-
-    /**
-     * Adds an entry into the command database.
-     * @param item The item that will have the command.
+     * Adds an entry into the item command database.
      * @param command The command the item will run.
      * @param commandId The identifier for the command.
      * @param farMode If the command runs in farmode.
      */
-    addItemCommandEntry(item: ItemStack, command: string, commandId: string, farmode: boolean) {
-        const itemTypeId = item.typeId
-        const selectedItemLore = item.getLore()
+    addItemCommandEntry(command: string, commandId: string, farmode: boolean) {
+        const itemTypeId = this.itemStack.typeId
+        const selectedItemLore = this.itemStack.getLore()
         let itemLoreString = selectedItemLore.join() // This is a let because we want to check for dynamic lore
         
-        const isDynamic = hasDynamicLore(item)
+        const isDynamic = hasDynamicLore(this.itemStack)
         if (isDynamic) {
-            itemLoreString = getDynamicLore(item).join()
+            itemLoreString = getDynamicLore(this.itemStack).join()
             // console.log("Detected dynamic lore!")
         }
 
@@ -112,16 +54,15 @@ class _Database {
     }
 
     /**
-     * Checks if the item has any entries in the command database.
-     * @param item The `ItemStack` to check.
+     * Checks if an itemStack has any entries in the command database.
      * @returns An array of command ids.
      */
-    getItemCommandMatches(item: ItemStack): string[] {
-        const itemTypeId = item.typeId
-        const itemLore = item.getLore()
+    getItemCommandMatches(): string[] {
+        const itemTypeId = this.itemStack.typeId
+        const itemLore = this.itemStack.getLore()
         const loreString = itemLore.join()
         const matchedCommandIds = [] as string[]
-        const dynamicLoreString = getDynamicLore(item).join()
+        const dynamicLoreString = getDynamicLore(this.itemStack).join()
         const partialLorePrefix = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}`
 
         // console.log("Dynamic lore is: ", dynamicLoreString)
@@ -152,12 +93,11 @@ class _Database {
 
     /**
      * Gets an entry from the command database.
-     * @param item The item to get an entry for.
      * @param commandId The entry ID.
      * @returns An object with command information.
      */
-    getItemCommandEntry(item: ItemStack, commandId: string): CommandInformation {
-        const itemTypeId = item.typeId
+    getItemCommandEntry(commandId: string): CommandInformation {
+        const itemTypeId = this.itemStack.typeId
 
         const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
         const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
@@ -182,8 +122,8 @@ class _Database {
      * @param item The item to remove.
      * @param commandId The identifier.
      */
-    removeItemCommandEntry(item: ItemStack, commandId: string) {
-        const itemTypeId = item.typeId
+    removeItemCommandEntry(commandId: string) {
+        const itemTypeId = this.itemStack.typeId
 
         const fullCommandId = `${RIGHT_CLICK_PREFIX_COMMAND}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
         const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
@@ -196,15 +136,12 @@ class _Database {
 
     /**
      * Removes all entries from the command database for an item.
-     * @param item The `ItemStack`.
      */
-    removeAllItemCommandEntries(item: ItemStack) {
-        const matchingIds = Database.getItemCommandMatches(item)
+    removeAllItemCommandEntries() {
+        const matchingIds = this.getItemCommandMatches()
 
         matchingIds.forEach(id => {
-            Database.removeItemCommandEntry(item, id)
+            this.removeItemCommandEntry(id)
         })
     }
 }
-
-export const Database = new _Database()
