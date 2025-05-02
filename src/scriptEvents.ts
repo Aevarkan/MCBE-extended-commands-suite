@@ -23,6 +23,7 @@ import { lockEntities, unlockEntities } from "entityLock";
 import { smite } from "smite";
 import { dropItem } from "drop";
 import { setScoreboardNameScriptEvent } from "scoreboardStatuses/changeName";
+import { setKeepInventoryScriptEvent } from "keepInventory";
 
 // This file contains ALL the script events
 
@@ -57,6 +58,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const unlockId = new RegExp(`^(${prefixes.join('|')}):unlock$`)
     const smiteId = new RegExp(`^(${prefixes.join('|')}):smite$`)
     const dropId = new RegExp(`^(${prefixes.join('|')}):drop$`)
+    const keepInventoryId = new RegExp(`^(${prefixes.join('|')}):keepinventory$`)
 
     const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
     const addUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):addusecommand2$`)
@@ -192,6 +194,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (scoreboardNameId.test(event.id)) {
         setScoreboardNameScriptEvent(event)
+    }
+
+    else if (keepInventoryId.test(event.id)) {
+        setKeepInventoryScriptEvent(event)
     }
 
     // Switch statements exist, but I don't like how they look
