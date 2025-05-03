@@ -6,7 +6,7 @@
  */
 
 import { Entity, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { EntityCommandDatabase } from "classes/EntityCommandDatabase";
+import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
 import { RemoveOptions } from "definitions";
 
 /**
@@ -46,7 +46,7 @@ export function removeDeathDetector(event: ScriptEventCommandMessageAfterEvent) 
 function createDeathDetectorAction(entity: Entity, entryId: string, command: string) {
     const entityDatabase = new EntityCommandDatabase(entity)
 
-    entityDatabase.addDeathCommandEntry(command, entryId)
+    entityDatabase.addEntry(EntityCommandTypes.DeathCommand, command, entryId)
 }
 
 /**
@@ -62,8 +62,8 @@ function removeDeathDetectorAction(entity: Entity, removeOptions: RemoveOptions)
         entity.setDynamicProperty("enabledDeathDetector", false)
         entity.setDynamicProperty("onDeathCommand", undefined)
         
-        entityDatabase.removeAllDeathCommandEntries()
+        entityDatabase.removeAllEntries(EntityCommandTypes.DeathCommand)
     } else {
-        entityDatabase.removeDeathCommandEntry(removeOptions.id)
+        entityDatabase.removeEntry(EntityCommandTypes.DeathCommand, removeOptions.id)
     }
 }

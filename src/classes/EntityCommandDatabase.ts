@@ -6,7 +6,33 @@
  */
 
 import { Entity } from "@minecraft/server"
-import { DEATH_COMMAND_PREFIX, EMOTE_COMMAND_PREFIX, JUMP_COMMAND_PREFIX } from "constants"
+import { DEATH_COMMAND_PREFIX, EMOTE_COMMAND_PREFIX, INTERACT_COMMAND_PREFIX, JUMP_COMMAND_PREFIX, PUNCH_COMMAND_PREFIX } from "constants"
+
+/**
+ * Describes the types of commands an entity can store.
+ */
+export enum EntityCommandTypes {
+    /**
+     * Runs a command when an entity dies.
+     */
+    DeathCommand = "deathcommand",
+    /**
+     * Runs a command when a player emotes.
+     */
+    EmoteCommand = "emotecommand",
+    /**
+     * Runs a command when a player jumps.
+     */
+    JumpCommand = "jumpcommand",
+    /**
+     * The entity that hits this entity will run a command.
+     */
+    PunchCommand = "punchcommand",
+    /**
+     * The player that interacts with this entity will run a command.
+     */
+    InteractCommand = "interactcommand",
+}
 
 /**
  * Stores commands for an entity.
@@ -24,176 +50,144 @@ export class EntityCommandDatabase {
     }
 
     /**
-     * #################################
-     * ######## DEATH DETECTION ########
-     * #################################
-     */
-
-    /**
-     * Adds a death command entry to an entity.
+     * Adds a command entry to an entity.
+     * @param commandType The type of command, see {@link EntityCommandTypes}.
      * @param command The command the entity will run once killed.
      * @param commandId The identifier for the command.
      */
-    addDeathCommandEntry(command: string, commandId: string) {
-        const fullDeathCommandId = `${DEATH_COMMAND_PREFIX}${commandId}`
+    addEntry(commandType: EntityCommandTypes, command: string, commandId: string) {
+
+        let fullCommandId: string
+
+        switch (commandType) {
+            case EntityCommandTypes.DeathCommand:
+                fullCommandId = `${DEATH_COMMAND_PREFIX}${commandId}`
+                break
+                
+            case EntityCommandTypes.EmoteCommand:
+                fullCommandId = `${EMOTE_COMMAND_PREFIX}${commandId}`
+                break
+                
+            case EntityCommandTypes.JumpCommand:
+                fullCommandId = `${JUMP_COMMAND_PREFIX}${commandId}`
+                break
+                
+            case EntityCommandTypes.PunchCommand:
+                fullCommandId = `${PUNCH_COMMAND_PREFIX}${commandId}` 
+                break
+
+            case EntityCommandTypes.InteractCommand:
+                fullCommandId = `${INTERACT_COMMAND_PREFIX}${commandId}`
+                break
+        
+            default:
+                // We cannot proceed if we don't have a correct id
+                throw Error
+        }
 
         const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
-    
-        this.entity.setDynamicProperty(fullDeathCommandId, correctCommand)
+        this.entity.setDynamicProperty(fullCommandId, correctCommand)
+
     }
 
     /**
-     * Removes an entity's death command.
+     * Removes an entity's command.
+     * @param commandType The type of command, see {@link EntityCommandTypes}.
      * @param commandId The identifier for the command.
      */
-    removeDeathCommandEntry(commandId: string) {
-        const fullDeathCommandId = `${DEATH_COMMAND_PREFIX}${commandId}`
+    removeEntry(commandType: EntityCommandTypes, commandId: string) {
+        let fullcommandId: string
+
+        switch (commandType) {
+            case EntityCommandTypes.DeathCommand:
+                fullcommandId = `${DEATH_COMMAND_PREFIX}${commandId}`
+                break
+
+            case EntityCommandTypes.EmoteCommand:
+                fullcommandId = `${EMOTE_COMMAND_PREFIX}${commandId}`
+                break
+
+            case EntityCommandTypes.JumpCommand:
+                fullcommandId = `${JUMP_COMMAND_PREFIX}${commandId}`
+                break
+
+            case EntityCommandTypes.PunchCommand:
+                fullcommandId = `${PUNCH_COMMAND_PREFIX}${commandId}`
+                break
+
+            case EntityCommandTypes.InteractCommand:
+                fullcommandId = `${INTERACT_COMMAND_PREFIX}${commandId}`
+                break
+
+            default:
+
+                // We cannot proceed if we don't have a correct id
+                throw Error
+        }
     
-        this.entity.setDynamicProperty(fullDeathCommandId, undefined)
+        this.entity.setDynamicProperty(fullcommandId, undefined)
     }
 
-    removeAllDeathCommandEntries() {
-        const allDeathCommandIds = this.getAllDeathCommandEntryIds()
+    /**
+     * Removes all commands off an entity.
+     * @param commandType The type of command, see {@link EntityCommandTypes}.
+     */
+    removeAllEntries(commandType: EntityCommandTypes) {
+        const allCommandIds = this.getAllEntryIds(commandType)
     
-        allDeathCommandIds.forEach(id => {
-            this.removeDeathCommandEntry(id)
+        allCommandIds.forEach(id => {
+            this.removeEntry(commandType, id)
         })
     }
 
     /**
-     * Gets all death command ids on an entity.
+     * Gets all command ids on an entity.
      * @returns A string array of ids, including the prefix.
      */
-    getAllDeathCommandEntryIds() {
+    getAllEntryIds(commandType: EntityCommandTypes) {
         const allKeys = this.entity.getDynamicPropertyIds()
-        const allDeathCommandIds = allKeys.filter(item => item.startsWith(DEATH_COMMAND_PREFIX))
-        return allDeathCommandIds
+        let filteredKeys = [] as string[]
+        
+        switch (commandType) {
+            case EntityCommandTypes.DeathCommand:
+                filteredKeys = allKeys.filter(item => item.startsWith(DEATH_COMMAND_PREFIX))
+                break 
+
+            case EntityCommandTypes.EmoteCommand:
+                filteredKeys = allKeys.filter(item => item.startsWith(EMOTE_COMMAND_PREFIX))
+                break 
+
+            case EntityCommandTypes.JumpCommand:
+                filteredKeys = allKeys.filter(item => item.startsWith(JUMP_COMMAND_PREFIX))
+                break 
+
+            case EntityCommandTypes.PunchCommand:
+                filteredKeys = allKeys.filter(item => item.startsWith(PUNCH_COMMAND_PREFIX))
+                break 
+
+            case EntityCommandTypes.InteractCommand:
+                filteredKeys = allKeys.filter(item => item.startsWith(INTERACT_COMMAND_PREFIX))
+                break 
+
+            default:
+                // We cannot proceed if we haven't filtered the keys correctly
+                throw Error
+        }
+
+        return filteredKeys
     }
     
     /**
-     * Gets a death command for an entity.
-     * @param deathCommandKey The identifier of the death command, including the prefix.
+     * Gets a command for an entity.
+     * @param commandKey The identifier of the command, including the prefix.
      * @returns The command string.
      */
-    getDeathCommandEntry(deathCommandKey: string) {
+    getEntry(commandKey: string) {
+        // Example input:
         // const fullId = `${DEATH_COMMAND_PREFIX}${deathCommandKey}`
-        const command = this.entity.getDynamicProperty(deathCommandKey) as string
-        return command
-    }
+        // This doesn't need separate functionality for each type
 
-    /**
-     * #################################
-     * ######## EMOTE DETECTION ########
-     * #################################
-     */
-
-    /**
-     * Adds an emote command entry to an entity.
-     * @param command The command the entity will run once on emoting.
-     * @param commandId The identifier for the command.
-     */
-    addEmoteCommandEntry(command: string, commandId: string) {
-        const fullEmoteCommandId = `${EMOTE_COMMAND_PREFIX}${commandId}`
-
-        const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
-    
-        this.entity.setDynamicProperty(fullEmoteCommandId, correctCommand)
-    }
-
-    /**
-     * Removes an entity's emote command.
-     * @param commandId The identifier for the command.
-     */
-    removeEmoteCommandEntry(commandId: string) {
-        const fullEmoteCommandId = `${EMOTE_COMMAND_PREFIX}${commandId}`
-    
-        this.entity.setDynamicProperty(fullEmoteCommandId, undefined)
-    }
-
-    removeAllEmoteCommandEntries() {
-        const allEmoteCommandIds = this.getAllEmoteCommandEntryIds()
-    
-        allEmoteCommandIds.forEach(id => {
-            this.removeEmoteCommandEntry(id)
-        })
-    }
-
-    /**
-     * Gets all emote command ids on an entity.
-     * @returns A string array of ids, including the prefix.
-     */
-    getAllEmoteCommandEntryIds() {
-        const allKeys = this.entity.getDynamicPropertyIds()
-        const allEmoteCommandIds = allKeys.filter(item => item.startsWith(EMOTE_COMMAND_PREFIX))
-        return allEmoteCommandIds
-    }
-    
-    /**
-     * Gets an emote command for an entity.
-     * @param emoteCommandKey The identifier of the death command, including the prefix.
-     * @returns The command string.
-     */
-    getEmoteCommandEntry(emoteCommandKey: string) {
-        // const fullId = `${EMOTE_COMMAND_PREFIX}${emoteCommandKey}`
-        const command = this.entity.getDynamicProperty(emoteCommandKey) as string
-        return command
-    }
-
-    /**
-     * ################################
-     * ######## JUMP DETECTION ########
-     * ################################
-     */
-
-    /**
-     * Adds a jump command entry to an entity.
-     * @param command The command the entity will run once on emoting.
-     * @param commandId The identifier for the command.
-     */
-    addJumpCommandEntry(command: string, commandId: string) {
-        const fullJumpCommandId = `${JUMP_COMMAND_PREFIX}${commandId}`
-
-        const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
-    
-        this.entity.setDynamicProperty(fullJumpCommandId, correctCommand)
-    }
-
-    /**
-     * Removes an entity's jump command.
-     * @param commandId The identifier for the command.
-     */
-    removeJumpCommandEntry(commandId: string) {
-        const fullJumpCommandId = `${JUMP_COMMAND_PREFIX}${commandId}`
-    
-        this.entity.setDynamicProperty(fullJumpCommandId, undefined)
-    }
-
-    removeAllJumpCommandEntries() {
-        const allJumpCommandIds = this.getAllEmoteCommandEntryIds()
-    
-        allJumpCommandIds.forEach(id => {
-            this.removeEmoteCommandEntry(id)
-        })
-    }
-
-    /**
-     * Gets all jump command ids on an entity.
-     * @returns A string array of ids, including the prefix.
-     */
-    getAllJumpCommandEntryIds() {
-        const allKeys = this.entity.getDynamicPropertyIds()
-        const allJumpCommandIds = allKeys.filter(item => item.startsWith(JUMP_COMMAND_PREFIX))
-        return allJumpCommandIds
-    }
-    
-    /**
-     * Gets an jump command for an entity.
-     * @param jumpCommandKey The identifier of the jump command, including the prefix.
-     * @returns The command string.
-     */
-    getJumpCommandEntry(jumpCommandKey: string) {
-        // const fullId = `${JUMP_COMMAND_PREFIX}${jumpCommandKey}`
-        const command = this.entity.getDynamicProperty(jumpCommandKey) as string
+        const command = this.entity.getDynamicProperty(commandKey) as string
         return command
     }
 }

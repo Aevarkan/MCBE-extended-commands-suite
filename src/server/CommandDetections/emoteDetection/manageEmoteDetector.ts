@@ -6,7 +6,7 @@
  */
 
 import { Entity, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { EntityCommandDatabase } from "classes/EntityCommandDatabase";
+import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
 import { RemoveOptions } from "definitions";
 
 /**
@@ -46,7 +46,7 @@ export function removeEmoteDetectorScriptEvent(event: ScriptEventCommandMessageA
 function createEmoteDetector(entity: Entity, entryId: string, command: string) {
     const entityDatabase = new EntityCommandDatabase(entity)
 
-    entityDatabase.addEmoteCommandEntry(command, entryId)
+    entityDatabase.addEntry(EntityCommandTypes.EmoteCommand, command, entryId)
 }
 
 /**
@@ -58,8 +58,8 @@ function removeEmoteDetector(entity: Entity, removeOptions: RemoveOptions) {
     const entityDatabase = new EntityCommandDatabase(entity)
 
     if (removeOptions.removeAll === true) {
-        entityDatabase.removeAllEmoteCommandEntries()
+        entityDatabase.removeAllEntries(EntityCommandTypes.EmoteCommand)
     } else {
-        entityDatabase.removeEmoteCommandEntry(removeOptions.id)
+        entityDatabase.removeEntry(EntityCommandTypes.EmoteCommand, removeOptions.id)
     }
 }

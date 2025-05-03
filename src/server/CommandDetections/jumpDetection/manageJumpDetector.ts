@@ -6,7 +6,7 @@
  */
 
 import { Entity, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { EntityCommandDatabase } from "classes/EntityCommandDatabase";
+import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
 import { RemoveOptions } from "definitions";
 
 /**
@@ -46,7 +46,7 @@ export function removeJumpDetectorScriptEvent(event: ScriptEventCommandMessageAf
 function createJumpDetector(player: Player, entryId: string, command: string) {
     const jumpDatabase = new EntityCommandDatabase(player)
 
-    jumpDatabase.addJumpCommandEntry(command, entryId)
+    jumpDatabase.addEntry(EntityCommandTypes.JumpCommand, command, entryId)
 }
 
 /**
@@ -58,8 +58,8 @@ function removeJumpDetector(player: Player, removeOptions: RemoveOptions) {
     const jumpDatabase = new EntityCommandDatabase(player)
 
     if (removeOptions.removeAll === true) {
-        jumpDatabase.removeAllJumpCommandEntries()
+        jumpDatabase.removeAllEntries(EntityCommandTypes.JumpCommand)
     } else {
-        jumpDatabase.removeJumpCommandEntry(removeOptions.id)
+        jumpDatabase.removeEntry(EntityCommandTypes.JumpCommand, removeOptions.id)
     }
 }

@@ -121,14 +121,12 @@ export const RIGHT_CLICK_PREFIX_FARMODE = "_ecs_right_click_farmode_"
 export const RIGHT_CLICK_PREFIX_LORE = "_ecs_right_click_lore_"
 export const RIGHT_CLICK_SUFFIX_SEPARATOR = "_ecs_"
 
-// Death Commands
+// Entity Commands
 export const DEATH_COMMAND_PREFIX = "_ecs_death_command_"
-
-// Emote Commands
 export const EMOTE_COMMAND_PREFIX = "_ecs_emote_command_"
-
-// Jump Commands
 export const JUMP_COMMAND_PREFIX = "_ecs_jump_command_"
+export const PUNCH_COMMAND_PREFIX = "_ecs_punch_command_"
+export const INTERACT_COMMAND_PREFIX = "_ecs_interact_command_"
 
 // Dynamic Lore
 export const DYNAMIC_LORE_PREFIX = "dynamic_lore_line_"
