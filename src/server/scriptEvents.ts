@@ -27,6 +27,8 @@ import { setKeepInventoryScriptEvent } from "server/keepInventory";
 import { createEmoteDetectorScriptEvent, removeEmoteDetectorScriptEvent } from "./CommandDetections/emoteDetection/manageEmoteDetector";
 import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./CommandDetections/jumpDetection/manageJumpDetector";
 import { toggleContinuousDetectionScriptEvent } from "./tagStatuses/continuousDetection";
+import { createInteractDetectorScriptEvent, removeInteractDetectorScriptEvent } from "./CommandDetections/interactDetection/manageInteractDetector";
+import { createPunchDetectorScriptEvent, removePunchDetectorScriptEvent } from "./CommandDetections/punchDetection/managePunchDetector";
 
 // This file contains ALL the script events
 
@@ -84,6 +86,16 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeJumpCommandId = new RegExp(`^(${prefixes.join('|')}):removejumpcommand$`)
     const addJumpCommandShortId = new RegExp(`^(${prefixes.join('|')}):ajc$`)
     const removeJumpCommandShortId = new RegExp(`^(${prefixes.join('|')}):rjc$`)
+
+    const addPunchCommandId = new RegExp(`^(${prefixes.join('|')}):addpunchcommand$`)
+    const removePunchCommandId = new RegExp(`^(${prefixes.join('|')}):removepunchcommand$`)
+    const addPunchCommandShortId = new RegExp(`^(${prefixes.join('|')}):apc$`)
+    const removePunchCommandShortId = new RegExp(`^(${prefixes.join('|')}):rpc$`)
+
+    const addInteractCommandId = new RegExp(`^(${prefixes.join('|')}):addinteractcommand$`)
+    const removeInteractCommandId = new RegExp(`^(${prefixes.join('|')}):removeinteractcommand$`)
+    const addInteractCommandShortId = new RegExp(`^(${prefixes.join('|')}):aic$`)
+    const removeInteractCommandShortId = new RegExp(`^(${prefixes.join('|')}):ric$`)
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -179,6 +191,22 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (removeJumpCommandId.test(event.id) || removeJumpCommandShortId.test(event.id)) {
         removeJumpDetectorScriptEvent(event)
+    }
+
+    else if (addPunchCommandId.test(event.id) || addPunchCommandShortId.test(event.id)) {
+        createPunchDetectorScriptEvent(event)
+    }
+
+    else if (removePunchCommandId.test(event.id) || removePunchCommandShortId.test(event.id)) {
+        removePunchDetectorScriptEvent(event)
+    }
+
+    else if (addInteractCommandId.test(event.id) || addInteractCommandShortId.test(event.id)) {
+        createInteractDetectorScriptEvent(event)
+    }
+
+    else if (removeInteractCommandId.test(event.id) || removeInteractCommandShortId.test(event.id)) {
+        removeInteractDetectorScriptEvent(event)
     }
 
     else if (chanceId.test(event.id)) {
