@@ -32,6 +32,7 @@ export class ItemCommandDatabase {
      * @param farMode If the command runs in farmode.
      */
     addItemCommandEntry(command: string, commandId: string, farmode: boolean) {
+        const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
         const itemTypeId = this.itemStack.typeId
         const selectedItemLore = this.itemStack.getLore()
         let itemLoreString = selectedItemLore.join() // This is a let because we want to check for dynamic lore
@@ -46,7 +47,7 @@ export class ItemCommandDatabase {
         const fullFarmodeId = `${RIGHT_CLICK_PREFIX_FARMODE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
         const fullLoreId = `${RIGHT_CLICK_PREFIX_LORE}${itemTypeId}${RIGHT_CLICK_SUFFIX_SEPARATOR}${commandId}`
 
-        world.setDynamicProperty(fullCommandId, command)
+        world.setDynamicProperty(fullCommandId, correctCommand)
         world.setDynamicProperty(fullFarmodeId, farmode)
         world.setDynamicProperty(fullLoreId, itemLoreString)
 
