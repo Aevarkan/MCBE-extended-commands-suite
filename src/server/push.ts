@@ -6,7 +6,7 @@
  */
 
 import { Entity, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { VectorXZ } from "utility/Vectors";
+import { VectorXZ } from "server/utility/Vectors";
 
 export function push(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity

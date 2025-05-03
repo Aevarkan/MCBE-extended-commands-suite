@@ -5,15 +5,17 @@
  * Author: Aevarkan
  */
 
-import { BlockRaycastOptions, DimensionLocation, Entity, ItemStack, ItemUseBeforeEvent, Player, system, Vector3, world } from "@minecraft/server";
-import { CommandInformation, getItemCommandEntry, getItemCommandMatches } from "./utility";
-import { FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
+import { BlockRaycastOptions, DimensionLocation, ItemStack, ItemUseBeforeEvent, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, system, Vector3, world } from "@minecraft/server";
+import { ItemCommandDatabase } from "classes/ItemCommandDatabase";
+import { COMMAND_ERROR_SOUND, FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
+import { CommandInformation } from "definitions";
 
 world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const player = event.source as Player
     const item = event.itemStack as ItemStack
+    const itemCommandDatabase = new ItemCommandDatabase(item)
 
-    const matchedIds = getItemCommandMatches(item)
+    const matchedIds = itemCommandDatabase.getItemCommandMatches()
 
     // console.info("Detected right click")
 
@@ -27,7 +29,7 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const commandPackets = [] as CommandInformation[]
 
     matchedIds.forEach(id => {
-        const entryinfo = getItemCommandEntry(item, id)
+        const entryinfo = itemCommandDatabase.getItemCommandEntry(id)
         commandPackets.push(entryinfo)
     })
 
@@ -40,33 +42,42 @@ world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
         // e.g. You put /sciptevent cmd:test @s
         // @s will be the player's name, and it won't work
         // We use capital letter instead 
-        const correctCommand = packet.command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`);
+        const correctCommand = packet.command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
         
         if (packet.farMode) {
+            system.run(() => {
+                // Max distance error
+                try {
+                    const targetBlock = getBlockFromRaycast(player, FARMODE_GOES_THROUGH_LIQUIDS)
 
-            // Max distance error
-            try {
-                const targetBlock = getBlockFromRaycast(player, FARMODE_GOES_THROUGH_LIQUIDS)
-
-                if (!targetBlock) {
-                    throw new Error("Block out of range.")
+                    if (!targetBlock) {
+                        throw new Error("Block out of range.")
+                    }
+                
+                    const topBlockLocation: DimensionLocation = {
+                        x: targetBlock.x,
+                        y: targetBlock.y + 1, // Add 1 to not have the command done inside the block
+                        z: targetBlock.z,
+                        dimension: targetBlock.dimension
+                    }
+        
+                    // console.log("In farmode!", correctCommand, targetBlock.x, targetBlock.y, targetBlock.z)
+        
+                    doOffsetCommand(correctCommand, player, topBlockLocation)
+                } catch (error) {
+                    if (error instanceof LocationInUnloadedChunkError) {
+                        player.sendMessage({translate: "ecs.command.error.outside_ticking_range"})
+                        player.playSound(COMMAND_ERROR_SOUND)
+                    } else if (error instanceof LocationOutOfWorldBoundariesError) {
+                        player.sendMessage({translate: "ecs.command.error.outside_world_boundary"})
+                        player.playSound(COMMAND_ERROR_SOUND)
+                    }
+                    else {
+                        player.sendMessage({translate: "ecs.command.error.too_far"})
+                        player.playSound(COMMAND_ERROR_SOUND)
+                    }
                 }
-            
-
-                const topBlockLocation: DimensionLocation = {
-                    x: targetBlock.x,
-                    y: targetBlock.y + 1, // Add 1 to not have the command done inside the block
-                    z: targetBlock.z,
-                    dimension: targetBlock.dimension
-                }
-    
-                // console.log("In farmode!", correctCommand, targetBlock.x, targetBlock.y, targetBlock.z)
-    
-                doOffsetCommand(correctCommand, player, topBlockLocation)
-            } catch (error) {
-                player.sendMessage({translate: "ecs.command.error.too_far"})
-            }
-
+            })
 
         } else {
 
@@ -115,14 +126,12 @@ export function doOffsetCommand(command: string, sourcePlayer: Player, location:
 
     // Create a dummy and have it run the command, but execute can have the player run it.
     // This doesn't work on entities because you can't do /execute as on them
-    system.run(() => {
-        try {
-            const dummyEntity = commandDimension.spawnEntity("ecs:dummy", commandLocation)
-            // dummyEntity.runCommand(`execute as ${playerName} at @s run ${command}`)
-            dummyEntity.runCommand(command)
-            dummyEntity.remove()
-        } catch (error) {
-            sourcePlayer.sendMessage({translate: "ecs.command.error.outside_ticking_range"})
-        }
-    })
+    try {
+        const dummyEntity = commandDimension.spawnEntity("ecs:dummy", commandLocation)
+        // dummyEntity.runCommand(`execute as ${playerName} at @s run ${command}`)
+        dummyEntity.runCommand(command)
+        dummyEntity.remove()
+    } catch (error) {
+        throw error
+    }
 }

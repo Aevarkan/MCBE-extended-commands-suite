@@ -6,12 +6,13 @@
  */
 
 /**
- * Whether to remove all entries or just one.
- * If removing just one, the id is required.
+ * Object containing item command information.
  */
-export type RemoveOptions =
-    | { removeAll: true }
-    | { removeAll: false; id: string }
+export interface CommandInformation {
+    command: string,
+    farMode: boolean,
+    lore: string
+}
 
 /**
  * Supported dynamic lore variables.
@@ -50,10 +51,10 @@ export enum DynamicLoreVariables {
 }
 
 export interface ReplacementLore {
-    [DynamicLoreVariables.Durability]?: string,
-    [DynamicLoreVariables.MaxDurability]?: string,
-    [DynamicLoreVariables.PlayerKills]?: string,
-    [DynamicLoreVariables.EntityKills]?: string,
-    [DynamicLoreVariables.TotalKills]?: string,
-    [DynamicLoreVariables.BlocksBroken]?: string,
+    [DynamicLoreVariables.Durability]: string,
+    [DynamicLoreVariables.MaxDurability]: string,
+    [DynamicLoreVariables.PlayerKills]: string,
+    [DynamicLoreVariables.EntityKills]: string,
+    [DynamicLoreVariables.TotalKills]: string,
+    [DynamicLoreVariables.BlocksBroken]: string,
 }

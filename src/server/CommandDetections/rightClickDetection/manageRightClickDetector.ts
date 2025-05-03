@@ -6,6 +6,7 @@
  */
 
 import { Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
+import { COMMAND_ERROR_SOUND } from "constants";
 
 /**
  * This makes a right click detector in the player's selected hotbar slot
@@ -40,7 +41,8 @@ function createRightClickDetectorAction(player: Player, command: string, slot: n
     
     if (selectedItem.isStackable){
         
-        player.sendMessage({translate: "ecs.command.error.stackable_item_no_support"})
+        player.sendMessage({translate: "ecs.command.item_command.error.stackable_item_no_support"})
+        player.playSound(COMMAND_ERROR_SOUND)
         // Old command, doesn't work on stackable items
         
     } else {
@@ -64,7 +66,8 @@ function removeRightClickDetectorAction(player: Player, slot: number) {
     const selectedItem = inventory.getItem(slot)
     
     if (selectedItem.isStackable){
-        player.sendMessage({translate: "ecs.command.error.stackable_item_no_support"})
+        player.sendMessage({translate: "ecs.command.item_command.error.stackable_item_no_support"})
+        player.playSound(COMMAND_ERROR_SOUND)
         // Old command, doesn't work on stackable items
     } else {
         // Must replace the item, as we can't modify existing ones

@@ -6,23 +6,29 @@
  */
 
 import { Player, system } from "@minecraft/server";
-import { push } from "push";
-import { playMusic, stopMusic } from "manageMusic";
-import { scheduleCommand } from "schedule";
-import { tpToSpawn } from "tpSpawn";
-import { freeze } from "freeze";
-import { createRightClickDetector, removeRightClickDetector } from "rightClickDetection/manageRightClickDetector";
-import { editLore, setLore } from "lore/setLore";
-import { multiCommand } from "multiCommand";
-import { createDeathDetector, removeDeathDetector } from "deathDetection/manageDeathDetector";
-import { chance } from "chance";
-import { setScale } from "size";
-import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "rightClickDetection/manageRightClickDetectorv2";
-import { shoot } from "projectile";
-import { lockEntities, unlockEntities } from "entityLock";
-import { smite } from "smite";
-import { dropItem } from "drop";
-import { setScoreboardNameScriptEvent } from "scoreboardStatuses/changeName";
+import { push } from "server/push";
+import { playMusic, stopMusic } from "server/manageMusic";
+import { scheduleCommand } from "server/schedule";
+import { tpToSpawn } from "server/tpSpawn";
+import { freeze } from "server/freeze";
+import { createRightClickDetector, removeRightClickDetector } from "server/CommandDetections/rightClickDetection/manageRightClickDetector";
+import { editLore, setLore } from "server/lore/setLore";
+import { multiCommand } from "server/multiCommand";
+import { createDeathDetector, removeDeathDetector } from "server/CommandDetections/deathDetection/manageDeathDetector";
+import { chance } from "server/chance";
+import { setScale } from "server/size";
+import { createRightClickDetectorv2, queryItemCommandsScriptEvent, removeRightClickDetectorv2 } from "server/CommandDetections/rightClickDetection/manageRightClickDetectorv2";
+import { shoot } from "server/projectile";
+import { lockEntities, unlockEntities } from "server/entityLock";
+import { smite } from "server/smite";
+import { dropItem } from "server/drop";
+import { setScoreboardNameScriptEvent } from "server/scoreboardStatuses/changeName";
+import { setKeepInventoryScriptEvent } from "server/keepInventory";
+import { createEmoteDetectorScriptEvent, removeEmoteDetectorScriptEvent } from "./CommandDetections/emoteDetection/manageEmoteDetector";
+import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./CommandDetections/jumpDetection/manageJumpDetector";
+import { toggleContinuousDetectionScriptEvent } from "./tagStatuses/continuousDetection";
+import { createInteractDetectorScriptEvent, removeInteractDetectorScriptEvent } from "./CommandDetections/interactDetection/manageInteractDetector";
+import { createPunchDetectorScriptEvent, removePunchDetectorScriptEvent } from "./CommandDetections/punchDetection/managePunchDetector";
 
 // This file contains ALL the script events
 
@@ -57,18 +63,39 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const unlockId = new RegExp(`^(${prefixes.join('|')}):unlock$`)
     const smiteId = new RegExp(`^(${prefixes.join('|')}):smite$`)
     const dropId = new RegExp(`^(${prefixes.join('|')}):drop$`)
+    const keepInventoryId = new RegExp(`^(${prefixes.join('|')}):keepinventory$`)
+    const alldetectionsId = new RegExp(`^(${prefixes.join('|')}):alldetections$`)
 
     const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
     const addUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):addusecommand2$`)
     const removeUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):ruc2$`)
     const removeUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):removeusecommand2$`)
+    const queryUseCommandsId = new RegExp(`^(${prefixes.join('|')}):commandsquery$`)
 
     const addDeathCommandId = new RegExp(`^(${prefixes.join('|')}):adddeathcommand$`)
     const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
     const addDeathCommandShortId = new RegExp(`^(${prefixes.join('|')}):adc$`)
     const removeDeathCommandShortId = new RegExp(`^(${prefixes.join('|')}):rdc$`)
 
+    const addEmoteCommandId = new RegExp(`^(${prefixes.join('|')}):addemotecommand$`)
+    const removeEmoteCommandId = new RegExp(`^(${prefixes.join('|')}):removeemotecommand$`)
+    const addEmoteCommandShortId = new RegExp(`^(${prefixes.join('|')}):aec$`)
+    const removeEmoteCommandShortId = new RegExp(`^(${prefixes.join('|')}):rec$`)
 
+    const addJumpCommandId = new RegExp(`^(${prefixes.join('|')}):addjumpcommand$`)
+    const removeJumpCommandId = new RegExp(`^(${prefixes.join('|')}):removejumpcommand$`)
+    const addJumpCommandShortId = new RegExp(`^(${prefixes.join('|')}):ajc$`)
+    const removeJumpCommandShortId = new RegExp(`^(${prefixes.join('|')}):rjc$`)
+
+    const addPunchCommandId = new RegExp(`^(${prefixes.join('|')}):addpunchcommand$`)
+    const removePunchCommandId = new RegExp(`^(${prefixes.join('|')}):removepunchcommand$`)
+    const addPunchCommandShortId = new RegExp(`^(${prefixes.join('|')}):apc$`)
+    const removePunchCommandShortId = new RegExp(`^(${prefixes.join('|')}):rpc$`)
+
+    const addInteractCommandId = new RegExp(`^(${prefixes.join('|')}):addinteractcommand$`)
+    const removeInteractCommandId = new RegExp(`^(${prefixes.join('|')}):removeinteractcommand$`)
+    const addInteractCommandShortId = new RegExp(`^(${prefixes.join('|')}):aic$`)
+    const removeInteractCommandShortId = new RegExp(`^(${prefixes.join('|')}):ric$`)
 
     // The /music command, but for individual players
     if (playMusicId.test(event.id)) {
@@ -150,6 +177,38 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
         removeDeathDetector(event)
     }
 
+    else if (addEmoteCommandId.test(event.id) || addEmoteCommandShortId.test(event.id)) {
+        createEmoteDetectorScriptEvent(event)
+    }
+
+    else if (removeEmoteCommandId.test(event.id) || removeEmoteCommandShortId.test(event.id)) {
+        removeEmoteDetectorScriptEvent(event)
+    }
+
+    else if (addJumpCommandId.test(event.id) || addJumpCommandShortId.test(event.id)) {
+        createJumpDetectorScriptEvent(event)
+    }
+
+    else if (removeJumpCommandId.test(event.id) || removeJumpCommandShortId.test(event.id)) {
+        removeJumpDetectorScriptEvent(event)
+    }
+
+    else if (addPunchCommandId.test(event.id) || addPunchCommandShortId.test(event.id)) {
+        createPunchDetectorScriptEvent(event)
+    }
+
+    else if (removePunchCommandId.test(event.id) || removePunchCommandShortId.test(event.id)) {
+        removePunchDetectorScriptEvent(event)
+    }
+
+    else if (addInteractCommandId.test(event.id) || addInteractCommandShortId.test(event.id)) {
+        createInteractDetectorScriptEvent(event)
+    }
+
+    else if (removeInteractCommandId.test(event.id) || removeInteractCommandShortId.test(event.id)) {
+        removeInteractDetectorScriptEvent(event)
+    }
+
     else if (chanceId.test(event.id)) {
         chance(event)
     }
@@ -168,6 +227,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (removeUseCommandv2Id.test(event.id) || removeUseCommandv2ShortId.test(event.id)) {
         removeRightClickDetectorv2(event)
+    }
+
+    else if (queryUseCommandsId.test(event.id)) {
+        queryItemCommandsScriptEvent(event)
     }
 
     else if (shootId.test(event.id)) {
@@ -192,6 +255,14 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (scoreboardNameId.test(event.id)) {
         setScoreboardNameScriptEvent(event)
+    }
+
+    else if (keepInventoryId.test(event.id)) {
+        setKeepInventoryScriptEvent(event)
+    }
+
+    else if (alldetectionsId.test(event.id)) {
+        toggleContinuousDetectionScriptEvent(event)
     }
 
     // Switch statements exist, but I don't like how they look

@@ -83,6 +83,9 @@ world.afterEvents.entityHitEntity.subscribe((event: EntityHitEntityAfterEvent) =
 export function updateDynamicLore(item: ItemStack): ItemStack {
     const dynamicLoreArray = getDynamicLore(item)
 
+    // Stops if there is no dynamic lore
+    if (dynamicLoreArray.length === 0) return item
+
     // Item Durability Counters
     let itemDurability: number
     let itemMaxDurability: number
