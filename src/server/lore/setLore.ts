@@ -8,7 +8,7 @@
 import { EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND, MAX_LORE_LINES } from "constants";
-import { DynamicLoreVariables } from "server/definitions";
+import { DynamicLoreVariables } from "definitions";
 import { checkEnumMatchString } from "server/utility/functions";
 import { getDynamicLore, hasDynamicLore, setDynamicLore } from "./manageDynamicLore";
 import { updateDynamicLore } from "./dynamicLore";

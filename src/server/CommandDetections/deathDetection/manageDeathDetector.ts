@@ -7,7 +7,7 @@
 
 import { Entity, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { EntityCommandDatabase } from "classes/EntityCommandDatabase";
-import { RemoveOptions } from "server/definitions";
+import { RemoveOptions } from "definitions";
 
 /**
  * This makes a death detector for the entity.

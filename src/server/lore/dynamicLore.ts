@@ -7,7 +7,7 @@
 
 import { EntityComponentTypes, EntityEquippableComponent, EntityHitEntityAfterEvent, EntityHurtAfterEvent, EquipmentSlot, ItemComponentTypes, ItemStack, Player, world } from "@minecraft/server";
 import { getDynamicLore, hasDynamicLore } from "./manageDynamicLore";
-import { DynamicLoreVariables, ReplacementLore } from "server/definitions";
+import { DynamicLoreVariables, ReplacementLore } from "definitions";
 import { setItemInSelectedSlot } from "./setLore";
 import { DYNAMIC_LORE_ITEM_BLOCKS_BROKEN, DYNAMIC_LORE_ITEM_PVE_KILLS, DYNAMIC_LORE_ITEM_PVP_KILLS, DYNAMIC_LORE_ITEM_TOTAL_KILLS } from "constants";
 
