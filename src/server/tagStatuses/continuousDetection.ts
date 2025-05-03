@@ -5,10 +5,32 @@
  * Author: Aevarkan
  */
 
-import { system, world } from "@minecraft/server";
+import { ScriptEventCommandMessageAfterEvent, system, world } from "@minecraft/server";
 import { PLAYER_CLIMBING_TAG, PLAYER_EMOTING_TAG, PLAYER_FALLING_TAG, PLAYER_FLYING_TAG, PLAYER_GLIDING_TAG, PLAYER_INWATER_TAG, PLAYER_ONGROUND_TAG, PLAYER_SLEEPING_TAG, PLAYER_SPRINTING_TAG, PLAYER_SWIMMING_TAG } from "constants";
 
 const enabledContinuousDetection = world.getDynamicProperty("enabledContinuousDetection") as boolean ?? false
+
+export function toggleContinuousDetectionScriptEvent(event: ScriptEventCommandMessageAfterEvent) {
+    const message = event.message
+    
+    // Uses the message or toggles if there isn't one
+    let toggle = message.toLowerCase() === "true" ? true : false
+    const currentKeepStatus = world.getDynamicProperty("enabledContinuousDetection") as boolean ?? false
+
+    if (message.length === 0) {
+        toggle = !currentKeepStatus
+    }
+
+    toggleContinuousDetection(toggle)
+}
+
+/**
+ * Toggles the continuous detection on or off. Requires a script reload to take effect (/reload)
+ * @param toggle On or off
+ */
+function toggleContinuousDetection(toggle: boolean) {
+    world.setDynamicProperty("enabledContinuousDetection", toggle)
+}
 
 if (enabledContinuousDetection) {
     system.runInterval(() => {

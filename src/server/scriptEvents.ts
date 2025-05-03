@@ -26,6 +26,7 @@ import { setScoreboardNameScriptEvent } from "server/scoreboardStatuses/changeNa
 import { setKeepInventoryScriptEvent } from "server/keepInventory";
 import { createEmoteDetectorScriptEvent, removeEmoteDetectorScriptEvent } from "./emoteDetection/manageEmoteDetector";
 import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./jumpDetection/manageJumpDetector";
+import { toggleContinuousDetectionScriptEvent } from "./tagStatuses/continuousDetection";
 
 // This file contains ALL the script events
 
@@ -61,6 +62,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const smiteId = new RegExp(`^(${prefixes.join('|')}):smite$`)
     const dropId = new RegExp(`^(${prefixes.join('|')}):drop$`)
     const keepInventoryId = new RegExp(`^(${prefixes.join('|')}):keepinventory$`)
+    const alldetectionsId = new RegExp(`^(${prefixes.join('|')}):alldetections$`)
 
     const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
     const addUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):addusecommand2$`)
@@ -224,6 +226,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (keepInventoryId.test(event.id)) {
         setKeepInventoryScriptEvent(event)
+    }
+
+    else if (alldetectionsId.test(event.id)) {
+        toggleContinuousDetectionScriptEvent(event)
     }
 
     // Switch statements exist, but I don't like how they look
