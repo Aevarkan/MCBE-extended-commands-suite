@@ -47,6 +47,19 @@ export const PLAYER_INPUT_GAMEPAD = "ecs:input_gamepad"
 export const PLAYER_INPUT_MOTION_CONTROLLER = "ecs:input_motion_controller"
 export const PLAYER_INPUT_TOUCH = "ecs:input_touch"
 
+// Continuous Detection (Every tick)
+export const PLAYER_CLIMBING_TAG = "ecs:is_climbing"
+export const PLAYER_EMOTING_TAG = "ecs:is_emoting"
+export const PLAYER_FALLING_TAG = "ecs:is_falling"
+export const PLAYER_FLYING_TAG = "ecs:is_flying"
+export const PLAYER_GLIDING_TAG = "ecs:is_gliding"
+export const PLAYER_INWATER_TAG = "ecs:is_inwater"
+export const PLAYER_ONGROUND_TAG = "ecs:is_onground"
+export const PLAYER_SLEEPING_TAG = "ecs:is_sleeping"
+export const PLAYER_SPRINTING_TAG = "ecs:is_sprinting"
+export const PLAYER_SWIMMING_TAG = "ecs:is_swimming"
+
+
 // Scoreboard Counters
 export const HEALTH_SCOREBOARD_NAME = "ecs:health"
 export const DEATH_SCOREBOARD_NAME = "ecs:deaths"

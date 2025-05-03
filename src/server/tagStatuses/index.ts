@@ -7,3 +7,4 @@
 
 import "./stateDetection"
 import "./deviceDetection"
+import "./continuousDetection"
