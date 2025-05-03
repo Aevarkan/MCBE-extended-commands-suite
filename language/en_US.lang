@@ -22,7 +22,11 @@ rp.ecs.command.item_command.applied_command=Command "%1" registered as "%2" for 
 
 rp.ecs.command.item_command.removed_all=Removed all item commands for %s.
 rp.ecs.command.item_command.removed_command=Removed item command "%1" for %2.
-rp.ecs.command.item_command.removed_command_no_exist=§4%2 doesn't have a command with name "%1" applied.§r
+rp.ecs.command.item_command.removed_command_no_exist=§c%2 doesn't have a command with name "%1" applied.§r
+
+rp.ecs.command.item_command.query.no_commands=§c%s has no commands applied.§r
+rp.ecs.command.item_command.query.found_command=§aFound command "%1" with label "%2" for %3.§r
+rp.ecs.command.item_command.query.no_item=§cYou must be holding an item to check for commands!§r
 
 
 rp.ecs.command.lock.sucess=Locked: %s

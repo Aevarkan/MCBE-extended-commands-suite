@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { EntityComponentTypes, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
+import { EntityComponentTypes, EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { RemoveOptions } from "server/definitions";
 import { hasDynamicLore } from "server/lore/manageDynamicLore";
 import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND } from "constants";
@@ -82,7 +82,7 @@ function createRightClickDetectorAction(player: Player, commandId: string, comma
 }
 
 /**
- * 
+ * Removes right click detector(s) from an item.
  * @param player The player who is removing the detector.
  * @param slot The inventory slot the item is in.
  * @param removeOptions Additional information about removal.
@@ -118,5 +118,48 @@ function removeRightClickDetectorAction(player: Player, slot: number, removeOpti
             player.sendMessage({translate: "ecs.command.item_command.removed_command_no_exist", with: [commandId, itemTypeId]})
             player.playSound(COMMAND_ERROR_SOUND)
         }
+    }
+}
+
+export function queryItemCommandsScriptEvent(event: ScriptEventCommandMessageAfterEvent) {
+    const player = event.sourceEntity as Player
+    const inventory = player.getComponent(EntityComponentTypes.Inventory)
+    const item = inventory.container.getItem(player.selectedSlotIndex)
+
+    if (!item) {
+        player.sendMessage({translate: "ecs.command.item_command.query.no_item"})
+        player.playSound(COMMAND_ERROR_SOUND)
+        return
+    }
+
+    queryItemCommands(player, item)
+}
+
+/**
+ * @param player The player to send the message to.
+ * @param item The {@link ItemStack} to check.
+ */
+function queryItemCommands(player: Player, item: ItemStack) {
+    const itemCommandDatabase = new ItemCommandDatabase(item)
+
+    const itemTypeId = item.typeId
+    const commandMatches = itemCommandDatabase.getItemCommandMatches()
+
+    if (commandMatches.length === 0) {
+        player.sendMessage({translate: "ecs.command.item_command.query.no_commands", with: [itemTypeId]})
+        player.playSound(COMMAND_ERROR_SOUND)
+    } else {
+
+        commandMatches.forEach(commandId => {
+            
+            const commandInfo = itemCommandDatabase.getItemCommandEntry(commandId)
+            const command = commandInfo.command
+
+            player.sendMessage({translate: "ecs.command.item_command.query.found_command", with: [command, commandId, itemTypeId]})
+
+        })
+
+        player.playSound(COMMAND_SUCESS_SOUND)
+
     }
 }

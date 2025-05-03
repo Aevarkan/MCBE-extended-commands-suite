@@ -17,7 +17,7 @@ import { multiCommand } from "server/multiCommand";
 import { createDeathDetector, removeDeathDetector } from "server/deathDetection/manageDeathDetector";
 import { chance } from "server/chance";
 import { setScale } from "server/size";
-import { createRightClickDetectorv2, removeRightClickDetectorv2 } from "server/rightClickDetection/manageRightClickDetectorv2";
+import { createRightClickDetectorv2, queryItemCommandsScriptEvent, removeRightClickDetectorv2 } from "server/rightClickDetection/manageRightClickDetectorv2";
 import { shoot } from "server/projectile";
 import { lockEntities, unlockEntities } from "server/entityLock";
 import { smite } from "server/smite";
@@ -68,6 +68,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const addUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):addusecommand2$`)
     const removeUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):ruc2$`)
     const removeUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):removeusecommand2$`)
+    const queryUseCommandsId = new RegExp(`^(${prefixes.join('|')}):commandsquery$`)
 
     const addDeathCommandId = new RegExp(`^(${prefixes.join('|')}):adddeathcommand$`)
     const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
@@ -198,6 +199,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (removeUseCommandv2Id.test(event.id) || removeUseCommandv2ShortId.test(event.id)) {
         removeRightClickDetectorv2(event)
+    }
+
+    else if (queryUseCommandsId.test(event.id)) {
+        queryItemCommandsScriptEvent(event)
     }
 
     else if (shootId.test(event.id)) {
