@@ -6,8 +6,8 @@
  */
 
 import { Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
-import { RemoveOptions } from "types/misc";
+import { createEntityDetector, removeEntityDetector } from "../commonDetections";
+import { EntityCommandTypes } from "classes/EntityCommandDatabase";
 
 /**
  * This makes a jump detector for the player.
@@ -20,46 +20,19 @@ export function createJumpDetectorScriptEvent(event: ScriptEventCommandMessageAf
     const commandId = parts[0]
     const command = parts.slice(1).join(" ")
 
-    createJumpDetector(player, commandId, command)
+    createEntityDetector(EntityCommandTypes.JumpCommand, player, commandId, command)
 }
 
 /**
- * This removes the entity's death detector.
+ * This removes the player's jump detector.
  */
 export function removeJumpDetectorScriptEvent(event: ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
     const commandId = event.message
 
     if (commandId.length === 0) {
-        removeJumpDetector(player, {removeAll: true})
+        removeEntityDetector(EntityCommandTypes.JumpCommand, player, {removeAll: true})
     } else {
-        removeJumpDetector(player, {removeAll: false, id: commandId})
-    }
-}
-
-/**
- * Creates a jump detector for a player.
- * @param player The player that will run the command upon pressing .
- * @param entryId The identifier for the command.
- * @param command The command the entity will run when it dies.
- */
-function createJumpDetector(player: Player, entryId: string, command: string) {
-    const jumpDatabase = new EntityCommandDatabase(player)
-
-    jumpDatabase.addEntry(EntityCommandTypes.JumpCommand, command, entryId)
-}
-
-/**
- * @param player The player to remove the jump detector from.
- * @param removeOptions Arguments on how to remove the detector(s).
- */
-function removeJumpDetector(player: Player, removeOptions: RemoveOptions) {
-
-    const jumpDatabase = new EntityCommandDatabase(player)
-
-    if (removeOptions.removeAll === true) {
-        jumpDatabase.removeAllEntries(EntityCommandTypes.JumpCommand)
-    } else {
-        jumpDatabase.removeEntry(EntityCommandTypes.JumpCommand, removeOptions.id)
+        removeEntityDetector(EntityCommandTypes.JumpCommand, player, {removeAll: false, id: commandId})
     }
 }

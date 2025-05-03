@@ -6,8 +6,8 @@
  */
 
 import { Entity, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
-import { RemoveOptions } from "types/misc";
+import { EntityCommandTypes } from "classes/EntityCommandDatabase";
+import { createEntityDetector, removeEntityDetector } from "../commonDetections";
 
 /**
  * This makes a death detector for the entity.
@@ -20,7 +20,7 @@ export function createDeathDetector(event: ScriptEventCommandMessageAfterEvent) 
     const commandId = parts[0]
     const command = parts.slice(1).join(" ")
 
-    createDeathDetectorAction(entity, commandId, command)
+    createEntityDetector(EntityCommandTypes.DeathCommand, entity, commandId, command)
 }
 
 /**
@@ -31,39 +31,8 @@ export function removeDeathDetector(event: ScriptEventCommandMessageAfterEvent) 
     const commandId = event.message
 
     if (commandId.length === 0) {
-        removeDeathDetectorAction(entity, {removeAll: true})
+        removeEntityDetector(EntityCommandTypes.DeathCommand, entity, {removeAll: true})
     } else {
-        removeDeathDetectorAction(entity, {removeAll: false, id: commandId})
-    }
-}
-
-/**
- * 
- * @param entity The entity that will run the command on death.
- * @param entryId The identifier for the command.
- * @param command The command the entity will run when it dies.
- */
-function createDeathDetectorAction(entity: Entity, entryId: string, command: string) {
-    const entityDatabase = new EntityCommandDatabase(entity)
-
-    entityDatabase.addEntry(EntityCommandTypes.DeathCommand, command, entryId)
-}
-
-/**
- * @param entity The entity to remove the death detector.
- * @param removeOptions Arguments on how to remove the detector(s).
- */
-function removeDeathDetectorAction(entity: Entity, removeOptions: RemoveOptions) {
-
-    const entityDatabase = new EntityCommandDatabase(entity)
-
-    if (removeOptions.removeAll === true) {
-        // Old way for compatibility
-        entity.setDynamicProperty("enabledDeathDetector", false)
-        entity.setDynamicProperty("onDeathCommand", undefined)
-        
-        entityDatabase.removeAllEntries(EntityCommandTypes.DeathCommand)
-    } else {
-        entityDatabase.removeEntry(EntityCommandTypes.DeathCommand, removeOptions.id)
+        removeEntityDetector(EntityCommandTypes.DeathCommand, entity, {removeAll: false, id: commandId})
     }
 }
