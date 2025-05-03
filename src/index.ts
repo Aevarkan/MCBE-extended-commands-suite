@@ -8,11 +8,11 @@
 import "./server/scriptEvents"
 import "./server/entityLock"
 
-import "./server/rightClickDetection/rightClickDetection"
-import "./server/rightClickDetection/rightClickDetectionv2"
-import "./server/deathDetection/deathDetection"
-import "./server/emoteDetection/emoteDetection"
-import "./server/jumpDetection/jumpDetection"
+import "./server/CommandDetections/rightClickDetection/rightClickDetection"
+import "./server/CommandDetections/rightClickDetection/rightClickDetectionv2"
+import "./server/CommandDetections/deathDetection/deathDetection"
+import "./server/CommandDetections/emoteDetection/emoteDetection"
+import "./server/CommandDetections/jumpDetection/jumpDetection"
 
 import "./server/lore/index"
 import "./server/scoreboardStatuses/index"

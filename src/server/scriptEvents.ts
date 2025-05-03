@@ -11,21 +11,21 @@ import { playMusic, stopMusic } from "server/manageMusic";
 import { scheduleCommand } from "server/schedule";
 import { tpToSpawn } from "server/tpSpawn";
 import { freeze } from "server/freeze";
-import { createRightClickDetector, removeRightClickDetector } from "server/rightClickDetection/manageRightClickDetector";
+import { createRightClickDetector, removeRightClickDetector } from "server/CommandDetections/rightClickDetection/manageRightClickDetector";
 import { editLore, setLore } from "server/lore/setLore";
 import { multiCommand } from "server/multiCommand";
-import { createDeathDetector, removeDeathDetector } from "server/deathDetection/manageDeathDetector";
+import { createDeathDetector, removeDeathDetector } from "server/CommandDetections/deathDetection/manageDeathDetector";
 import { chance } from "server/chance";
 import { setScale } from "server/size";
-import { createRightClickDetectorv2, queryItemCommandsScriptEvent, removeRightClickDetectorv2 } from "server/rightClickDetection/manageRightClickDetectorv2";
+import { createRightClickDetectorv2, queryItemCommandsScriptEvent, removeRightClickDetectorv2 } from "server/CommandDetections/rightClickDetection/manageRightClickDetectorv2";
 import { shoot } from "server/projectile";
 import { lockEntities, unlockEntities } from "server/entityLock";
 import { smite } from "server/smite";
 import { dropItem } from "server/drop";
 import { setScoreboardNameScriptEvent } from "server/scoreboardStatuses/changeName";
 import { setKeepInventoryScriptEvent } from "server/keepInventory";
-import { createEmoteDetectorScriptEvent, removeEmoteDetectorScriptEvent } from "./emoteDetection/manageEmoteDetector";
-import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./jumpDetection/manageJumpDetector";
+import { createEmoteDetectorScriptEvent, removeEmoteDetectorScriptEvent } from "./CommandDetections/emoteDetection/manageEmoteDetector";
+import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./CommandDetections/jumpDetection/manageJumpDetector";
 import { toggleContinuousDetectionScriptEvent } from "./tagStatuses/continuousDetection";
 
 // This file contains ALL the script events

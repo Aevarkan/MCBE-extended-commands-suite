@@ -7,7 +7,7 @@
 
 import { DimensionLocation, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server"
 import { COMMAND_ERROR_SOUND, SMITE_COMMAND } from "constants"
-import { doOffsetCommand, getBlockFromRaycast } from "server/rightClickDetection/rightClickDetectionv2"
+import { doOffsetCommand, getBlockFromRaycast } from "server/CommandDetections/rightClickDetection/rightClickDetectionv2"
 
 export function smite(event:ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
