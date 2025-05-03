@@ -3,9 +3,9 @@ bp.pack.name=Extended Commands Suite
 rp.pack.description=Contains the localisation files for the behavior pack.
 rp.pack.name=Extended Commands Suite Resource Pack
 
-rp.ecs.command.error.too_far=Target block is too far away to run command!
-rp.ecs.command.error.outside_ticking_range=Target block is outside of ticking range!
-rp.ecs.command.error.outside_world_boundary=Target block is outside of world height boundary!
+rp.ecs.command.error.too_far=§cTarget block is too far away to run command!§r
+rp.ecs.command.error.outside_ticking_range=§cTarget block is outside of ticking range!§r
+rp.ecs.command.error.outside_world_boundary=§cTarget block is outside of world height boundary!§r
 
 rp.ecs.command.keepinventory.on=Local keep inventory is now on.
 rp.ecs.command.keepinventory.off=Local keep inventory is now off.
