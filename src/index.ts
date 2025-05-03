@@ -13,6 +13,8 @@ import "./server/CommandDetections/rightClickDetection/rightClickDetectionv2"
 import "./server/CommandDetections/deathDetection/deathDetection"
 import "./server/CommandDetections/emoteDetection/emoteDetection"
 import "./server/CommandDetections/jumpDetection/jumpDetection"
+import "./server/CommandDetections/punchDetection/punchDetection"
+import "./server/CommandDetections/interactDetection/interactDetection"
 
 import "./server/lore/index"
 import "./server/scoreboardStatuses/index"
