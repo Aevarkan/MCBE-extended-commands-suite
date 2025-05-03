@@ -6,7 +6,7 @@
  */
 
 import { system, world } from "@minecraft/server";
-import { EntityCommandDatabase } from "classes/EntityCommandDatabase";
+import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
 
 world.afterEvents.playerEmote.subscribe((event) => {
     const player = event.player
@@ -16,10 +16,10 @@ world.afterEvents.playerEmote.subscribe((event) => {
 
     const emoteDatabase = new EntityCommandDatabase(player)
     
-    const emoteCommandIds = emoteDatabase.getAllEmoteCommandEntryIds()
+    const emoteCommandIds = emoteDatabase.getAllEntryIds(EntityCommandTypes.EmoteCommand)
     
     emoteCommandIds.forEach(id => {
-        const command = emoteDatabase.getEmoteCommandEntry(id)
+        const command = emoteDatabase.getEntry(id)
         system.run(() => {
             player.runCommand(command)
         })
