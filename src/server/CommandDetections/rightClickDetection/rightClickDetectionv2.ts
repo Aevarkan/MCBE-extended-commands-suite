@@ -8,7 +8,7 @@
 import { BlockRaycastOptions, DimensionLocation, ItemStack, ItemUseBeforeEvent, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, system, Vector3, world } from "@minecraft/server";
 import { ItemCommandDatabase } from "classes/ItemCommandDatabase";
 import { COMMAND_ERROR_SOUND, FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
-import { CommandInformation } from "types/misc";
+import { CommandInformation } from "definitions";
 
 world.beforeEvents.itemUse.subscribe((event: ItemUseBeforeEvent) => {
     const player = event.source as Player

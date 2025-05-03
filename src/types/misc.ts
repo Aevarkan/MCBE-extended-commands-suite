@@ -5,8 +5,6 @@
  * Author: Aevarkan
  */
 
-export interface CommandInformation {
-    command: string,
-    farMode: boolean,
-    lore: string
-}
+export type RemoveOptions =
+    | { removeAll: true }
+    | { removeAll: false; id: string }

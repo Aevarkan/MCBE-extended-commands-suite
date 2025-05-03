@@ -6,12 +6,13 @@
  */
 
 /**
- * Whether to remove all entries or just one.
- * If removing just one, the id is required.
+ * Object containing item command information.
  */
-export type RemoveOptions =
-    | { removeAll: true }
-    | { removeAll: false; id: string }
+export interface CommandInformation {
+    command: string,
+    farMode: boolean,
+    lore: string
+}
 
 /**
  * Supported dynamic lore variables.

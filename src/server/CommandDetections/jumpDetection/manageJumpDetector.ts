@@ -5,9 +5,9 @@
  * Author: Aevarkan
  */
 
-import { Entity, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
+import { Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
-import { RemoveOptions } from "definitions";
+import { RemoveOptions } from "types/misc";
 
 /**
  * This makes a jump detector for the player.
