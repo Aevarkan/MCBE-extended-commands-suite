@@ -10,6 +10,9 @@ rp.ecs.command.error.outside_world_boundary=Target block is outside of world hei
 rp.ecs.command.keepinventory.on=Local keep inventory is now on.
 rp.ecs.command.keepinventory.off=Local keep inventory is now off.
 
+rp.ecs.command.alldetections.on=Continuous detections are now enabled, you must do /reload for this to take effect.
+rp.ecs.command.alldetections.off=Continuous detections are now disabled, you must do /reload for this to take effect.
+
 rp.ecs.command.item_command.error.stackable_item_no_support=Stackable items are not supported with this command.
 rp.ecs.command.item_command.error.no_lore=You must put lore on your item first!
 

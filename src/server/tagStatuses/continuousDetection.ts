@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { ScriptEventCommandMessageAfterEvent, system, world } from "@minecraft/server";
+import { Player, ScriptEventCommandMessageAfterEvent, system, world } from "@minecraft/server";
 import { PLAYER_CLIMBING_TAG, PLAYER_EMOTING_TAG, PLAYER_FALLING_TAG, PLAYER_FLYING_TAG, PLAYER_GLIDING_TAG, PLAYER_INWATER_TAG, PLAYER_ONGROUND_TAG, PLAYER_SLEEPING_TAG, PLAYER_SPRINTING_TAG, PLAYER_SWIMMING_TAG } from "constants";
 
 const enabledContinuousDetection = world.getDynamicProperty("enabledContinuousDetection") as boolean ?? false
@@ -22,6 +22,15 @@ export function toggleContinuousDetectionScriptEvent(event: ScriptEventCommandMe
     }
 
     toggleContinuousDetection(toggle)
+
+    // Command feedback
+    const player = event.sourceEntity as Player
+
+    if (toggle) {
+        player.sendMessage({translate: "ecs.command.alldetections.on"})
+    } else {
+        player.sendMessage({translate: "ecs.command.alldetections.off"})
+    }
 }
 
 /**
