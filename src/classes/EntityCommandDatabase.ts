@@ -36,8 +36,10 @@ export class EntityCommandDatabase {
      */
     addDeathCommandEntry(command: string, commandId: string) {
         const fullDeathCommandId = `${DEATH_COMMAND_PREFIX}${commandId}`
+
+        const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
     
-        this.entity.setDynamicProperty(fullDeathCommandId, command)
+        this.entity.setDynamicProperty(fullDeathCommandId, correctCommand)
     }
 
     /**
@@ -92,8 +94,10 @@ export class EntityCommandDatabase {
      */
     addEmoteCommandEntry(command: string, commandId: string) {
         const fullEmoteCommandId = `${EMOTE_COMMAND_PREFIX}${commandId}`
+
+        const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
     
-        this.entity.setDynamicProperty(fullEmoteCommandId, command)
+        this.entity.setDynamicProperty(fullEmoteCommandId, correctCommand)
     }
 
     /**
@@ -148,8 +152,10 @@ export class EntityCommandDatabase {
      */
     addJumpCommandEntry(command: string, commandId: string) {
         const fullJumpCommandId = `${JUMP_COMMAND_PREFIX}${commandId}`
+
+        const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
     
-        this.entity.setDynamicProperty(fullJumpCommandId, command)
+        this.entity.setDynamicProperty(fullJumpCommandId, correctCommand)
     }
 
     /**
