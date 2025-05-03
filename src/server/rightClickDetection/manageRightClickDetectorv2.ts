@@ -37,19 +37,10 @@ export function removeRightClickDetectorv2(event: ScriptEventCommandMessageAfter
     const slot = player.selectedSlotIndex as number
     const commandId = event.message
 
-    // This is used just for command feedback
-    const inventoryComponent = player.getComponent(EntityComponentTypes.Inventory)
-    const itemTypeId = inventoryComponent.container.getItem(slot).typeId
-    // const lore = inventoryComponent.container.getItem(slot).getLore()
-
     if (commandId.length === 0) {
         removeRightClickDetectorAction(player, slot, {removeAll: true})
-        player.sendMessage({translate: "ecs.command.item_command.removed_all", with: [itemTypeId]})
-        player.playSound(COMMAND_SUCESS_SOUND)
     } else {
         removeRightClickDetectorAction(player, slot, {removeAll: false, id: commandId})
-        player.sendMessage({translate: "ecs.command.item_command.removed_command", with: [commandId, itemTypeId]})
-        player.playSound(COMMAND_SUCESS_SOUND)
     }
 }
 
@@ -102,9 +93,30 @@ function removeRightClickDetectorAction(player: Player, slot: number, removeOpti
     const item = inventory.getItem(slot)
     const itemCommandDatabase = new ItemCommandDatabase(item)
     
+    // This is used just for command feedback
+    const itemTypeId = inventoryComponent.container.getItem(slot).typeId
+    const commandMatches = itemCommandDatabase.getItemCommandMatches()
+
     if (removeOptions.removeAll === true) {
         itemCommandDatabase.removeAllItemCommandEntries()
+        player.sendMessage({translate: "ecs.command.item_command.removed_all", with: [itemTypeId]})
+        player.playSound(COMMAND_SUCESS_SOUND)
+
+        commandMatches.forEach(commandMatch => {
+            player.sendMessage({translate: "ecs.command.item_command.removed_command", with: [commandMatch, itemTypeId]})
+        })
+
     } else {
-        itemCommandDatabase.removeItemCommandEntry(removeOptions.id)
+        const commandId = removeOptions.id
+
+        itemCommandDatabase.removeItemCommandEntry(commandId)
+
+        if (commandMatches.includes(commandId)) {
+            player.sendMessage({translate: "ecs.command.item_command.removed_command", with: [commandId, itemTypeId]})
+            player.playSound(COMMAND_SUCESS_SOUND)
+        } else {
+            player.sendMessage({translate: "ecs.command.item_command.removed_command_no_exist", with: [commandId, itemTypeId]})
+            player.playSound(COMMAND_ERROR_SOUND)
+        }
     }
 }
