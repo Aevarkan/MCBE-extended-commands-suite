@@ -6,7 +6,7 @@
  */
 
 import { ButtonState, InputButton, system, world } from "@minecraft/server";
-import { EntityCommandDatabase } from "classes/EntityCommandDatabase";
+import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
 
 world.afterEvents.playerButtonInput.subscribe((event) => {
     const button = event.button
@@ -20,10 +20,10 @@ world.afterEvents.playerButtonInput.subscribe((event) => {
 
     const jumpDatabase = new EntityCommandDatabase(player)
     
-    const emoteCommandIds = jumpDatabase.getAllJumpCommandEntryIds()
+    const emoteCommandIds = jumpDatabase.getAllEntryIds(EntityCommandTypes.JumpCommand)
     
     emoteCommandIds.forEach(id => {
-        const command = jumpDatabase.getJumpCommandEntry(id)
+        const command = jumpDatabase.getEntry(id)
         system.run(() => {
             player.runCommand(command)
         })
