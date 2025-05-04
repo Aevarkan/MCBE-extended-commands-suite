@@ -71,6 +71,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):ruc2$`)
     const removeUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):removeusecommand2$`)
     const queryUseCommandsId = new RegExp(`^(${prefixes.join('|')}):commandsquery$`)
+    const queryUseCommandsShortId = new RegExp(`^(${prefixes.join('|')}):cmdsee$`)
 
     const addDeathCommandId = new RegExp(`^(${prefixes.join('|')}):adddeathcommand$`)
     const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
@@ -229,7 +230,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
         removeRightClickDetectorv2(event)
     }
 
-    else if (queryUseCommandsId.test(event.id)) {
+    else if (queryUseCommandsId.test(event.id) || queryUseCommandsShortId.test(event.id)) {
         queryItemCommandsScriptEvent(event)
     }
 
