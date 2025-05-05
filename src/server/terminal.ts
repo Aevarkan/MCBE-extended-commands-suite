@@ -28,6 +28,10 @@ function showTerminalForm(player: Player) {
     loreForm
         .show(player)
         .then(response => {
+
+            // Don't run the command if backing out
+            if (response.canceled) return
+
             const command = response.formValues[0] as string
             const delaySeconds = parseFloat(response.formValues[1] as string) ?? 0
 
