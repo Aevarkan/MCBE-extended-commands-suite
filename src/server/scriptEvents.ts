@@ -30,6 +30,7 @@ import { toggleContinuousDetectionScriptEvent } from "./tagStatuses/continuousDe
 import { createInteractDetectorScriptEvent, removeInteractDetectorScriptEvent } from "./CommandDetections/interactDetection/manageInteractDetector";
 import { createPunchDetectorScriptEvent, removePunchDetectorScriptEvent } from "./CommandDetections/punchDetection/managePunchDetector";
 import { showTerminalScriptEvent } from "./terminal";
+import { setHealthScriptEvent } from "./setHealth";
 
 // This file contains ALL the script events
 
@@ -66,6 +67,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const dropId = new RegExp(`^(${prefixes.join('|')}):drop$`)
     const keepInventoryId = new RegExp(`^(${prefixes.join('|')}):keepinventory$`)
     const alldetectionsId = new RegExp(`^(${prefixes.join('|')}):alldetections$`)
+    const setHealthId = new RegExp(`^(${prefixes.join('|')}):sethealth$`)
 
     const addUseCommandv2ShortId = new RegExp(`^(${prefixes.join('|')}):auc2$`)
     const addUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):addusecommand2$`)
@@ -267,6 +269,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (alldetectionsId.test(event.id)) {
         toggleContinuousDetectionScriptEvent(event)
+    }
+
+    else if (setHealthId.test(event.id)) {
+        setHealthScriptEvent(event)
     }
 
     else if (terminalId.test(event.id) || terminalShortId.test(event.id)) {
