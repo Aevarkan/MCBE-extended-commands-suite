@@ -29,6 +29,7 @@ import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./
 import { toggleContinuousDetectionScriptEvent } from "./tagStatuses/continuousDetection";
 import { createInteractDetectorScriptEvent, removeInteractDetectorScriptEvent } from "./CommandDetections/interactDetection/manageInteractDetector";
 import { createPunchDetectorScriptEvent, removePunchDetectorScriptEvent } from "./CommandDetections/punchDetection/managePunchDetector";
+import { showTerminalScriptEvent } from "./terminal";
 
 // This file contains ALL the script events
 
@@ -72,6 +73,8 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     const removeUseCommandv2Id = new RegExp(`^(${prefixes.join('|')}):removeusecommand2$`)
     const queryUseCommandsId = new RegExp(`^(${prefixes.join('|')}):commandsquery$`)
     const queryUseCommandsShortId = new RegExp(`^(${prefixes.join('|')}):cmdsee$`)
+    const terminalId = new RegExp(`^(${prefixes.join('|')}):terminal$`)
+    const terminalShortId = new RegExp(`^(${prefixes.join('|')}):trm$`)
 
     const addDeathCommandId = new RegExp(`^(${prefixes.join('|')}):adddeathcommand$`)
     const removeDeathCommandId = new RegExp(`^(${prefixes.join('|')}):removedeathcommand$`)
@@ -264,6 +267,10 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (alldetectionsId.test(event.id)) {
         toggleContinuousDetectionScriptEvent(event)
+    }
+
+    else if (terminalId.test(event.id) || terminalShortId.test(event.id)) {
+        showTerminalScriptEvent(event)
     }
 
     // Switch statements exist, but I don't like how they look
