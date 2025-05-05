@@ -44,6 +44,8 @@ rp.ecs.command.lore.dynamic_lore.no_stackable_items=Dynamic lore cannot be added
 rp.ecs.command.terminal.title=Terminal
 rp.ecs.command.terminal.command_field=Command
 rp.ecs.command.terminal.command_placeholder=say Testing 1.. 2.. 3..
+rp.ecs.command.terminal.last_used_command_field=Last used command
+rp.ecs.command.terminal.no_commands_yet=You haven't ran a command yet!
 rp.ecs.command.terminal.delay_field_seconds=Command Delay (Seconds)
 rp.ecs.command.terminal.delay_placeholder_seconds=0
 

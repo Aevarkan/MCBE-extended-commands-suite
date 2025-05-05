@@ -18,9 +18,13 @@ export function showTerminalScriptEvent(event: ScriptEventCommandMessageAfterEve
  */
 function showTerminalForm(player: Player) {
     const loreForm = new ModalFormData().title({translate: "ecs.command.terminal.title"})
+    const lastUsedCommand = player.getDynamicProperty("lastTerminalCommand") as string
 
     // Command itself
     loreForm.textField({translate: "ecs.command.terminal.command_field"}, {translate: "ecs.command.terminal.command_placeholder"})
+
+    // Last used command
+    loreForm.textField({translate: "ecs.command.terminal.last_used_command_field"}, {translate: "ecs.command.terminal.no_commands_yet"}, lastUsedCommand)
 
     // Delay
     loreForm.textField({translate: "ecs.command.terminal.delay_field_seconds"}, {translate: "ecs.command.terminal.delay_placeholder_seconds"}, "0")
@@ -29,14 +33,19 @@ function showTerminalForm(player: Player) {
         .show(player)
         .then(response => {
 
-            // Don't run the command if backing out
-            if (response.canceled) return
+            // Don't run the command if backing out, and clear the history
+            if (response.canceled) {
+                player.setDynamicProperty("lastTerminalCommand", undefined)
+                return
+            }
 
             const command = response.formValues[0] as string
-            const delaySeconds = parseFloat(response.formValues[1] as string) ?? 0
+            const delaySeconds = parseFloat(response.formValues[2] as string) ?? 0
 
             const delayTicks = Math.round(delaySeconds * 20)
 
+            // Save the command for the player
+            player.setDynamicProperty("lastTerminalCommand", command)
             system.runTimeout(() => {
                 player.runCommand(command)
             }, delayTicks)
