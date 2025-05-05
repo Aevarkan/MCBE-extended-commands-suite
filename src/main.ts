@@ -9,4 +9,4 @@ import "./index"
 
 import { CURRENT_VERSION } from "constants"
 
-console.info(`§aExtended Commands Suite §b${CURRENT_VERSION}§a loaded.§r`)
+console.info(`\x1b[92mExtended Commands Suite \x1b[36m${CURRENT_VERSION}\x1b[92m loaded.\x1b[0m`)
