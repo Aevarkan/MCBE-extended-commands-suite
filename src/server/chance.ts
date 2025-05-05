@@ -54,11 +54,12 @@ function chanceActionEntity(entity: Entity, command: string, percentageChance: n
     
     // Number between 0 and 100
     const runChance = Math.random() * 100
+    const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
 
     // Run the command if number is higher than given chance
     if (runChance < percentageChance) {
         system.run(() => {
-            entity.runCommand(command)
+            entity.runCommand(correctCommand)
         })
     }
 }

@@ -22,8 +22,9 @@ export function scheduleCommand(event: ScriptEventCommandMessageAfterEvent) {
     // The parts
     const delay = parseInt(parts[0])
     const command = parts.slice(1).join(' ')
+    const correctCommand = command.replace(/@([ASREP])/g, (_match, matchingPart) => `@${matchingPart.toLowerCase()}`)
 
-    scheduleCommandAction(source, command, delay) 
+    scheduleCommandAction(source, correctCommand, delay) 
 }
 
 /**
