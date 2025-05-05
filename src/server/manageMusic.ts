@@ -22,7 +22,7 @@ export function playMusic(event: ScriptEventCommandMessageAfterEvent) {
     const musicVolume = parts.length > 1 ? parseFloat(parts[1]) : DEFAULT_MUSIC_VOLUME
     const musicFade = parts.length > 2 ? parseFloat(parts[2]) : DEFAULT_MUSIC_FADE
     // true if the string is 'true', else false
-    const musicLoop = parts[3].toLowerCase() === "true" ? true : DEFAULT_MUSIC_LOOP
+    const musicLoop = parts.length > 3 ? parts[3].toLowerCase() === "true" ? true : DEFAULT_MUSIC_LOOP : DEFAULT_MUSIC_LOOP
 
     // The actual music player
     // Will be useful for later when custom slash commands are added
