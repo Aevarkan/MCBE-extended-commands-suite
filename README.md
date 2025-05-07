@@ -392,7 +392,7 @@ $BLOCKS_BROKEN
 
 ![Dynamic Lore Example](documentation/dynamic-lore-example.png)
 
-You cannot get rid of `Has Customised Properties`.
+You can get rid of `Has Customised Properties` by doing `/gamerule showtags false`.
 
 # Licence
 
