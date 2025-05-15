@@ -37,6 +37,8 @@ rp.ecs.command.lore.submit=Submit
 rp.ecs.command.lore.section_character=Section Character
 rp.ecs.command.lore.maximum_50_characters=Maximum 50 characters.
 rp.ecs.command.lore.line_number=Line %s
+rp.ecs.command.lore.item_name=Item Name
+rp.ecs.command.lore.item_name_placeholder=e.g. Best Golden Apple
 
 rp.ecs.command.lore.dynamic_lore.success=Dynamic lore applied to item!
 rp.ecs.command.lore.dynamic_lore.no_stackable_items=Dynamic lore cannot be added to stackable items!

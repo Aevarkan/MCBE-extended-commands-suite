@@ -31,14 +31,16 @@ export function setLore(event: ScriptEventCommandMessageAfterEvent) {
  * @param player The player who is holding the item.
  * @param loreArray A string array of the lore text.
  * @param slotIndex The slot which the item is in.
+ * @param name The optional name to set the item to.
  */
-function setLoreAction(player: Player, loreArray: string[], slotIndex: number) {
+function setLoreAction(player: Player, loreArray: string[], slotIndex: number, name?: string) {
     const inventory = player.getComponent(EntityInventoryComponent.componentId).container
     const item = inventory.getItem(slotIndex)
 
     // Must replace the item, as we can't modify existing ones
     let updatedItem = item.clone()
     updatedItem.setLore(loreArray)
+    updatedItem.nameTag = name
     
     // Dynamic lore check
     const containsDynamicLore = checkEnumMatchString(loreArray, DynamicLoreVariables)
@@ -107,6 +109,9 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
     // Just for you to copy
     loreForm.textField({translate: "ecs.command.lore.section_character"}, "§", "§")
 
+    // The item's name
+    loreForm.textField({translate: "ecs.command.lore.item_name"}, {translate: "ecs.command.lore.item_name_placeholder"}, item.nameTag)
+
     // All 20 lore lines
     for (let i = 0; i < MAX_LORE_LINES; i++) {
         const currentLine = i + 1
@@ -121,13 +126,16 @@ function showLoreEditingForm(player: Player, item: ItemStack) {
             // We don't want to update the lore if the player backs out
             if (response.canceled) return
 
-            // We don't want the section character
-            const lore = response.formValues.slice(1) as string[]
+            // We don't want the section character or name
+            const lore = response.formValues.slice(2) as string[]
 
             // Trim the lore
             const trimmedLore = trimArray(lore) as string[]
+
+            // Change the item's name
+            const newName = response.formValues[1] as string
             
-            setLoreAction(player, trimmedLore, player.selectedSlotIndex)
+            setLoreAction(player, trimmedLore, player.selectedSlotIndex, newName)
         })
         .catch((error) => {
             console.error("Error showing lore edit form: ", error)
