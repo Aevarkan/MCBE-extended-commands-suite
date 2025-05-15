@@ -51,6 +51,6 @@ function showTerminalForm(player: Player) {
             }, delayTicks)
         })
         .catch((error) => {
-            console.error("Error showing lore edit form: ", error)
+            console.error("Error showing terminal form: ", error)
         })
 }
