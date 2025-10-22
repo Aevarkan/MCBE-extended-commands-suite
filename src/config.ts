@@ -19,7 +19,7 @@ export default {
      * 
      * At the very minimum, either the `operatorTag` or `checkForOp` setting should be active.
      */
-    operatorTag: "areas:admin",
+    operatorTag: "ecs:admin",
     /**
      * Whether Areas should consider the Minecraft operator permission as an admin.
      * 
@@ -41,5 +41,5 @@ export default {
      * @remarks
      * The prefix for custom commands. Leaving this empty can cause errors.
      */
-    commandPrefix: "areas",
+    commandPrefix: "ecs",
 }
