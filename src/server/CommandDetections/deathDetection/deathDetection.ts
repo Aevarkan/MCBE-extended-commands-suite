@@ -13,7 +13,7 @@ world.afterEvents.entityDie.subscribe((event) => {
     const entity = event.deadEntity
     
     // Stops errors from popping up further down
-    if (!entity.isValid()) return
+    if (!entity.isValid) return
 
     const entityDatabase = new EntityCommandDatabase(entity)
 

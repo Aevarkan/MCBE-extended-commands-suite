@@ -27,7 +27,7 @@ world.afterEvents.entityHealthChanged.subscribe((event) => {
     const newHealthValue = event.newValue
     const healthScoreboard = getScoreboard(HEALTH_SCOREBOARD_NAME)
 
-    if (!entity.isValid()) return
+    if (!entity.isValid) return
 
     healthScoreboard.setScore(entity, newHealthValue)
 })
