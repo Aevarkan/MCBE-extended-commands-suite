@@ -12,6 +12,8 @@ export interface CommandInfo {
      * The callback function the command should run.
      * @remarks This function should throw an error or return false to indicate command failure.
      * 
+     * @remarks Callbacks happen in read-only mode.
+     * 
      */
     callbackFunction: (origin: CustomCommandOrigin, ...args: any[]) => void | boolean
     /**
