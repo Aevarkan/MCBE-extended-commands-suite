@@ -16,7 +16,6 @@ import { editLore, setLore } from "server/lore/setLore";
 import { multiCommand } from "server/multiCommand";
 import { createDeathDetector, removeDeathDetector } from "server/CommandDetections/deathDetection/manageDeathDetector";
 import { chance } from "server/chance";
-import { setScale } from "server/size";
 import { createRightClickDetectorv2, queryItemCommandsScriptEvent, removeRightClickDetectorv2 } from "server/CommandDetections/rightClickDetection/manageRightClickDetectorv2";
 import { shoot } from "server/projectile";
 import { lockEntities, unlockEntities } from "server/entityLock";
@@ -221,10 +220,6 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     else if (editLoreId.test(event.id)) {
         editLore(event)
-    }
-
-    else if (scaleId.test(event.id)) {
-        setScale(event)
     }
 
     else if (addUseCommandv2Id.test(event.id) || addUseCommandv2ShortId.test(event.id)) {
