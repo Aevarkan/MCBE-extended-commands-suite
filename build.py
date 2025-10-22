@@ -7,7 +7,7 @@ import zipfile
 # No need to include the 'v' in front
 # Only change version count here and as github tag
 VERSION = "0.11.0"
-MIN_ENGINE_VERSION = [ 1, 21, 70 ]
+MIN_ENGINE_VERSION = [ 1, 21, 111 ]
 
 CONSTANTS_TS_PATH = "src/constants.ts"
 CONSTANTS_JS_PATH = "scripts/constants.js"
