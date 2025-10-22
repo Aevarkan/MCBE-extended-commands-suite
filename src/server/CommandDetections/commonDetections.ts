@@ -6,7 +6,7 @@
  */
 
 import { Entity } from "@minecraft/server"
-import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase"
+import { EntityCommandDatabase, EntityCommandTypes } from "library/classes/EntityCommandDatabase"
 import { RemoveOptions } from "types/misc"
 
 /**

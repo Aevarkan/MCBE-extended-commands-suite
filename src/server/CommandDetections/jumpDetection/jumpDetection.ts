@@ -6,7 +6,7 @@
  */
 
 import { ButtonState, InputButton, system, world } from "@minecraft/server";
-import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
+import { EntityCommandDatabase, EntityCommandTypes } from "library/classes/EntityCommandDatabase";
 
 world.afterEvents.playerButtonInput.subscribe((event) => {
     const button = event.button

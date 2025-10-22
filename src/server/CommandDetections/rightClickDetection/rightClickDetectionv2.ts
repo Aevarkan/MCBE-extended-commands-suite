@@ -6,7 +6,7 @@
  */
 
 import { BlockRaycastOptions, DimensionLocation, ItemStack, ItemUseBeforeEvent, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, system, Vector3, world } from "@minecraft/server";
-import { ItemCommandDatabase } from "classes/ItemCommandDatabase";
+import { ItemCommandDatabase } from "library/classes/ItemCommandDatabase";
 import { COMMAND_ERROR_SOUND, FARMODE_GOES_THROUGH_LIQUIDS, MAX_RAYCAST_BLOCK_DISTANCE } from "constants";
 import { CommandInformation } from "definitions";
 

@@ -6,7 +6,7 @@
  */
 
 import { system, world } from "@minecraft/server";
-import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
+import { EntityCommandDatabase, EntityCommandTypes } from "library/classes/EntityCommandDatabase";
 
 // Runs every time an entity dies and checks if it has a detector.
 world.afterEvents.entityDie.subscribe((event) => {

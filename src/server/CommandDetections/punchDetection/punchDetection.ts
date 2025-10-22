@@ -6,7 +6,7 @@
  */
 
 import { system, world } from "@minecraft/server";
-import { EntityCommandDatabase, EntityCommandTypes } from "classes/EntityCommandDatabase";
+import { EntityCommandDatabase, EntityCommandTypes } from "library/classes/EntityCommandDatabase";
 
 world.afterEvents.entityHitEntity.subscribe((event) => {
     const commandEntity = event.damagingEntity

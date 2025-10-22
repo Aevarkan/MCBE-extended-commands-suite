@@ -7,7 +7,7 @@
 
 import { Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
 import { createEntityDetector, removeEntityDetector } from "../commonDetections";
-import { EntityCommandTypes } from "classes/EntityCommandDatabase";
+import { EntityCommandTypes } from "library/classes/EntityCommandDatabase";
 
 /**
  * This makes a jump detector for the player.

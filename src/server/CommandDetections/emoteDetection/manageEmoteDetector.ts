@@ -6,7 +6,7 @@
  */
 
 import { Entity, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { EntityCommandTypes } from "classes/EntityCommandDatabase";
+import { EntityCommandTypes } from "library/classes/EntityCommandDatabase";
 import { createEntityDetector, removeEntityDetector } from "../commonDetections";
 
 /**
