@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { CustomCommand, CustomCommandOrigin, CustomCommandResult, CustomCommandStatus, system } from "@minecraft/server";
+import { CustomCommand, CustomCommandOrigin, CustomCommandParamType, CustomCommandResult, CustomCommandStatus, system } from "@minecraft/server";
 import { CommandInfo } from "./types/customCommands";
 import config from "config";
 
@@ -40,6 +40,13 @@ export class CommandRegister {
             // Register each command put in the register
             this.commandsToRegister.forEach(command => {
 
+                // register any enums first
+                const enumParameters = command.parameters?.filter(p => p.type === CustomCommandParamType.Enum)
+                enumParameters?.forEach(enumParameter => {
+                    const namespacedEnumName = config.commandPrefix + ":" + enumParameter.name
+                    commandRegistry.registerEnum(namespacedEnumName, enumParameter.values)
+                })
+
                 const namespacedName = config.commandPrefix + ":" + command.name
 
                 const permissionLevel = command.permissionLevel ?? config.commandPermissionLevel
@@ -50,8 +57,8 @@ export class CommandRegister {
                     description: command.description,
                     permissionLevel: permissionLevel,
                     cheatsRequired: cheatsRequired,
-                    mandatoryParameters: command.mandatoryParameters,
-                    optionalParameters: command.optionalParameters
+                    mandatoryParameters: command.parameters?.filter(p => p.mandatory),
+                    optionalParameters: command.parameters?.filter(p => !p.mandatory)
                 }
 
                 function callbackWrapper(origin: CustomCommandOrigin, ...args: any[]): CustomCommandResult {

@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { CommandPermissionLevel, CustomCommandOrigin, CustomCommandParameter } from "@minecraft/server";
+import { CommandPermissionLevel, CustomCommandOrigin, CustomCommandParamType } from "@minecraft/server";
 
 export interface CommandInfo {
     /**
@@ -58,14 +58,50 @@ export interface CommandInfo {
     permissionLevel?: CommandPermissionLevel
     /**
      * @remarks
-     * List of mandatory command parameters.
+     * List of command parameters.
      *
      */
-    mandatoryParameters?: CustomCommandParameter[]
+    parameters?: CommandParameterInfo[]
+}
+
+/**
+ * Information of the command parameter.
+ */
+export type CommandParameterInfo = CommandParameterInfoGeneric | CommandParameterInfoEnum
+
+interface CommandParameterInfoBase {
     /**
      * @remarks
-     * List of optional command parameters.
+     * The name of parameter as it appears on the command line.
      *
      */
-    optionalParameters?: CustomCommandParameter[]
+    name: string
+    /**
+     * @remarks
+     * Whether the parameter is mandatory for the command.
+     */
+    mandatory: boolean
+}
+
+interface CommandParameterInfoGeneric extends CommandParameterInfoBase {
+    /**
+     * @remarks
+     * The data type of the parameter.
+     *
+     */
+    type: Exclude<CustomCommandParamType, CustomCommandParamType.Enum>
+}
+
+interface CommandParameterInfoEnum extends CommandParameterInfoBase {
+    /**
+     * @remarks
+     * The data type of the parameter.
+     *
+     */
+    type: CustomCommandParamType.Enum
+    /**
+     * @remarks
+     * Values that the enum expects.
+     */
+    values: string[]
 }
