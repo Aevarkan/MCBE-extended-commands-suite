@@ -42,11 +42,14 @@ export class CommandRegister {
 
                 const namespacedName = config.commandPrefix + ":" + command.name
 
+                const permissionLevel = command.permissionLevel ?? config.commandPermissionLevel
+                const cheatsRequired = command.cheatsRequired ?? config.cheatsRequired
+
                 const customCommand: CustomCommand = {
                     name: namespacedName,
                     description: command.description,
-                    permissionLevel: command.permissionLevel,
-                    cheatsRequired: command.cheatsRequired,
+                    permissionLevel: permissionLevel,
+                    cheatsRequired: cheatsRequired,
                     mandatoryParameters: command.mandatoryParameters,
                     optionalParameters: command.optionalParameters
                 }

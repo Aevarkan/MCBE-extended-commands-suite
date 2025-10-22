@@ -28,7 +28,9 @@ export interface CommandInfo {
     failureMessage?: string
     /**
      * @remarks
-     * Whether or not cheats must be enabled to run the command. Defaults to true.
+     * Whether or not cheats must be enabled to run the command.
+     * 
+     * Uses configuration setting if not specified.
      * 
      */
     cheatsRequired?: boolean
@@ -47,9 +49,11 @@ export interface CommandInfo {
     /**
      * @remarks
      * The permission level required to execute the command.
+     * 
+     * Uses configuration setting if not specified.
      *
      */
-    permissionLevel: CommandPermissionLevel
+    permissionLevel?: CommandPermissionLevel
     /**
      * @remarks
      * List of mandatory command parameters.
