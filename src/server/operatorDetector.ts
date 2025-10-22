@@ -5,7 +5,7 @@
  * Author: Aevarkan
  */
 
-import { world } from "@minecraft/server";
+import { CommandPermissionLevel, world } from "@minecraft/server";
 import { ADMIN_TAG, READ_ONLY_ADMIN_TAG } from "constants";
 
 world.afterEvents.playerSpawn.subscribe((event) => {
@@ -13,12 +13,12 @@ world.afterEvents.playerSpawn.subscribe((event) => {
     const hasAdminTag = player.hasTag(READ_ONLY_ADMIN_TAG)
     const hasECSTag = player.hasTag(ADMIN_TAG)
 
-    // Don't know if it's possible yet to detect operators
-    // const isOperator = player.
+    // Game directors are opped in-game
+    const isOperator = player.commandPermissionLevel >= CommandPermissionLevel.GameDirectors
     
     if (hasECSTag) return
 
-    if (!hasAdminTag) {
+    if (hasAdminTag || isOperator) {
         player.addTag(ADMIN_TAG)
     }
 })
