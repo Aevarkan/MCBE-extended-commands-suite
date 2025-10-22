@@ -6,30 +6,30 @@
  */
 
 import { Player, system } from "@minecraft/server";
-import { push } from "server/push";
-import { playMusic, stopMusic } from "server/manageMusic";
-import { scheduleCommand } from "server/schedule";
-import { tpToSpawn } from "server/tpSpawn";
-import { freeze } from "server/freeze";
+import { push } from "server/commands/push";
+import { playMusic, stopMusic } from "server/commands/manageMusic";
+import { scheduleCommand } from "server/commands/schedule";
+import { tpToSpawn } from "server/commands/tpSpawn";
+import { freeze } from "server/commands/freeze";
 import { createRightClickDetector, removeRightClickDetector } from "server/commandDetections/rightClickDetection/manageRightClickDetector";
 import { editLore, setLore } from "server/lore/setLore";
-import { multiCommand } from "server/multiCommand";
+import { multiCommand } from "server/commands/multiCommand";
 import { createDeathDetector, removeDeathDetector } from "server/commandDetections/deathDetection/manageDeathDetector";
-import { chance } from "server/chance";
+import { chance } from "server/commands/chance";
 import { createRightClickDetectorv2, queryItemCommandsScriptEvent, removeRightClickDetectorv2 } from "server/commandDetections/rightClickDetection/manageRightClickDetectorv2";
-import { shoot } from "server/projectile";
-import { lockEntities, unlockEntities } from "server/entityLock";
-import { smite } from "server/smite";
-import { dropItem } from "server/drop";
+import { shoot } from "server/commands/projectile";
+import { lockEntities, unlockEntities } from "server/commands/entityLock";
+import { smite } from "server/commands/smite";
+import { dropItem } from "server/commands/drop";
 import { setScoreboardNameScriptEvent } from "server/scoreboardStatuses/changeName";
-import { setKeepInventoryScriptEvent } from "server/keepInventory";
+import { setKeepInventoryScriptEvent } from "server/commands/keepInventory";
 import { createEmoteDetectorScriptEvent, removeEmoteDetectorScriptEvent } from "./commandDetections/emoteDetection/manageEmoteDetector";
 import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./commandDetections/jumpDetection/manageJumpDetector";
 import { toggleContinuousDetectionScriptEvent } from "./tagStatuses/continuousDetection";
 import { createInteractDetectorScriptEvent, removeInteractDetectorScriptEvent } from "./commandDetections/interactDetection/manageInteractDetector";
 import { createPunchDetectorScriptEvent, removePunchDetectorScriptEvent } from "./commandDetections/punchDetection/managePunchDetector";
-import { showTerminalScriptEvent } from "./terminal";
-import { setHealthScriptEvent } from "./setHealth";
+import { showTerminalScriptEvent } from "./commands/terminal";
+import { setHealthScriptEvent } from "./commands/setHealth";
 
 // This file contains ALL the script events
 
