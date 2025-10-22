@@ -5,11 +5,15 @@
  * Author: Aevarkan
  */
 
-import { DimensionLocation, Entity, ItemStack, ScriptEventCommandMessageAfterEvent, Vector3 } from "@minecraft/server";
+import { CustomCommandOrigin, CustomCommandParameter, CustomCommandParamType, DimensionLocation, Entity, ItemStack, ItemType, ScriptEventCommandMessageAfterEvent, system, Vector3 } from "@minecraft/server";
+import { CommandRegister } from "library/classes/CommandRegister";
+import { CommandInfo } from "library/classes/types/customCommands";
 
 export function dropItem(event: ScriptEventCommandMessageAfterEvent) {
     const sourceEntity = event.sourceEntity
     const parameters = event.message
+
+    if (!sourceEntity) return
 
     const parts = parameters.split(" ")
     const itemId = parts[0]
@@ -48,3 +52,48 @@ function spawnItemAtLocation(dimensionLocation: DimensionLocation, itemId: strin
     const location: Vector3 = {x: dimensionLocation.x, y: dimensionLocation.y, z: dimensionLocation.z}
     dimensionLocation.dimension.spawnItem(itemStack, location)
 }
+
+
+
+function handleDropCommand(origin: CustomCommandOrigin, ...args: [ItemType, number?]) {
+    const entity = origin.sourceEntity
+
+    // This command is not valid for anything other than entities
+    if (!entity || !entity.isValid) return false
+
+    const entityLocation = entity.location
+    const dropLocation: DimensionLocation = {
+        x: entityLocation.x,
+        y: entityLocation.y,
+        z: entityLocation.z,
+        dimension: entity.dimension
+    }
+
+    const itemType = args[0]
+    const itemQuantity = args[1]
+
+    const itemStack = new ItemStack(itemType, itemQuantity)
+    system.run(() => {
+        dropLocation.dimension.spawnItem(itemStack, dropLocation)
+    })
+}
+
+const itemParam: CustomCommandParameter = {
+    name: "item",
+    type: CustomCommandParamType.ItemType
+}
+
+const quantityParam: CustomCommandParameter = {
+    name: "quantity",
+    type: CustomCommandParamType.Integer
+}
+
+const dropCustomCommand: CommandInfo = {
+    callbackFunction: handleDropCommand,
+    name: "drop",
+    description: "Makes an entity drop an item.",
+    mandatoryParameters: [itemParam],
+    optionalParameters: [quantityParam]
+}
+
+CommandRegister.registerCommand(dropCustomCommand)
