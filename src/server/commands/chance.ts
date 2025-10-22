@@ -5,7 +5,10 @@
  * Author: Aevarkan
  */
 
-import { Dimension, Entity, ScriptEventCommandMessageAfterEvent, system, world } from "@minecraft/server";
+import { CustomCommandOrigin, CustomCommandParameter, CustomCommandParamType, CustomCommandSource, Dimension, Entity, ScriptEventCommandMessageAfterEvent, system, world } from "@minecraft/server";
+import config from "config";
+import { CommandRegister } from "library/classes/CommandRegister";
+import { CommandInfo } from "library/classes/types/customCommands";
 
 export function chance(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity
@@ -63,3 +66,59 @@ function chanceActionEntity(entity: Entity, command: string, percentageChance: n
         })
     }
 }
+
+function handleChanceCommand(origin: CustomCommandOrigin, ...args: [number, string]) {
+    const percentageChance = args[0]
+    const failRoll = Math.random() * 100
+
+    // If this is higher than percentage chance threshold, then the command won't run
+    if (failRoll > percentageChance) {
+        return false
+    }
+    const command = args[1]
+    
+    // Run the command, however way it was called
+    system.run(() => {
+        switch (origin.sourceType) {
+            case CustomCommandSource.NPCDialogue:
+            case CustomCommandSource.Entity:
+                origin.sourceEntity?.runCommand(command)
+                break
+
+            // be careful to not include relative coordinates
+            case CustomCommandSource.Block:
+                origin.sourceBlock?.dimension.runCommand(command)
+                break
+
+            // not recommended, but it'll run anyway in the overworld
+            case CustomCommandSource.Server:
+                // TODO
+                break
+
+            default:
+                break
+        }
+    })
+    
+}
+
+const percentageChanceParameter: CustomCommandParameter = {
+    name: "percentageChance",
+    type: CustomCommandParamType.Integer
+}
+
+const commandParam: CustomCommandParameter = {
+    name: "command",
+    type: CustomCommandParamType.String
+}
+
+const chanceCommand: CommandInfo = {
+    name: "chance",
+    description: "Runs a command randomly, according to if generated number is less than percentage chance.",
+    permissionLevel: config.commandPermissionLevel,
+    cheatsRequired: config.cheatsRequired,
+    mandatoryParameters: [percentageChanceParameter, commandParam],
+    callbackFunction: handleChanceCommand
+}
+
+CommandRegister.registerCommand(chanceCommand)
