@@ -7,7 +7,7 @@
 
 import { CustomCommandOrigin, CustomCommandParameter, CustomCommandParamType, DimensionLocation, Entity, ItemStack, ItemType, ScriptEventCommandMessageAfterEvent, system, Vector3 } from "@minecraft/server";
 import { CommandRegister } from "library/classes/CommandRegister";
-import { CommandInfo } from "library/classes/types/customCommands";
+import { CommandInfo, CommandParameterInfo } from "library/classes/types/customCommands";
 
 export function dropItem(event: ScriptEventCommandMessageAfterEvent) {
     const sourceEntity = event.sourceEntity
@@ -78,22 +78,23 @@ function handleDropCommand(origin: CustomCommandOrigin, ...args: [ItemType, numb
     })
 }
 
-const itemParam: CustomCommandParameter = {
+const itemParam: CommandParameterInfo = {
     name: "item",
-    type: CustomCommandParamType.ItemType
+    type: CustomCommandParamType.ItemType,
+    mandatory: true
 }
 
-const quantityParam: CustomCommandParameter = {
+const quantityParam: CommandParameterInfo = {
     name: "quantity",
-    type: CustomCommandParamType.Integer
+    type: CustomCommandParamType.Integer,
+    mandatory: false
 }
 
 const dropCustomCommand: CommandInfo = {
     callbackFunction: handleDropCommand,
     name: "drop",
     description: "Makes an entity drop an item.",
-    mandatoryParameters: [itemParam],
-    optionalParameters: [quantityParam]
+    parameters: [itemParam, quantityParam]
 }
 
 CommandRegister.registerCommand(dropCustomCommand)

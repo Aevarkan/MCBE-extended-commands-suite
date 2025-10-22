@@ -5,10 +5,10 @@
  * Author: Aevarkan
  */
 
-import { CustomCommandOrigin, CustomCommandParameter, CustomCommandParamType, CustomCommandSource, Dimension, Entity, ScriptEventCommandMessageAfterEvent, system, world } from "@minecraft/server";
+import { CustomCommandOrigin, CustomCommandParamType, CustomCommandSource, Dimension, Entity, ScriptEventCommandMessageAfterEvent, system, world } from "@minecraft/server";
 import config from "config";
 import { CommandRegister } from "library/classes/CommandRegister";
-import { CommandInfo } from "library/classes/types/customCommands";
+import { CommandInfo, CommandParameterInfo } from "library/classes/types/customCommands";
 
 export function chance(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity
@@ -102,14 +102,16 @@ function handleChanceCommand(origin: CustomCommandOrigin, ...args: [number, stri
     
 }
 
-const percentageChanceParameter: CustomCommandParameter = {
+const percentageChanceParameter: CommandParameterInfo = {
     name: "percentageChance",
-    type: CustomCommandParamType.Integer
+    type: CustomCommandParamType.Integer,
+    mandatory: true
 }
 
-const commandParam: CustomCommandParameter = {
+const commandParam: CommandParameterInfo = {
     name: "command",
-    type: CustomCommandParamType.String
+    type: CustomCommandParamType.String,
+    mandatory: true
 }
 
 const chanceCommand: CommandInfo = {
@@ -117,7 +119,7 @@ const chanceCommand: CommandInfo = {
     description: "Runs a command randomly, according to if generated number is less than percentage chance.",
     permissionLevel: config.commandPermissionLevel,
     cheatsRequired: config.cheatsRequired,
-    mandatoryParameters: [percentageChanceParameter, commandParam],
+    parameters: [percentageChanceParameter, commandParam],
     callbackFunction: handleChanceCommand
 }
 
