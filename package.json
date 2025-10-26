@@ -4,11 +4,11 @@
   },
   "dependencies": {
     "@minecraft/server": "^2.2.0",
-    "@minecraft/server-ui": "^2.0.0",
-    "esbuild": "^0.25.11"
+    "@minecraft/server-ui": "^2.0.0"
   },
   "devDependencies": {
     "command-wrapper": "^0.1.1",
+    "esbuild": "^0.25.11",
     "typescript": "^5.8.2"
   }
 }
