@@ -25,13 +25,19 @@ export function setHealthScriptEvent(event: ScriptEventCommandMessageAfterEvent)
  */
 function setHealth(entity: Entity, healthValue: number) {
     const healthComponent = entity.getComponent(EntityComponentTypes.Health)
-    healthComponent?.setCurrentValue(healthValue)
+    if (!healthComponent) return
+
+    const minHealth = healthComponent.effectiveMin
+    const maxHealth = healthComponent.effectiveMax
+    const clampedValue = Math.min(Math.max(healthValue, minHealth), maxHealth)
+
+    healthComponent.setCurrentValue(clampedValue)
 }
 
 const enumValues = ["set", "add", "reduce"] as const
 
 const modeEnum = defineParameter({
-    name: "HealthSetMode",
+    name: "healthSetMode",
     type: CustomCommandParamType.Enum,
     mandatory: true,
     values: enumValues
@@ -55,19 +61,24 @@ function handleHealthCommand(_origin: CustomCommandOrigin, targetEntity: Entity[
         // return false to indicate command failure, as there is no health component
         if (!healthComponent) return false
 
+        const maxHealth = healthComponent.effectiveMax
+        const minHealth = healthComponent.effectiveMin
         const currentHealth = healthComponent.currentValue
         system.run(() => {
             switch (healthSetMode) {
                 case "set":
-                    healthComponent.setCurrentValue(healthSetValue)
+                    const clampedValue = Math.min(Math.max(healthSetValue, minHealth), maxHealth)
+                    healthComponent.setCurrentValue(clampedValue)
                     break
     
                 case "reduce":
-                    healthComponent.setCurrentValue(currentHealth - healthSetValue)
+                    const reducedClampedValue = Math.max(currentHealth - healthSetValue, minHealth)
+                    healthComponent.setCurrentValue(reducedClampedValue)
                     break
     
                 case "add":
-                    healthComponent.setCurrentValue(currentHealth + healthSetValue)
+                    const addClampedValue = Math.min(currentHealth + healthSetValue, maxHealth)
+                    healthComponent.setCurrentValue(addClampedValue)
                     break
     
                 default:
@@ -78,10 +89,10 @@ function handleHealthCommand(_origin: CustomCommandOrigin, targetEntity: Entity[
 }
 
 const healthCustomCommand = defineCommand({
+    callbackFunction: handleHealthCommand,
     name: "health",
     description: "Sets an entity's health according to parameters.",
     parameters: [entityParam, modeEnum, healthValue],
-    callbackFunction: handleHealthCommand
 })
 
 commandRegister.registerCommand(healthCustomCommand)
