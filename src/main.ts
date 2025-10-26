@@ -5,11 +5,7 @@
  * Author: Aevarkan
  */
 
-import { CommandRegister } from "library/classes/CommandRegister"
 import "./index"
-
-// Commands are registered after everything else is loaded
-CommandRegister._registerCommands()
 
 import { CURRENT_VERSION } from "constants"
 

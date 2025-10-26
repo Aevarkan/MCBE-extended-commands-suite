@@ -6,6 +6,8 @@
  */
 
 import { EntityDamageCause } from "@minecraft/server"
+import { CommandRegister } from "command-wrapper"
+import config from "config"
 
 // These are where the default values are stored
 // You shouldn't really need to change these, as you should be able define them in the command
@@ -136,3 +138,6 @@ export const DYNAMIC_LORE_ITEM_TOTAL_KILLS = "total_kills"
 export const DYNAMIC_LORE_ITEM_PVP_KILLS = "pvp_kills"
 export const DYNAMIC_LORE_ITEM_PVE_KILLS = "pve_kills"
 export const DYNAMIC_LORE_ITEM_BLOCKS_BROKEN = "blocks_broken"
+
+// Command register
+export const commandRegister = new CommandRegister(config.commandPrefix, config.commandPermissionLevel, config.cheatsRequired)

@@ -5,9 +5,9 @@
  * Author: Aevarkan
  */
 
-import { CustomCommandOrigin, CustomCommandParameter, CustomCommandParamType, DimensionLocation, Entity, ItemStack, ItemType, ScriptEventCommandMessageAfterEvent, system, Vector3 } from "@minecraft/server";
-import { CommandRegister } from "library/classes/CommandRegister";
-import { CommandInfo, CommandParameterInfo } from "library/classes/types/customCommands";
+import { CustomCommandOrigin, CustomCommandParamType, DimensionLocation, Entity, ItemStack, ItemType, ScriptEventCommandMessageAfterEvent, system, Vector3 } from "@minecraft/server";
+import { defineCommand, defineParameter } from "command-wrapper";
+import { commandRegister } from "constants";
 
 export function dropItem(event: ScriptEventCommandMessageAfterEvent) {
     const sourceEntity = event.sourceEntity
@@ -78,23 +78,23 @@ function handleDropCommand(origin: CustomCommandOrigin, ...args: [ItemType, numb
     })
 }
 
-const itemParam: CommandParameterInfo = {
+const itemParam = defineParameter({
     name: "item",
     type: CustomCommandParamType.ItemType,
     mandatory: true
-}
+})
 
-const quantityParam: CommandParameterInfo = {
+const quantityParam = defineParameter({
     name: "quantity",
     type: CustomCommandParamType.Integer,
     mandatory: false
-}
+})
 
-const dropCustomCommand: CommandInfo = {
+const dropCustomCommand = defineCommand({
     callbackFunction: handleDropCommand,
     name: "drop",
     description: "Makes an entity drop an item.",
     parameters: [itemParam, quantityParam]
-}
+})
 
-CommandRegister.registerCommand(dropCustomCommand)
+commandRegister.registerCommand(dropCustomCommand)
