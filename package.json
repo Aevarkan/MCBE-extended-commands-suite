@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "tsc"
+    "build": "python3 build.py || python build.py"
   },
   "dependencies": {
     "@minecraft/server": "^2.2.0",

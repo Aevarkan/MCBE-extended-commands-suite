@@ -30,7 +30,7 @@ jobs:
           python-version: '3.x'
 
       - name: Run Build Script
-        run: python3 build.py
+        run: npm run build
 
       - name: Ensure correct name
         run: mv build/extended-commands-suite.mcaddon ./extended-commands-suite-$GITHUB_REF_NAME.mcaddon
