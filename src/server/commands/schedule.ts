@@ -35,27 +35,14 @@ export function scheduleCommand(event: ScriptEventCommandMessageAfterEvent) {
  * @param command The command to be run.
  * @param delay How long in ticks before the command runs.
  */
-function scheduleCommandAction(source: Entity | Block, command: string, delay: number) {
+function scheduleCommandAction(source: Entity, command: string, delay: number) {
 
-    // Blocks cannot run commands
-    if (source instanceof Entity) {
-        const entity = source as Entity
-        system.runTimeout(() => {
-            system.run(() => {
-                entity.runCommand(command)
-            })
-        }, delay)
-    } else {
-        const dimension = source.dimension
-        const blockLocation = source.location
+    system.runTimeout(() => {
+        system.run(() => {
+            source.runCommand(command)
+        })
+    }, delay)
 
-        const positionedCommand = `execute positioned ${blockLocation.x} ${blockLocation.y} ${blockLocation.z} run ${command}`
-        system.runTimeout(() => {
-            system.run(() => {
-                dimension.runCommand(positionedCommand)
-            })
-        }, delay)
-    }
 }
 
 const commandParam = defineParameter({
