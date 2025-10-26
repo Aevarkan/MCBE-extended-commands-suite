@@ -107,16 +107,16 @@ export function showLoreEditingForm(player: Player, item: ItemStack) {
     loreForm.submitButton({translate: "ecs.command.lore.submit"})
 
     // Just for you to copy
-    loreForm.textField({translate: "ecs.command.lore.section_character"}, "§", "§")
+    loreForm.textField({translate: "ecs.command.lore.section_character"}, "§", { defaultValue: "§"})
 
     // The item's name
-    loreForm.textField({translate: "ecs.command.lore.item_name"}, {translate: "ecs.command.lore.item_name_placeholder"}, item.nameTag)
+    loreForm.textField({translate: "ecs.command.lore.item_name"}, {translate: "ecs.command.lore.item_name_placeholder"}, { defaultValue: item.nameTag})
 
     // All 20 lore lines
     for (let i = 0; i < MAX_LORE_LINES; i++) {
         const currentLine = i + 1
         const currentLineString = currentLine.toString()
-        loreForm.textField({translate: "ecs.command.lore.line_number", with: [currentLineString] }, { translate: "ecs.command.lore.maximum_50_characters" }, getLorePart(item, i, true))
+        loreForm.textField({translate: "ecs.command.lore.line_number", with: [currentLineString] }, { translate: "ecs.command.lore.maximum_50_characters" }, { defaultValue: getLorePart(item, i, true)})
     }
     
     loreForm
@@ -125,6 +125,8 @@ export function showLoreEditingForm(player: Player, item: ItemStack) {
 
             // We don't want to update the lore if the player backs out
             if (response.canceled) return
+            // for type checker
+            if (!response.formValues) return
 
             // We don't want the section character or name
             const lore = response.formValues.slice(2) as string[]
