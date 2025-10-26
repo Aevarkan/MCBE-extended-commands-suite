@@ -1,7 +1,30 @@
-*.js
-*.zip
+# Ignore EVERTYHING
+*
 
-build/*
-!build/BUILD.md
+# directories
+!/bp-entities
+!/bp-entities/**
+!/.github
+!/.github/**
+!/build
+!/build/BUILD.md
+!/documentation
+!/documentation/**
+!/functions
+!/functions/**
+!/language
+!/language/**
+!/src
+!/src/**
 
-node_modules/*
+# misc files
+!.gitignore
+!build.py
+!LICENSE
+!main-manifest.json
+!pack_icon.png
+!package-lock.json
+!package.json
+!README.md
+!tsconfig.json
+!esbuild.config.js
