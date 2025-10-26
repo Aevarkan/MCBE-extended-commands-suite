@@ -5,7 +5,9 @@
  * Author: Aevarkan
  */
 
-import { Player, ScriptEventCommandMessageAfterEvent, TeleportOptions, Vector3 } from "@minecraft/server";
+import { CustomCommandParamType, DimensionLocation, Player, ScriptEventCommandMessageAfterEvent, system, TeleportOptions, Vector3, world } from "@minecraft/server";
+import { defineCommand, defineParameter } from "command-wrapper";
+import { commandRegister } from "constants";
 
 /**
  * 
@@ -24,16 +26,69 @@ export function tpToSpawn(event: ScriptEventCommandMessageAfterEvent) {
  */
 function tpToSpawnAction(player: Player) {
     const spawnPoint = player.getSpawnPoint()
+    const worldSpawn = world.getDefaultSpawnLocation()
+    // TODO: cache this
+    const overworld = world.getDimension("minecraft:overworld")
+    const topSpawnBlock = overworld.getTopmostBlock({ x: worldSpawn.x, z: worldSpawn.z })
     
+    let teleportLocation: DimensionLocation
+
+    if (spawnPoint) {
+        teleportLocation = spawnPoint
+    } else if (topSpawnBlock) {
+        teleportLocation = {
+            ...topSpawnBlock.location,
+            dimension: topSpawnBlock.dimension
+        }
+    } else {
+        teleportLocation = {
+            x: worldSpawn.x,
+            y: overworld.heightRange.max,
+            z: worldSpawn.z,
+            dimension: overworld
+        }
+    }
+
     const spawnLocation: Vector3 = {
-        x: spawnPoint.x,
-        y: spawnPoint.y,
-        z: spawnPoint.z
+        x: teleportLocation.x,
+        y: teleportLocation.y,
+        z: teleportLocation.z
     }
 
     const tpOptions: TeleportOptions = {
-        dimension: spawnPoint.dimension
+        dimension: teleportLocation.dimension
     }
 
     player.teleport(spawnLocation, tpOptions)
 }
+
+const playerParam = defineParameter({
+    name: "target",
+    type: CustomCommandParamType.PlayerSelector,
+    mandatory: false
+})
+
+const tpSpawnCommand = defineCommand({
+    name: "tpspawn",
+    description: "Teleports the player(s) to back to their spawn location. Defaults to world spawn if not found.",
+    parameters: [playerParam],
+    callbackFunction(origin, players?) {
+        const callerEntity = origin.sourceEntity
+
+        if (players) {
+            system.run(() => {
+                players.forEach(player => {
+                    tpToSpawnAction(player)
+                })
+            })
+        } else if (callerEntity instanceof Player) {
+            system.run(() => {
+                tpToSpawnAction(callerEntity)
+            })
+        } else {
+            return false
+        }
+    },
+})
+
+commandRegister.registerCommand(tpSpawnCommand)
