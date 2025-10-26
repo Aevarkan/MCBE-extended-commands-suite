@@ -4,7 +4,8 @@
   },
   "dependencies": {
     "@minecraft/server": "^2.2.0",
-    "@minecraft/server-ui": "^2.0.0"
+    "@minecraft/server-ui": "^2.0.0",
+    "esbuild": "^0.25.11"
   },
   "devDependencies": {
     "typescript": "^5.8.2"

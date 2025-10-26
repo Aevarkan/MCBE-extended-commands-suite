@@ -12,7 +12,8 @@ import { EntityDamageCause } from "@minecraft/server"
 
 // Just a version counter, may be used later to help compatibility
 // The python script will insert the version number
-export const CURRENT_VERSION = "v{{VERSION}}"
+// @ts-expect-error
+export const CURRENT_VERSION = "v" + EXTERNAL_VERSION
 
 // Tags
 export const ENTITY_LOCK_TAG = "ecs:locked_entity"

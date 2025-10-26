@@ -29,24 +29,31 @@ OUTPUT_FILE_RP = f"build/extended-commands-suite-rp.mcpack"
 
 # Injects the version number into constants.ts
 def inject_to_src():
-    # Read the constants.ts file
-    with open(CONSTANTS_TS_PATH, "r") as constants_file:
-        content = constants_file.read()
+    pass
+    # # Read the constants.ts file
+    # with open(CONSTANTS_TS_PATH, "r") as constants_file:
+    #     content = constants_file.read()
     
-    # Replace placeholder with the actual version number
-    new_content = content.replace("{{VERSION}}", VERSION)
+    # # Replace placeholder with the actual version number
+    # new_content = content.replace("{{VERSION}}", VERSION)
     
-    # Write the modified content back to the constants.ts file
-    with open(TEMP_CONSTANTS_TS_PATH, "w") as temp_constants_file:
-        temp_constants_file.write(new_content)
-    print(f"Injected version into {TEMP_CONSTANTS_TS_PATH}")
+    # # Write the modified content back to the constants.ts file
+    # with open(TEMP_CONSTANTS_TS_PATH, "w") as temp_constants_file:
+    #     temp_constants_file.write(new_content)
+    # print(f"Injected version into {TEMP_CONSTANTS_TS_PATH}")
 
 
 
 def compile_typescript():
     print("Compiling TypeScript files...")
-    # Run the TypeScript compiler
-    result = subprocess.run(["tsc"], capture_output=True, text=True)
+    # Run esbuild
+    result = subprocess.run(
+        ["node", "esbuild.config.js"],
+        env={**dict(**os.environ), "VERSION": VERSION},
+        capture_output=True,
+        text=True
+    )
+
     if result.returncode != 0:
         print("Error compiling TypeScript:")
         print(result.stderr)
@@ -55,18 +62,20 @@ def compile_typescript():
 
 # Function to rename the compiled file to constants.js
 def rename_output_file():
-    if os.path.exists(TEMP_CONSTANTS_JS_PATH):
-        os.rename(TEMP_CONSTANTS_JS_PATH, CONSTANTS_JS_PATH)
-        print(f"Renamed {TEMP_CONSTANTS_JS_PATH} to {CONSTANTS_JS_PATH}")
-    else:
-        print(f"Error: {TEMP_CONSTANTS_JS_PATH} does not exist.")
+    pass
+    # if os.path.exists(TEMP_CONSTANTS_JS_PATH):
+    #     os.rename(TEMP_CONSTANTS_JS_PATH, CONSTANTS_JS_PATH)
+    #     print(f"Renamed {TEMP_CONSTANTS_JS_PATH} to {CONSTANTS_JS_PATH}")
+    # else:
+    #     print(f"Error: {TEMP_CONSTANTS_JS_PATH} does not exist.")
 
 def clean_up():
-    if os.path.exists(TEMP_CONSTANTS_TS_PATH):
-        os.remove(TEMP_CONSTANTS_TS_PATH)
-        print(f"Cleaned up temporary file: {TEMP_CONSTANTS_TS_PATH}")
-    else:
-        print("No temporary constants file to clean up.")
+    pass
+    # if os.path.exists(TEMP_CONSTANTS_TS_PATH):
+    #     os.remove(TEMP_CONSTANTS_TS_PATH)
+    #     print(f"Cleaned up temporary file: {TEMP_CONSTANTS_TS_PATH}")
+    # else:
+    #     print("No temporary constants file to clean up.")
 
 def move_scripts():
     # This deletes the entire BP/scripts directory
