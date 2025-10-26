@@ -28,7 +28,7 @@ import { createJumpDetectorScriptEvent, removeJumpDetectorScriptEvent } from "./
 import { toggleContinuousDetectionScriptEvent } from "./tagStatuses/continuousDetection";
 import { createInteractDetectorScriptEvent, removeInteractDetectorScriptEvent } from "./commandDetections/interactDetection/manageInteractDetector";
 import { createPunchDetectorScriptEvent, removePunchDetectorScriptEvent } from "./commandDetections/punchDetection/managePunchDetector";
-import { showTerminalScriptEvent } from "./commands/terminal";
+import { showTerminalScriptEvent } from "./terminal";
 import { setHealthScriptEvent } from "./commands/setHealth";
 
 // This file contains ALL the script events

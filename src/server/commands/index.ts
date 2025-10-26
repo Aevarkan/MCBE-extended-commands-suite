@@ -17,5 +17,4 @@ import "./push" // NOTE: motion and push will be separate behaviours
 import "./schedule"
 import "./setHealth"
 import "./smite"
-import "./terminal"
 import "./tpSpawn"
