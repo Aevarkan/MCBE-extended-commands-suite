@@ -8,7 +8,7 @@
     "esbuild": "^0.25.11"
   },
   "devDependencies": {
-    "command-wrapper": "^0.1.0",
+    "command-wrapper": "^0.1.1",
     "typescript": "^5.8.2"
   }
 }

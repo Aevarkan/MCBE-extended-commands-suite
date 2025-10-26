@@ -269,13 +269,14 @@ const motionCommand = defineCommand({
     },
 })
 
-// const pushCommand = defineCommand({
-//     name: "push",
-//     description: "Changes the velocity of selected entities.",
-//     parameters: [entityParam, movementMode, minAngleXStrength, minHorizontalYStrength, minVerticalZStrength, maxAngleXStrength, maxHorizontalYStrength, maxVerticalZStrength],
-//     callbackFunction(_origin, entities, mode, mandatoryArg1, mandatoryArg2, mandatoryArg3, optionalArg1?, optionalArg2?, optionalArg3?) {
-//         handleMovement(false, entities, mode, mandatoryArg1, mandatoryArg2, mandatoryArg3, optionalArg1, optionalArg2, optionalArg3)
-//     },
-// })
+const pushCommand = defineCommand({
+    name: "push",
+    description: "Changes the velocity of selected entities.",
+    parameters: [entityParam, movementMode, minAngleXStrength, minHorizontalYStrength, minVerticalZStrength, maxAngleXStrength, maxHorizontalYStrength, maxVerticalZStrength],
+    callbackFunction(_origin, entities, mode, mandatoryArg1, mandatoryArg2, mandatoryArg3, optionalArg1?, optionalArg2?, optionalArg3?) {
+        handleMovement(false, entities, mode, mandatoryArg1, mandatoryArg2, mandatoryArg3, optionalArg1, optionalArg2, optionalArg3)
+    },
+})
 
 commandRegister.registerCommand(motionCommand)
+commandRegister.registerCommand(pushCommand)
