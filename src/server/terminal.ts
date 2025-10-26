@@ -5,10 +5,11 @@
  * Author: Aevarkan
  */
 
-import { CustomCommandParamType, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server"
+import { CustomCommandParamType, EntityInventoryComponent, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server"
 import { ModalFormData } from "@minecraft/server-ui"
 import { defineCommand, defineParameter } from "command-wrapper"
 import { commandRegister } from "constants"
+import { showLoreEditingForm } from "./lore/setLore"
 
 export function showTerminalScriptEvent(event: ScriptEventCommandMessageAfterEvent) {
     showTerminalForm(event.sourceEntity as Player)
@@ -65,33 +66,53 @@ const playerParam = defineParameter({
     mandatory: false
 })
 
+const terminalType = defineParameter({
+    name: "terminalType",
+    type: CustomCommandParamType.Enum,
+    mandatory: false,
+    values: ["command", "lore"] as const
+})
+
 const terminalCommand = defineCommand({
     name: "terminal",
     description: "Opens a command form.",
-    parameters: [playerParam],
+    parameters: [playerParam, terminalType],
     successMessage: "Displayed terminal to target player(s).",
     failureMessage: "Terminal could not be shown.",
-    callbackFunction(origin, targetPlayers?) {
+    callbackFunction(origin, targetPlayers?, terminalMode?) {
+        // get a target to show the terminal to first
         const sourceEntity = origin.sourceEntity
+        let showTarget = targetPlayers
+        if (!showTarget) {
+            if (sourceEntity instanceof Player) {
+                showTarget = [sourceEntity]
+            } else {
+                // this will give an error if there's no target
+                return false
+            }
+        }
+        
+        // default to command terminal
+        const terminalToShow = terminalMode ?? "command"
 
-        // show terminal to target players
-        if (targetPlayers) {
-            system.run(() => {
-                targetPlayers.forEach(player => {
-                    showTerminalForm(player)
-                })
-            })
-        }
-        // show terminal to caller if no-one selected
-        else if (sourceEntity instanceof Player) {
-            system.run(() => {
-                showTerminalForm(sourceEntity)
-            })
-        }
-        // error otherwise
-        else {
-            return false
-        }
+        system.run(() => {
+            switch (terminalToShow) {
+                case "command":
+                    showTarget.forEach(target => showTerminalForm(target))
+                    break
+
+                case "lore":
+                    showTarget.forEach(player => {
+                        const selectedSlot = player.selectedSlotIndex
+                        const inventory = player.getComponent(EntityInventoryComponent.componentId)?.container
+                        const item = inventory?.getItem(selectedSlot)
+                        if (!item) return
+                    
+                        showLoreEditingForm(player, item)
+                    })
+                    break
+            }
+        })
     }
 })
 

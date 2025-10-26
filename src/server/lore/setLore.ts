@@ -101,7 +101,7 @@ function trimArray(array: any[]): any[] {
  * @param player The player to show the form to.
  * @param item The item to edit the lore of.
  */
-function showLoreEditingForm(player: Player, item: ItemStack) {
+export function showLoreEditingForm(player: Player, item: ItemStack) {
     const loreForm = new ModalFormData().title({translate: "ecs.command.lore.editing", with: [item.typeId] })
 
     loreForm.submitButton({translate: "ecs.command.lore.submit"})
