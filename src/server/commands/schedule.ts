@@ -5,7 +5,9 @@
  * Author: Aevarkan
  */
 
-import { Block, Entity, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
+import { Block, CustomCommandParamType, Entity, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
+import { defineCommand, defineParameter } from "command-wrapper";
+import { commandRegister } from "constants";
 
 /**
  * 
@@ -45,10 +47,44 @@ function scheduleCommandAction(source: Entity | Block, command: string, delay: n
         }, delay)
     } else {
         const dimension = source.dimension
-        system.run(() => {
-            dimension.runCommand(command)
-        })
-    }
-    
+        const blockLocation = source.location
 
+        const positionedCommand = `execute positioned ${blockLocation.x} ${blockLocation.y} ${blockLocation.z} run ${command}`
+        system.runTimeout(() => {
+            system.run(() => {
+                dimension.runCommand(positionedCommand)
+            })
+        }, delay)
+    }
 }
+
+const commandParam = defineParameter({
+    name: "command",
+    type: CustomCommandParamType.String,
+    mandatory: true
+})
+
+const timeParam = defineParameter({
+    name: "timeTicks",
+    type: CustomCommandParamType.Integer,
+    mandatory: true
+})
+
+const entityParam = defineParameter({
+    name: "target",
+    type: CustomCommandParamType.EntitySelector,
+    mandatory: true
+})
+
+const scheduleCustomCommand = defineCommand({
+    name: "schedulecommand",
+    description: "Schedules a command to run for selected entities after a number of ticks.",
+    parameters: [entityParam, timeParam, commandParam],
+    callbackFunction(_origin, entities, time, command) {
+        entities.forEach(entity => {
+            scheduleCommandAction(entity, command, time)
+        })
+    },
+})
+
+commandRegister.registerCommand(scheduleCustomCommand)

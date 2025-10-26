@@ -14,7 +14,7 @@ import "./manageMusic"
 // multicommand is not getting updated
 // import "./projectile"
 // import "./push" // NOTE: motion and push will be separate behaviours
-// import "./schedule"
+import "./schedule"
 import "./setHealth"
 // import "./smite"
 // import "./termin'"
