@@ -88,8 +88,8 @@ def move_scripts():
         print(f"Error moving folder: {e}")
 
 def copy_misc_files():
-    shutil.copy("LICENCE", f'{BP_PATH}/LICENCE')
-    shutil.copy("LICENCE", f'{RP_PATH}/LICENCE')
+    shutil.copy("LICENSE", f'{BP_PATH}/LICENCE')
+    shutil.copy("LICENSE", f'{RP_PATH}/LICENCE')
     shutil.copy("pack_icon.png", f'{BP_PATH}/pack_icon.png')
     shutil.copy("pack_icon.png", f'{RP_PATH}/pack_icon.png')
     shutil.copy("./language/languages.json", f'{BP_PATH}/texts/languages.json')
