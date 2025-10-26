@@ -10,7 +10,7 @@ import { getScoreboard } from "./utility";
 import { HEALTH_SCOREBOARD_NAME } from "constants";
 
 // Gives entity an initial scoreboard value
-world.afterEvents.worldInitialize.subscribe(() => {
+world.afterEvents.worldLoad.subscribe(() => {
     const players = world.getAllPlayers()
     players.forEach(player => {
         initialiseScoreboard(player)

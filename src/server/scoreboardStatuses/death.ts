@@ -10,7 +10,7 @@ import { DEATH_SCOREBOARD_NAME } from "constants";
 import { getScoreboard } from "./utility";
 
 // Gives all players an initial scoreboard value
-world.afterEvents.worldInitialize.subscribe(() => {
+world.afterEvents.worldLoad.subscribe(() => {
     const players = world.getAllPlayers()
     players.forEach(player => {
         initialiseScoreboard(player)
