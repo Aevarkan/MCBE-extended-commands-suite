@@ -5,8 +5,9 @@
  * Author: Aevarkan
  */
 
-import { MusicOptions, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
-import { DEFAULT_MUSIC_FADE, DEFAULT_MUSIC_LOOP, DEFAULT_MUSIC_VOLUME } from "constants";
+import { CustomCommandParamType, MusicOptions, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
+import { commandRegister, DEFAULT_MUSIC_FADE, DEFAULT_MUSIC_LOOP, DEFAULT_MUSIC_VOLUME } from "constants";
+import { defineCommand, defineParameter } from "command-wrapper";
 
 export function playMusic(event: ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
@@ -53,3 +54,68 @@ function playMusicAction(player: Player, trackId: string, trackVolume: number, t
 
     player.playMusic(trackId, musicOptions)
 }
+
+// playmusic command
+const playerParam = defineParameter({
+    name: "target",
+    type: CustomCommandParamType.PlayerSelector,
+    mandatory: true,
+})
+
+const trackIdParam = defineParameter({
+    name: "trackId",
+    type: CustomCommandParamType.String,
+    mandatory: true
+})
+
+const musicVolumeParam = defineParameter({
+    name: "volume",
+    type: CustomCommandParamType.Float,
+    mandatory: false
+})
+
+const musicFadeParam = defineParameter({
+    name: "fade",
+    type: CustomCommandParamType.Float,
+    mandatory: false
+})
+
+const musicLoopParam = defineParameter({
+    name: "loop",
+    type: CustomCommandParamType.Boolean,
+    mandatory: false
+})
+
+const musicCommand = defineCommand({
+    name: "playmusic",
+    description: "Plays music for selected players.",
+    parameters: [playerParam, trackIdParam, musicVolumeParam, musicFadeParam, musicLoopParam],
+    callbackFunction(_origin, players, trackId, volumeArg?, fadeArg?, loopArg?) {
+        const volume = volumeArg ?? DEFAULT_MUSIC_VOLUME
+        const fade = fadeArg ?? DEFAULT_MUSIC_FADE
+        const loop = loopArg ?? DEFAULT_MUSIC_LOOP
+
+        system.run(() => {
+            players.forEach(player => {
+                playMusicAction(player, trackId, volume, fade, loop)
+            })
+        })
+    },
+})
+
+// stopmusic command
+const stopMusicCommand = defineCommand({
+    name: "stopmusic",
+    description: "Stops any music tracks playing for selected players.",
+    parameters: [playerParam],
+    callbackFunction(_origin, players) {
+        players.forEach(player => {
+            system.run(()=> {
+                player.stopMusic()
+            })
+        })
+    },
+})
+
+commandRegister.registerCommand(musicCommand)
+commandRegister.registerCommand(stopMusicCommand)
