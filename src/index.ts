@@ -6,7 +6,6 @@
  */
 
 import "./server/scriptEvents"
-import "./server/commands/entityLock"
 import "./server/commands/index"
 
 import "./server/commandDetections/rightClickDetection/rightClickDetection"

@@ -7,3 +7,5 @@
 
 import "./chance"
 import "./drop"
+import "./entityLock"
+import "./setHealth"
