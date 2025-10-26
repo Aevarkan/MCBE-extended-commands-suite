@@ -5,8 +5,9 @@
  * Author: Aevarkan
  */
 
-import { DimensionLocation, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server"
-import { COMMAND_ERROR_SOUND, SMITE_COMMAND } from "constants"
+import { CustomCommandParamType, DimensionLocation, LocationInUnloadedChunkError, LocationOutOfWorldBoundariesError, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server"
+import { defineCommand, defineParameter } from "command-wrapper"
+import { COMMAND_ERROR_SOUND, commandRegister, SMITE_COMMAND } from "constants"
 import { doOffsetCommand, getBlockFromRaycast } from "server/commandDetections/rightClickDetection/rightClickDetectionv2"
 
 export function smite(event:ScriptEventCommandMessageAfterEvent) {
@@ -50,3 +51,24 @@ function smiteAction(player: Player) {
         }
     }
 }
+
+const playerParam = defineParameter({
+    name: "target",
+    type: CustomCommandParamType.EntitySelector,
+    mandatory: true
+})
+
+const smiteCommand = defineCommand({
+    name: "smite",
+    description: "Smites selected entities.",
+    parameters: [playerParam],
+    callbackFunction(_origin, players) {
+        system.run(() => {
+            players.forEach(player => {
+                player.runCommand(SMITE_COMMAND)
+            })
+        })
+    },
+})
+
+commandRegister.registerCommand(smiteCommand)

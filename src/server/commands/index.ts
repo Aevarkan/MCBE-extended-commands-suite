@@ -16,6 +16,6 @@ import "./manageMusic"
 // import "./push" // NOTE: motion and push will be separate behaviours
 import "./schedule"
 import "./setHealth"
-// import "./smite"
-// import "./termin'"
+import "./smite"
+// import "./terminal"
 // import "./tpSpawn"
