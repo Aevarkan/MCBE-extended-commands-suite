@@ -5,8 +5,10 @@
  * Author: Aevarkan
  */
 
-import { Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server"
+import { CustomCommandParamType, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server"
 import { ModalFormData } from "@minecraft/server-ui"
+import { defineCommand, defineParameter } from "command-wrapper"
+import { commandRegister } from "constants"
 
 export function showTerminalScriptEvent(event: ScriptEventCommandMessageAfterEvent) {
     showTerminalForm(event.sourceEntity as Player)
@@ -24,10 +26,10 @@ function showTerminalForm(player: Player) {
     loreForm.textField({translate: "ecs.command.terminal.command_field"}, {translate: "ecs.command.terminal.command_placeholder"})
 
     // Last used command
-    loreForm.textField({translate: "ecs.command.terminal.last_used_command_field"}, {translate: "ecs.command.terminal.no_commands_yet"}, lastUsedCommand)
+    loreForm.textField({translate: "ecs.command.terminal.last_used_command_field"}, {translate: "ecs.command.terminal.no_commands_yet"}, { defaultValue: lastUsedCommand })
 
     // Delay
-    loreForm.textField({translate: "ecs.command.terminal.delay_field_seconds"}, {translate: "ecs.command.terminal.delay_placeholder_seconds"}, "0")
+    loreForm.textField({translate: "ecs.command.terminal.delay_field_seconds"}, {translate: "ecs.command.terminal.delay_placeholder_seconds"}, { defaultValue: "0" })
 
     loreForm
         .show(player)
@@ -38,9 +40,11 @@ function showTerminalForm(player: Player) {
                 player.setDynamicProperty("lastTerminalCommand", undefined)
                 return
             }
+            const formValues = response.formValues
+            if (!formValues) throw new Error("No form response.")
 
-            const command = response.formValues[0] as string
-            const delaySeconds = parseFloat(response.formValues[2] as string) ?? 0
+            const command = formValues[0] as string
+            const delaySeconds = parseFloat(formValues[2] as string) ?? 0
 
             const delayTicks = Math.round(delaySeconds * 20)
 
@@ -54,3 +58,41 @@ function showTerminalForm(player: Player) {
             console.error("Error showing terminal form: ", error)
         })
 }
+
+const playerParam = defineParameter({
+    name: "target",
+    type: CustomCommandParamType.PlayerSelector,
+    mandatory: false
+})
+
+const terminalCommand = defineCommand({
+    name: "terminal",
+    description: "Opens a command form.",
+    parameters: [playerParam],
+    successMessage: "Displayed terminal to target player(s).",
+    failureMessage: "Terminal could not be shown.",
+    callbackFunction(origin, targetPlayers?) {
+        const sourceEntity = origin.sourceEntity
+
+        // show terminal to target players
+        if (targetPlayers) {
+            system.run(() => {
+                targetPlayers.forEach(player => {
+                    showTerminalForm(player)
+                })
+            })
+        }
+        // show terminal to caller if no-one selected
+        else if (sourceEntity instanceof Player) {
+            system.run(() => {
+                showTerminalForm(sourceEntity)
+            })
+        }
+        // error otherwise
+        else {
+            return false
+        }
+    }
+})
+
+commandRegister.registerCommand(terminalCommand)
