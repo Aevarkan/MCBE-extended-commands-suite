@@ -5,7 +5,9 @@
  * Author: Aevarkan
  */
 
-import { Entity, InputPermissionCategory, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
+import { CustomCommandOrigin, CustomCommandParamType, Entity, InputPermissionCategory, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
+import { defineCommand, defineParameter } from "command-wrapper";
+import { commandRegister } from "constants";
 
 export function freeze(event: ScriptEventCommandMessageAfterEvent) {
     const entity = event.sourceEntity as Entity
@@ -63,3 +65,32 @@ function clearVelocityForTicks(entity: Entity, ticks: number) {
         }
     }, 1) // Run every tick
 }
+
+const entityParam = defineParameter({
+    name: "target",
+    type: CustomCommandParamType.EntitySelector,
+    mandatory: true
+})
+
+const timeParam = defineParameter({
+    name: "timeTicks",
+    type: CustomCommandParamType.Integer,
+    mandatory: true
+})
+
+function handleFreezeCommand(_origin: CustomCommandOrigin, entities: Entity[], time: number) {
+    system.run(() => {
+        entities.forEach(entity => {
+            freezeEntity(entity, time)
+        })
+    })
+}
+
+const freezeCommand = defineCommand({
+    name: "freeze",
+    description: "Freezes selected entities for the specified number of ticks. Players will only have their camera locked.",
+    parameters: [entityParam, timeParam],
+    callbackFunction: handleFreezeCommand
+})
+
+commandRegister.registerCommand(freezeCommand)

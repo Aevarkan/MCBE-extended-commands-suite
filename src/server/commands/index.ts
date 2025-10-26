@@ -8,7 +8,7 @@
 import "./chance"
 import "./drop"
 import "./entityLock" // TODO: needs an update
-// import "./freeze"
+import "./freeze"
 // import "./keepInventory"
 // import "./manageMusic"
 // multicommand is not getting updated
