@@ -31,12 +31,22 @@ export function toggleContinuousDetectionScriptEvent(event: ScriptEventCommandMe
     }
 }
 
+let continuousDetectionRunId: number | null = null
+
 /**
- * Toggles the continuous detection on or off. Requires a script reload to take effect (/reload)
+ * Toggles the continuous detection on or off.
  * @param toggle On or off
- */
+*/
 function toggleContinuousDetection(toggle: boolean) {
     world.setDynamicProperty("enabledContinuousDetection", toggle)
+    // stop the interval
+    if (continuousDetectionRunId && !toggle) {
+        system.clearRun(continuousDetectionRunId)
+
+    // or start the interval
+    } else if (toggle) {
+        startContinuousDetection()
+    }
 }
 
 // early execution requires this
@@ -44,90 +54,93 @@ system.run(() => {
     const enabledContinuousDetection = world.getDynamicProperty("enabledContinuousDetection") as boolean ?? false
 
     if (enabledContinuousDetection) {
-        system.runInterval(() => {
-            const players = world.getAllPlayers()
-    
-            players.forEach(player => {
-                // The detections must be here so they'll be delayed by one tick
-                const isClimbing = player.isClimbing
-                const isEmoting = player.isEmoting
-                const isFalling = player.isFalling
-                const isFlying = player.isFlying
-                const isGliding = player.isGliding
-                const isInWater = player.isInWater
-                // jumping and sneaking is handled by the button input
-                // const isJumping = player.isJumping
-                const isOnGround = player.isOnGround
-                const isSleeping = player.isSleeping
-                const isSprinting = player.isSprinting
-                const isSwimming = player.isSwimming
-    
-                system.runTimeout(() => {
-    
-                    if (isClimbing) {
-                        player.addTag(PLAYER_CLIMBING_TAG)
-                    } else {
-                        player.removeTag(PLAYER_CLIMBING_TAG)
-                    }
-    
-                    if (isEmoting) {
-                        player.addTag(PLAYER_EMOTING_TAG)
-                    } else {
-                        player.removeTag(PLAYER_EMOTING_TAG)
-                    }
-    
-                    if (isFalling) {
-                        player.addTag(PLAYER_FALLING_TAG)
-                    } else {
-                        player.removeTag(PLAYER_FALLING_TAG)
-                    }
-    
-                    if (isFlying) {
-                        player.addTag(PLAYER_FLYING_TAG)
-                    } else {
-                        player.removeTag(PLAYER_FLYING_TAG)
-                    }
-    
-                    if (isGliding) {
-                        player.addTag(PLAYER_GLIDING_TAG)
-                    } else {
-                        player.removeTag(PLAYER_GLIDING_TAG)
-                    }
-    
-                    if (isInWater) {
-                        player.addTag(PLAYER_INWATER_TAG)
-                    } else {
-                        player.removeTag(PLAYER_INWATER_TAG)
-                    }
-    
-                    if (isOnGround) {
-                        player.addTag(PLAYER_ONGROUND_TAG)
-                    } else {
-                        player.removeTag(PLAYER_ONGROUND_TAG)
-                    }
-    
-                    if (isSleeping) {
-                        player.addTag(PLAYER_SLEEPING_TAG)
-                    } else {
-                        player.removeTag(PLAYER_SLEEPING_TAG)
-                    }
-    
-                    if (isSprinting) {
-                        player.addTag(PLAYER_SPRINTING_TAG)
-                    } else {
-                        player.removeTag(PLAYER_SPRINTING_TAG)
-                    }
-    
-                    if (isSwimming) {
-                        player.addTag(PLAYER_SWIMMING_TAG)
-                    } else {
-                        player.removeTag(PLAYER_SWIMMING_TAG)
-                    }
-    
-                }, 1)
-            })
-    
-        }, 1)
+        startContinuousDetection()
     }
 })
 
+function startContinuousDetection() {
+    continuousDetectionRunId = system.runInterval(() => {
+    const players = world.getAllPlayers()
+
+    players.forEach(player => {
+        // The detections must be here so they'll be delayed by one tick
+        const isClimbing = player.isClimbing
+        const isEmoting = player.isEmoting
+        const isFalling = player.isFalling
+        const isFlying = player.isFlying
+        const isGliding = player.isGliding
+        const isInWater = player.isInWater
+        // jumping and sneaking is handled by the button input
+        // const isJumping = player.isJumping
+        const isOnGround = player.isOnGround
+        const isSleeping = player.isSleeping
+        const isSprinting = player.isSprinting
+        const isSwimming = player.isSwimming
+
+        system.runTimeout(() => {
+
+            if (isClimbing) {
+                player.addTag(PLAYER_CLIMBING_TAG)
+            } else {
+                player.removeTag(PLAYER_CLIMBING_TAG)
+            }
+
+            if (isEmoting) {
+                player.addTag(PLAYER_EMOTING_TAG)
+            } else {
+                player.removeTag(PLAYER_EMOTING_TAG)
+            }
+
+            if (isFalling) {
+                player.addTag(PLAYER_FALLING_TAG)
+            } else {
+                player.removeTag(PLAYER_FALLING_TAG)
+            }
+
+            if (isFlying) {
+                player.addTag(PLAYER_FLYING_TAG)
+            } else {
+                player.removeTag(PLAYER_FLYING_TAG)
+            }
+
+            if (isGliding) {
+                player.addTag(PLAYER_GLIDING_TAG)
+            } else {
+                player.removeTag(PLAYER_GLIDING_TAG)
+            }
+
+            if (isInWater) {
+                player.addTag(PLAYER_INWATER_TAG)
+            } else {
+                player.removeTag(PLAYER_INWATER_TAG)
+            }
+
+            if (isOnGround) {
+                player.addTag(PLAYER_ONGROUND_TAG)
+            } else {
+                player.removeTag(PLAYER_ONGROUND_TAG)
+            }
+
+            if (isSleeping) {
+                player.addTag(PLAYER_SLEEPING_TAG)
+            } else {
+                player.removeTag(PLAYER_SLEEPING_TAG)
+            }
+
+            if (isSprinting) {
+                player.addTag(PLAYER_SPRINTING_TAG)
+            } else {
+                player.removeTag(PLAYER_SPRINTING_TAG)
+            }
+
+            if (isSwimming) {
+                player.addTag(PLAYER_SWIMMING_TAG)
+            } else {
+                player.removeTag(PLAYER_SWIMMING_TAG)
+            }
+
+        }, 1)
+    })
+
+}, 1)
+}
