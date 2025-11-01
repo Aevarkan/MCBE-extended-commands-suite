@@ -5,13 +5,14 @@
  * Author: Aevarkan
  */
 
-import { EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent } from "@minecraft/server";
+import { CustomCommandParamType, EntityInventoryComponent, ItemStack, Player, ScriptEventCommandMessageAfterEvent, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND, MAX_LORE_LINES } from "constants";
+import { COMMAND_ERROR_SOUND, COMMAND_SUCESS_SOUND, commandRegister, MAX_LORE_LINES } from "constants";
 import { DynamicLoreVariables } from "definitions";
 import { checkEnumMatchString } from "server/utility/functions";
 import { getDynamicLore, hasDynamicLore, setDynamicLore } from "./manageDynamicLore";
 import { updateDynamicLore } from "./dynamicLore";
+import { defineCommand, defineParameter } from "command-wrapper";
 
 export function setLore(event: ScriptEventCommandMessageAfterEvent) {
     const player = event.sourceEntity as Player
@@ -164,3 +165,42 @@ export function editLore(event: ScriptEventCommandMessageAfterEvent) {
 
     showLoreEditingForm(player, item)
 }
+
+
+// Custom Command
+
+const loreModeParam = defineParameter({
+    name: "loreMode",
+    type: CustomCommandParamType.Enum,
+    mandatory: true,
+    values: ["set"] as const
+})
+
+const loreStringParam = defineParameter({
+    name: "lore",
+    type: CustomCommandParamType.String,
+    mandatory: false
+})
+
+const loreCommand = defineCommand({
+    name: "lore",
+    description: "Edits the lore of the currently held item.",
+    parameters: [loreModeParam, loreStringParam],
+    callbackFunction(origin, loreMode, loreString) {
+        const player = origin.sourceEntity
+        if (!(player instanceof Player)) return false
+
+        const selectedSlot = player.selectedSlotIndex
+        const loreArray = loreString.split("\\n")
+
+        system.run(() => {
+            switch (loreMode) {
+                case "set":
+                    setLoreAction(player, loreArray, selectedSlot)
+                    break
+            }
+        })
+    },
+})
+
+commandRegister.registerCommand(loreCommand)
