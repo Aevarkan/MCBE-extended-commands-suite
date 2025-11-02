@@ -9,6 +9,7 @@ import "./server/scriptEvents"
 import "./server/commands/index"
 import "./server/terminal"
 
+import "./server/commandDetections/commonDetections"
 import "./server/commandDetections/rightClickDetection/rightClickDetection"
 import "./server/commandDetections/rightClickDetection/rightClickDetectionv2"
 import "./server/commandDetections/deathDetection/deathDetection"

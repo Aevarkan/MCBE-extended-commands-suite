@@ -52,7 +52,7 @@ export function removeRightClickDetectorv2(event: ScriptEventCommandMessageAfter
  * @param slot The inventory slot the item is in.
  * @param farMode Whether or not to do a raycast and cast the command there.
  */
-function createRightClickDetectorAction(player: Player, commandId: string, command: string, slot: number, farMode: boolean) {
+export function createRightClickDetectorAction(player: Player, commandId: string, command: string, slot: number, farMode: boolean) {
     const inventoryComponent = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent
     const inventory = inventoryComponent.container
     const selectedItem = inventory.getItem(slot)
@@ -139,7 +139,7 @@ export function queryItemCommandsScriptEvent(event: ScriptEventCommandMessageAft
  * @param player The player to send the message to.
  * @param item The {@link ItemStack} to check.
  */
-function queryItemCommands(player: Player, item: ItemStack) {
+export function queryItemCommands(player: Player, item: ItemStack) {
     const itemCommandDatabase = new ItemCommandDatabase(item)
 
     const itemTypeId = item.typeId
