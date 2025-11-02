@@ -18,6 +18,7 @@
 !/src/**
 
 # misc files
+!CHANGELOG.md
 !.gitignore
 !build.py
 !LICENSE
