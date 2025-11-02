@@ -141,6 +141,15 @@ export class EntityCommandDatabase {
     }
 
     /**
+     * Removes all commands for every detection type off of an entity.
+     */
+    clearDatabase() {
+        for (const commandType of Object.values(EntityCommandTypes)) {
+            this.removeAllEntries(commandType)
+        }
+    }
+
+    /**
      * Gets all command ids on an entity.
      * @returns A string array of ids, including the prefix.
      */
@@ -190,4 +199,12 @@ export class EntityCommandDatabase {
         const command = this.entity.getDynamicProperty(commandKey) as string
         return command
     }
+
+    // getAllEntries() {
+    //     for (const commandType of Object.values(EntityCommandTypes)) {
+    //         const ids = this.getAllEntryIds(commandType)
+
+    //     }
+    // }
+
 }

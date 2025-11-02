@@ -13,6 +13,12 @@ rp.ecs.command.keepinventory.off=Local keep inventory is now off.
 rp.ecs.command.alldetections.on=Continuous detections are now enabled, you must do /reload for this to take effect.
 rp.ecs.command.alldetections.off=Continuous detections are now disabled, you must do /reload for this to take effect.
 
+rp.ecs.command.entity_command.add.death=Added death command "%1" with label "%2" for "%3".
+rp.ecs.command.entity_command.add.emote=Added emote command "%1" with label "%2" for "%3".
+rp.ecs.command.entity_command.add.jump=Added jump command "%1" with label "%2" for "%3".
+rp.ecs.command.entity_command.add.onPunchExt=Added external on punch command "%1" with label "%2" for "%3".
+rp.ecs.command.entity_command.add.onInteractExt=Added external on interact command "%1" with label "%2" for "%3".
+rp.ecs.command.entity_command.no_command=§cYou must provide a command name and command.§r
 
 rp.ecs.command.item_command.error.stackable_item_no_support=Stackable items are not supported with this command.
 rp.ecs.command.item_command.error.no_lore=You must put lore on your item first!

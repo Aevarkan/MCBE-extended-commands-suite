@@ -171,7 +171,106 @@ const detectionCommand = defineCommand({
                 // not ITEM related commands
                 } else {
                     // now we're doing entity commands
+                    const entityDatabase = new EntityCommandDatabase(entity)
+                    if (mode === "remove") {
+                        switch (commandType) {
+                            // if no commandName specified, then remove ALL
+                            case "entity":
+                                if (!commandName) {
+                                    entityDatabase.clearDatabase()
+                                }
+                                // NOTE: this doesn't clear individual commands.
+                                // TODO: give an error
+                                break
 
+                            case "death":
+                                if (commandName) {
+                                    entityDatabase.removeEntry(EntityCommandTypes.DeathCommand, commandName)
+                                } else {
+                                    entityDatabase.removeAllEntries(EntityCommandTypes.DeathCommand)
+                                }
+                                break
+
+                            case "emote":
+                                if (commandName) {
+                                    entityDatabase.removeEntry(EntityCommandTypes.EmoteCommand, commandName)
+                                } else {
+                                    entityDatabase.removeAllEntries(EntityCommandTypes.EmoteCommand)
+                                }
+                                break
+
+                            case "onInteractExt":
+                                if (commandName) {
+                                    entityDatabase.removeEntry(EntityCommandTypes.InteractCommand, commandName)
+                                } else {
+                                    entityDatabase.removeAllEntries(EntityCommandTypes.InteractCommand)
+                                }
+                                break
+
+                            case "jump":
+                                if (commandName) {
+                                    entityDatabase.removeEntry(EntityCommandTypes.JumpCommand, commandName)
+                                } else {
+                                    entityDatabase.removeAllEntries(EntityCommandTypes.JumpCommand)
+                                }
+                                break
+
+                            case "onPunchExt":
+                                if (commandName) {
+                                    entityDatabase.removeEntry(EntityCommandTypes.PunchCommand, commandName)
+                                } else {
+                                    entityDatabase.removeAllEntries(EntityCommandTypes.PunchCommand)
+                                }
+                                break
+
+                        }
+                    // add a command
+                    } else if (mode === "add") {
+                        if (!commandName || !command) {
+                            // you need to supply a command
+                            if (origin.sourceEntity instanceof Player) {
+                                origin.sourceEntity.sendMessage({ translate: "ecs.command.entity_command.no_command"})
+                            }
+                            return
+                        }
+                        const sourcePlayer = origin.sourceEntity as Player | undefined
+
+                        switch (commandType) {
+                            case "death":
+                                entityDatabase.addEntry(EntityCommandTypes.DeathCommand, command, commandName)
+                                sourcePlayer?.sendMessage({translate: "ecs.command.entity_command.add.death", with: [command, commandName, entity.typeId]})
+                                break
+
+                            case "emote":
+                                entityDatabase.addEntry(EntityCommandTypes.EmoteCommand, command, commandName)
+                                sourcePlayer?.sendMessage({translate: "ecs.command.entity_command.add.emote", with: [command, commandName, entity.typeId]})
+                                break
+
+                            case "onInteractExt":
+                                entityDatabase.addEntry(EntityCommandTypes.InteractCommand, command, commandName)
+                                sourcePlayer?.sendMessage({translate: "ecs.command.entity_command.add.jump", with: [command, commandName, entity.typeId]})
+                                break
+
+                            case "jump":
+                                entityDatabase.addEntry(EntityCommandTypes.JumpCommand, command, commandName)
+                                sourcePlayer?.sendMessage({translate: "ecs.command.entity_command.add.onPunchExt", with: [command, commandName, entity.typeId]})
+                                break
+
+                            case "onPunchExt":
+                                entityDatabase.addEntry(EntityCommandTypes.PunchCommand, command, commandName)
+                                sourcePlayer?.sendMessage({translate: "ecs.command.entity_command.add.onInteractExt", with: [command, commandName, entity.typeId]})
+                                break
+
+                            // NO
+                            case "entity":
+                                break
+                        }
+                    // else, it is viewing them
+                    } else {
+                        // TODO
+                        const sourcePlayer = origin.sourceEntity as Player | undefined
+                        sourcePlayer?.sendMessage(entity.getDynamicPropertyIds())
+                    }
 
                 }
     
