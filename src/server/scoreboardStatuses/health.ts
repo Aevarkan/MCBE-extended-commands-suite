@@ -37,6 +37,9 @@ world.afterEvents.entityHealthChanged.subscribe((event) => {
  * @param entity The entity.
  */
 function initialiseScoreboard(entity: Entity) {
+    // stops errors from happening
+    if (!entity.isValid) return
+    
     const healthScoreboard = getScoreboard(HEALTH_SCOREBOARD_NAME)
     const hasHealth = entity.hasComponent(EntityComponentTypes.Health)
 
